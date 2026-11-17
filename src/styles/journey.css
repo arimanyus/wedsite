@@ -66,6 +66,30 @@
   background: var(--sweep-light);
 }
 
+/* The colour each arriving sky comes in through: a vivid hue that sits between the two skies, so
+   the journey runs round the colour wheel instead of flashing to white at every hand-over. */
+.sweep-light.to-tilak {
+  --sweep-light: #ff6a3c;
+}
+.sweep-light.to-ganesh {
+  --sweep-light: #ffe45c;
+}
+.sweep-light.to-matrika {
+  --sweep-light: #ffd27a;
+}
+.sweep-light.to-baraat {
+  --sweep-light: #ff5c7a;
+}
+.sweep-light.to-pool {
+  --sweep-light: #fffbe6;
+}
+.sweep-light.to-sangeet {
+  --sweep-light: #8f3cff;
+}
+.sweep-light.to-wedding {
+  --sweep-light: #ff3f8e;
+}
+
 .sweep-hold {
   position: absolute;
   top: 0;

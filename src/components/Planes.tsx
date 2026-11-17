@@ -79,18 +79,19 @@ function Sweep({ className, children }: { className: string; children: ReactNode
 }
 
 /**
- * The first half of the band: the old sky fades into light, and the new one fades in out of it, so
- * two skies never mix into a muddy colour, however far apart their hues.
+ * The first half of the band: the old sky fades into a bridging colour, and the new one fades in
+ * out of it, so two skies never mix into a muddy colour, however far apart their hues. The colour
+ * for each arriving scene is `--sweep-light` on `.sweep-light.to-<id>` in journey.css.
  */
 function SweepLight() {
   const { camera, size, measured, calm } = useJourney()
-  const { index } = useScene()
+  const { index, id } = useScene()
   const x = useTransform([camera, measured], ([c]: number[]) => Math.round(skyEdge(index, c, size.current)))
   const display = useTransform([camera, measured], ([c]: number[]) => {
     const edge = skyEdge(index, c, size.current)
     return !calm && edge > -size.current.band && edge < size.current.stage ? 'block' : 'none'
   })
-  return <motion.div className="sweep-light" style={{ x, display }} />
+  return <motion.div className={`sweep-light to-${id}`} style={{ x, display }} />
 }
 
 /** A scene's backdrop. Later scenes stack on top, each sweeping in over the one before. */
