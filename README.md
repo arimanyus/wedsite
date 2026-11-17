@@ -43,7 +43,7 @@ The dev server runs at http://localhost:4826.
 
 The site is hosted on GitHub Pages at `mansiwedsvivek.xyz`. Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds the site and publishes `dist/`.
 
-One-time setup in the GitHub repository: **Settings → Pages → Build and deployment → Source: GitHub Actions**, with `mansiwedsvivek.xyz` as the custom domain. With the source left on "Deploy from a branch", Pages serves the raw source files and the page stays blank.
+One-time setup in the GitHub repository: **Settings → Pages → Build and deployment → Source: GitHub Actions**, with `mansiwedsvivek.xyz` as the custom domain. With the source left on "Deploy from a branch", GitHub also publishes the raw source files on every push; the workflow redeploys the built site straight afterwards, but the page is blank for about a minute in between.
 
 `dist/` is plain static files, so it can go on any other static host (Vercel, Netlify, Cloudflare Pages) just as well.
 
