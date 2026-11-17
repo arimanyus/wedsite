@@ -1,0 +1,49 @@
+{
+  "name": "wedsite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "art": "node scripts/build-art.mjs",
+    "predev": "node scripts/build-art.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/build-art.mjs",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/bangers": "^5.3.0",
+    "@fontsource/bungee": "^5.3.0",
+    "@fontsource/bungee-shade": "^5.3.0",
+    "@fontsource/cinzel-decorative": "^5.3.0",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/federo": "^5.3.0",
+    "@fontsource/kalam": "^5.3.0",
+    "@fontsource/outfit": "^5.3.0",
+    "@fontsource/tilt-neon": "^5.3.0",
+    "@fontsource/yatra-one": "^5.3.0",
+    "@radix-ui/react-slot": "^1.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.74.0",
+    "motion": "^14.14.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "cheerio": "^1.2.0",
+    "oxlint": "^1.90.0",
+    "puppeteer-core": "^25.18.1",
+    "svgo": "^4.1.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.6"
+  }
+}
