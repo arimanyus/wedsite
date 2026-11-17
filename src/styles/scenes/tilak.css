@@ -1,87 +1,381 @@
-/* ───────────────────────── Tilak · Mughal miniature ─────────────────────────
+/* ───────────────────────── Tilak · Mughal court proclamation ─────────────────────────
    Component: src/scenes/TilakScene.tsx. Frieze: `mughal` (src/journey/scenes.ts).
    (a) Backdrop ............ .sky.scene-tilak
-   (b) Sky decorations ..... inside <Sky>: none yet
-   (c) Text block .......... .scene-text.scene-tilak and everything in it
+   (b) Sky decorations ..... inside <Sky>: the cusped gateway, .tilak-gate (src/scenes/MughalGate.tsx)
+   (c) Text block .......... .scene-text.scene-tilak and everything in it: .day-label, .tilak-title,
+                             .tilak-date (lapis cartouche), .tilak-events (marble plaques with
+                             .tilak-seal calendar buttons), .tilak-place, .tilak-maps
    (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-tilak */
 
 .scene-tilak {
-  --ink: #4d0d18;
-  --btn-bg: #5a0f1c;
-  --btn-fg: #fbe3a4;
-  --btn-line: #5a0f1c;
-  --btn-outline-fg: #4d0d18;
-  --btn-outline-bg: rgb(251 241 216 / 0.7);
-  --btn-ring: rgb(90 15 28 / 0.4);
+  --maroon: #5e0b1e;
+  --maroon-deep: #380512;
+  --sandstone: #a12a1c;
+  --gold: #ffc83d;
+  --marble: #fff7e6;
+  --lapis: #1a2b86;
+
+  --ink: var(--maroon);
+  --btn-bg: var(--maroon);
+  --btn-fg: #ffe4a0;
+  --btn-line: var(--maroon-deep);
+  --btn-outline-fg: var(--maroon);
+  --btn-outline-bg: var(--marble);
+  --btn-ring: var(--lapis);
+
+  --chrome-bg: #1a2b86;
+  --chrome-fg: #fff3d6;
+  --chrome-accent: #ffc83d;
 }
 
 /* ── (a) Backdrop ── */
 
 .sky.scene-tilak {
   background:
-    radial-gradient(ellipse 85% 60% at 50% 0%, #fcd873, transparent 72%),
-    linear-gradient(#f7b733, #f08a24);
+    radial-gradient(ellipse 75% 60% at 50% 45%, #ffd659, transparent 72%),
+    linear-gradient(#ffb12b, #f48716);
+}
+
+/* ── (b) Sky decorations: the gateway ── */
+
+.tilak-gate,
+.tilak-gate-art {
+  position: absolute;
+  inset: 0;
+}
+
+.tilak-gate-art {
+  display: block;
+  overflow: visible;
+}
+
+/* Stands where the scene's text block stands, so the arch can be drawn around it. */
+.tilak-gate-probe {
+  position: absolute;
+  top: var(--content-top, var(--hud-h));
+  right: 0;
+  bottom: var(--ground-h);
+  left: 0;
+  visibility: hidden;
+}
+
+.tilak-wall {
+  fill: var(--sandstone);
+}
+
+.tilak-buta-flower,
+.tilak-buta-leaf,
+.tilak-buta-bud,
+.tilak-buta-mound {
+  fill: #ffe8c2;
+}
+
+.tilak-buta-flower {
+  fill: #ffd27a;
+}
+
+.tilak-buta-stem {
+  fill: none;
+  stroke: #ffe8c2;
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+.tilak-wall-inlay {
+  opacity: 0.55;
+}
+
+.tilak-extrados,
+.tilak-extrados-inlay,
+.tilak-intrados,
+.tilak-intrados-gold {
+  fill: none;
+  stroke-linejoin: round;
+}
+
+.tilak-extrados {
+  stroke: var(--marble);
+}
+
+.tilak-extrados-inlay {
+  stroke: var(--sandstone);
+}
+
+.tilak-intrados {
+  stroke: var(--maroon);
+}
+
+.tilak-intrados-gold {
+  stroke: var(--gold);
 }
 
 /* ── (c) Text block ── */
 
 .scene-text.scene-tilak {
-  font-family: var(--font-serif);
+  gap: clamp(0.3rem, 1.2dvh, 0.9rem);
+  font-family: 'Cormorant Garamond', var(--font-serif);
+  /* Cinzel Decorative kerns a lowercase double O into one interlocked glyph, which turns "Google"
+     and "Food" into puzzles. */
+  font-kerning: none;
 }
 
-.scene-tilak .event-title {
-  color: #5a0f1c;
+.scene-tilak .day-label {
+  gap: 0 0.7em;
+  color: var(--maroon);
   font-family: 'Cinzel Decorative', var(--font-serif);
-  font-size: clamp(1.75rem, min(8vw, 7.2dvh), 4.4rem);
+  font-size: clamp(0.68rem, min(3.4vw, 1.75dvh), 1.2rem);
+  font-weight: 900;
+  letter-spacing: 0.24em;
+  opacity: 1;
+}
+
+.scene-tilak .day-label span:first-child::after {
+  content: '◆';
+  margin-left: 0.7em;
+  color: var(--lapis);
+  font-size: 0.8em;
+}
+
+.tilak-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--maroon);
+  font-family: 'Cinzel Decorative', var(--font-serif);
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.tilak-title > span {
+  paint-order: stroke fill;
+  -webkit-text-stroke: 0.11em var(--gold);
+  text-shadow:
+    0.05em 0.06em 0 var(--maroon-deep),
+    0.07em 0.08em 0 var(--maroon-deep);
+}
+
+.tilak-title-head {
+  font-size: clamp(3rem, min(21vw, 11dvh), 8.5rem);
+  letter-spacing: 0.03em;
+}
+
+.tilak-title-tail {
+  margin-top: 0.08em;
+  font-size: clamp(1.35rem, min(9vw, 4.8dvh), 3.6rem);
+  letter-spacing: 0.1em;
+}
+
+/* A lapis cartouche with pointed ends and a double gold rule, like the title panels of a court album. */
+.tilak-date {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.4em;
+  padding: 0.42em 0.3em 0.34em;
+  border-style: solid;
+  border-width: 0 1.15em;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 40'%3E%3Cpath d='M24 1H72C80 1 84 4 88 9L95 20L88 31C84 36 80 39 72 39H24C16 39 12 36 8 31L1 20L8 9C12 4 16 1 24 1Z' fill='%231a2b86' stroke='%23ffc83d' stroke-width='2'/%3E%3Cpath d='M25 5H71C77 5 80 7 83 11L89 20L83 29C80 33 77 35 71 35H25C19 35 16 33 13 29L7 20L13 11C16 7 19 5 25 5Z' fill='none' stroke='%23ffc83d' stroke-width='1'/%3E%3C/svg%3E")
+    0 24 fill / 0 1.15em stretch;
+  color: var(--marble);
+  filter: drop-shadow(0.16em 0.18em 0 var(--maroon-deep));
+  font-family: 'Cinzel Decorative', var(--font-serif);
+  font-size: clamp(0.78rem, min(3.85vw, 2.2dvh), 1.55rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.tilak-date span {
+  white-space: nowrap;
+}
+
+.tilak-date span:first-child::after {
+  content: '◆';
+  margin-left: 0.4em;
+  color: var(--gold);
+  font-size: 0.7em;
+  vertical-align: 0.12em;
+}
+
+.tilak-events {
+  display: grid;
+  gap: clamp(0.4rem, 1.1dvh, 0.7rem);
+  width: min(100%, max(24rem, 64vw));
+  padding: 0;
+  list-style: none;
+}
+
+/* A marble plaque with an inlaid border, one per event, sealed with its own calendar link. */
+.tilak-event {
+  display: grid;
+  grid-template-areas:
+    'name seal'
+    'time seal';
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 0.6rem;
+  padding: 0.5em 0.55em 0.45em 1em;
+  border: 3px solid var(--maroon);
+  background: var(--marble);
+  box-shadow:
+    inset 0 0 0 3px var(--marble),
+    inset 0 0 0 4.5px var(--sandstone),
+    5px 5px 0 var(--maroon-deep);
+  text-align: left;
+}
+
+.tilak-event-name {
+  grid-area: name;
+  color: var(--maroon);
+  font-family: 'Cinzel Decorative', var(--font-serif);
+  font-size: clamp(0.88rem, min(4.3vw, 2.45dvh), 1.6rem);
   font-weight: 900;
   letter-spacing: 0.02em;
-  text-shadow:
-    0 1px 0 #fbe09a,
-    0 0.06em 0.02em rgb(90 15 28 / 0.25);
+  line-height: 1.15;
 }
 
-.scene-tilak .event-date {
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.scene-tilak .event-times li {
-  padding: 0.25rem 0.3rem 0.25rem 1.1rem;
-  border: 1px solid #b8862f;
-  border-radius: 999px;
-  background: rgb(251 241 216 / 0.82);
-  box-shadow: 0 2px 8px rgb(90 15 28 / 0.12);
-}
-
-.scene-tilak .event-times .event-name {
-  font-weight: 700;
-}
-
-.scene-tilak .event-times .event-time {
+.tilak-event-time {
+  grid-area: time;
+  color: var(--lapis);
+  font-size: clamp(1.1rem, min(5.6vw, 3.1dvh), 2.1rem);
   font-style: italic;
-  font-weight: 600;
-}
-
-.scene-tilak .event-times .btn {
-  border: 0;
-  background: #5a0f1c;
-  color: #fbe3a4;
-}
-
-.scene-tilak .event-place {
-  font-weight: 600;
-}
-
-.scene-tilak .btn {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
   font-weight: 700;
-  box-shadow:
-    0 0 0 2px #f6d77c,
-    0 0 0 3px #5a0f1c;
+  line-height: 1.1;
 }
 
-.scene-tilak .event-times .btn,
-.scene-tilak .btn-outline {
-  box-shadow: none;
+.scene-tilak .tilak-seal {
+  grid-area: seal;
+  width: clamp(2.75rem, min(11vw, 5.2dvh), 3.5rem);
+  height: clamp(2.75rem, min(11vw, 5.2dvh), 3.5rem);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--gold);
+  box-shadow:
+    0 0 0 2.5px var(--maroon),
+    3px 3px 0 2.5px var(--maroon-deep);
+}
+
+.scene-tilak .tilak-seal svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.tilak-way {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.3rem, 1.2dvh, 0.9rem);
+}
+
+.tilak-place {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.3em;
+  max-width: max(21rem, 62vw);
+  color: var(--maroon);
+  font-size: clamp(1rem, min(4.7vw, 2.6dvh), 1.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.tilak-place svg {
+  flex: none;
+  width: 0.95em;
+  height: 0.95em;
+  translate: 0 0.12em;
+}
+
+.scene-tilak .tilak-maps {
+  height: auto;
+  padding: 0.75em 1.5em 0.68em;
+  border: 3px solid var(--maroon-deep);
+  border-radius: 0.3rem;
+  box-shadow:
+    inset 0 0 0 2px var(--maroon),
+    inset 0 0 0 3.5px var(--gold),
+    5px 5px 0 var(--maroon-deep);
+  font-family: 'Cinzel Decorative', var(--font-serif);
+  font-size: clamp(0.85rem, min(4.2vw, 2.2dvh), 1.35rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.scene-tilak .tilak-maps:active {
+  translate: 4px 4px;
+  box-shadow:
+    inset 0 0 0 2px var(--maroon),
+    inset 0 0 0 3.5px var(--gold),
+    1px 1px 0 var(--maroon-deep);
+}
+
+.scene-tilak .tilak-seal:active {
+  translate: 2px 2px;
+  box-shadow:
+    0 0 0 2.5px var(--maroon),
+    1px 1px 0 2.5px var(--maroon-deep);
+}
+
+/* ── Wide screens: the two plaques side by side, the address beside its button ── */
+
+@media (min-width: 900px) {
+  .scene-text.scene-tilak {
+    gap: clamp(0.4rem, 1.4dvh, 1.1rem);
+  }
+
+  .scene-tilak .day-label {
+    font-size: clamp(0.8rem, 1.8dvh, 1.15rem);
+  }
+
+  .tilak-title-head {
+    font-size: clamp(3rem, 12dvh, 9rem);
+  }
+
+  .tilak-title-tail {
+    font-size: clamp(1.4rem, 5.2dvh, 4rem);
+  }
+
+  .tilak-date {
+    font-size: clamp(0.9rem, 2.4dvh, 1.45rem);
+  }
+
+  .tilak-events {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+    width: min(100%, 48rem);
+  }
+
+  .tilak-event-name {
+    font-size: clamp(0.95rem, 2.3dvh, 1.45rem);
+  }
+
+  .tilak-event-time {
+    font-size: clamp(1.15rem, 2.9dvh, 1.85rem);
+  }
+
+  .tilak-way {
+    flex-direction: row;
+    gap: 1.6rem;
+    padding-top: 0.3rem;
+  }
+
+  .tilak-place {
+    max-width: none;
+    font-size: clamp(1.05rem, 2.6dvh, 1.6rem);
+  }
+
+  .scene-tilak .tilak-maps {
+    font-size: clamp(0.9rem, 2dvh, 1.2rem);
+  }
+}
+
+/* ── Phones held sideways: the text takes the left half ── */
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .tilak-gate-probe {
+    right: auto;
+    bottom: 0;
+    width: 52%;
+  }
 }

@@ -1,73 +1,409 @@
 /* ───────────────────────── Matrika Pujan · Art Nouveau ─────────────────────────
-   Component: src/scenes/MatrikaScene.tsx. Frieze: `nouveau` (src/journey/scenes.ts).
+   Component: src/scenes/MatrikaScene.tsx, sky drawing in src/scenes/NouveauHalo.tsx.
+   Frieze: `nouveau` (src/journey/scenes.ts).
    (a) Backdrop ............ .sky.scene-matrika
-   (b) Sky decorations ..... inside <Sky>: none yet
-   (c) Text block .......... .scene-text.scene-matrika and everything in it
+   (b) Sky decorations ..... inside <Sky>: .matrika-sky (the halo of rings and the whiplash stems)
+   (c) Text block .......... .scene-text.scene-matrika and everything in it: .day-label,
+                             .matrika-title (two stacked layers), .matrika-windows (date, time and
+                             place as stained-glass windows), .matrika-btn
    (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-matrika */
 
 .scene-matrika {
-  --ink: #f6e7c8;
-  --btn-bg: #e3a83b;
-  --btn-fg: #0a2f3b;
-  --btn-line: #e3a83b;
-  --btn-outline-fg: #f6e7c8;
-  --btn-outline-bg: rgb(10 47 59 / 0.45);
-  --btn-ring: rgb(227 168 59 / 0.5);
+  --sky: #4b0f50;
+  --sky-deep: #31073a;
+  --nv-glow-in: #7a2479;
+  --nv-glow-out: #5a145d;
+
+  --nv-gold: #f3c14b;
+  --nv-gold-light: #ffe6a3;
+  --nv-gold-deep: #c4871d;
+  --nv-ivory: #fff5df;
+  --nv-plum: #2b0631;
+  --nv-teal: #12898a;
+  --nv-rose: #e2506a;
+  --nv-iris: #6a4fc8;
+  --nv-shadow: #1b0320;
+
+  --ink: var(--nv-ivory);
+  --btn-bg: var(--nv-gold);
+  --btn-fg: var(--nv-plum);
+  --btn-line: var(--nv-plum);
+  --btn-outline-fg: var(--nv-plum);
+  --btn-outline-bg: var(--nv-ivory);
+  --btn-ring: var(--nv-gold-light);
+
+  --chrome-bg: #f3c14b;
+  --chrome-fg: #2b0631;
+  --chrome-accent: #8a1f6e;
 }
 
 /* ── (a) Backdrop ── */
 
 .sky.scene-matrika {
-  background:
-    radial-gradient(ellipse 75% 55% at 50% 8%, rgb(47 143 134 / 0.6), transparent 72%),
-    linear-gradient(#0f4a4c, #0a2f3b);
+  background: linear-gradient(var(--sky) 40%, var(--sky-deep));
+}
+
+/* ── (b) Sky decorations: the halo and the whiplash stems ── */
+
+.matrika-sky {
+  --halo-d: min(125vw, 62dvh + 10vw);
+  position: absolute;
+  inset: 0;
+}
+
+.matrika-halo,
+.matrika-halo-spin {
+  position: absolute;
+  top: calc(var(--hud-h) + (100dvh - var(--hud-h) - var(--ground-h)) * 0.33);
+  left: 50%;
+  max-width: none;
+  translate: -50% -50%;
+}
+
+.matrika-halo {
+  overflow: visible;
+  width: calc(var(--halo-d) * 1.6);
+  aspect-ratio: 1.6;
+}
+
+.matrika-halo-spin {
+  width: calc(var(--halo-d) * 0.8);
+  aspect-ratio: 1;
+  animation: matrika-turn 300s linear infinite;
+  will-change: transform;
+}
+
+@keyframes matrika-turn {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.nv-glow-in {
+  stop-color: var(--nv-glow-in);
+}
+
+.nv-glow-out {
+  stop-color: var(--nv-glow-out);
+}
+
+.nv-ring,
+.nv-mosaic-ground,
+.nv-mosaic-tiles,
+.nv-dots,
+.nv-vines path {
+  fill: none;
+}
+
+.nv-ring {
+  stroke: var(--nv-gold);
+}
+
+.nv-ring-bold {
+  stroke-width: 9;
+}
+
+.nv-ring-mid {
+  stroke-width: 4;
+}
+
+.nv-ring-hair {
+  stroke-width: 2;
+}
+
+.nv-ring-faint {
+  stroke-width: 2;
+  stroke-dasharray: 2 10;
+  stroke-linecap: round;
+}
+
+.nv-mosaic-ground {
+  stroke: var(--nv-teal);
+  stroke-width: 42;
+}
+
+.nv-mosaic-tiles {
+  stroke: var(--nv-gold);
+  stroke-dasharray: 15 9;
+  stroke-width: 28;
+}
+
+.nv-dots {
+  stroke: var(--nv-gold);
+  stroke-dasharray: 0 24;
+  stroke-linecap: round;
+  stroke-width: 11;
+}
+
+.nv-vines path {
+  stroke: var(--nv-gold);
+  stroke-linecap: round;
+}
+
+.nv-vines .nv-vine {
+  stroke-width: 8;
+}
+
+.nv-vines .nv-vine-echo {
+  stroke-width: 2.5;
+}
+
+.nv-eye-outer {
+  fill: var(--nv-teal);
+  stroke: var(--nv-gold);
+  stroke-width: 4;
+}
+
+.nv-eye-ring {
+  fill: var(--nv-gold);
+}
+
+.nv-eye-inner {
+  fill: #1f4fb0;
+}
+
+.nv-eye-pupil {
+  fill: var(--nv-plum);
 }
 
 /* ── (c) Text block ── */
 
 .scene-text.scene-matrika {
-  font-family: var(--font-serif);
+  gap: clamp(0.5rem, 1.7dvh, 1.2rem);
+  font-family: 'Federo', var(--font-serif);
 }
 
 .scene-matrika .day-label {
-  color: #f3c35f;
-}
-
-.scene-matrika .event-title {
-  color: #f3c35f;
+  gap: 0 0.9em;
+  padding: 0.45em 1.3em 0.4em 1.6em;
+  border: 1.5px solid var(--nv-gold);
+  border-radius: 999px;
+  background: var(--sky-deep);
+  box-shadow:
+    0 0 0 3px var(--sky-deep),
+    0 0 0 4px var(--nv-gold);
+  color: var(--nv-gold-light);
   font-family: 'Federo', var(--font-serif);
-  font-size: clamp(2.1rem, min(10vw, 8.8dvh), 5.2rem);
+  font-size: clamp(0.76rem, min(3.8vw, 1.85dvh), 1.3rem);
   font-weight: 400;
-  letter-spacing: 0.03em;
-  text-shadow: 0 0.04em 0 rgb(6 32 42 / 0.6);
+  letter-spacing: 0.3em;
+  opacity: 1;
 }
 
-.scene-matrika .event-date {
-  font-size: clamp(1.1rem, 3dvh, 1.65rem);
-  font-style: italic;
+.matrika-title {
+  display: grid;
+  font-family: 'Federo', var(--font-serif);
+  font-size: clamp(3.3rem, min(21vw, 11dvh), 8.5rem);
+  font-weight: 400;
+  line-height: 0.88;
 }
 
-.scene-matrika .event-time {
-  display: inline-flex;
+.matrika-title-layer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.8em;
-  font-family: 'Federo', var(--font-serif);
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
+  grid-area: 1 / 1;
 }
 
-.scene-matrika .event-time::before,
-.scene-matrika .event-time::after {
-  content: '';
-  width: clamp(1em, 6vw, 2.2em);
-  height: 0.5em;
-  border-top: 1.5px solid #e3a83b;
-  border-radius: 50%;
+.matrika-title-shade {
+  color: var(--nv-teal);
+  -webkit-text-stroke: 0.06em var(--nv-plum);
+  translate: 0.05em 0.06em;
 }
 
-.scene-matrika .btn {
+.matrika-title-gold {
+  z-index: 1;
+  background: linear-gradient(var(--nv-gold-light) 15%, var(--nv-gold) 50%, var(--nv-gold-deep) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 0.03em var(--nv-plum);
+}
+
+/* Date, time and place as three stained-glass windows: arched, leaded in gold, glazed in colour. */
+.matrika-windows {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: clamp(0.5rem, 2.5vw, 1.1rem);
+  width: min(100%, max(30rem, 66vw));
+}
+
+.matrika-window {
+  --glass: var(--nv-teal);
+  --glass-side: var(--nv-iris);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: clamp(8rem, 19dvh, 11.5rem);
+  padding: 5px 5px 0.8em;
+  border: 3px solid var(--nv-gold);
+  border-radius: 999px 999px 0.5rem 0.5rem;
+  background: var(--nv-ivory);
+  box-shadow:
+    0 0 0 2px var(--nv-plum),
+    inset 0 0 0 3px var(--nv-ivory),
+    inset 0 0 0 4.5px var(--nv-gold),
+    6px 6px 0 2px var(--nv-shadow);
+  color: var(--nv-plum);
+  font-size: clamp(0.8rem, min(3.6vw, 2dvh), 1.45rem);
+  line-height: 1.05;
+}
+
+/* A triptych: the date is the tall centre panel. */
+.matrika-window-date {
+  --glass: var(--nv-rose);
+  --glass-side: var(--nv-teal);
+  order: 2;
+  min-height: clamp(9.5rem, 23dvh, 14rem);
+}
+
+.matrika-window-time {
+  order: 1;
+}
+
+.matrika-window-place {
+  --glass: var(--nv-iris);
+  --glass-side: var(--nv-rose);
+  order: 3;
+}
+
+.nv-lunette {
+  flex: none;
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.4em;
+  overflow: visible;
+}
+
+.nv-lunette + * {
+  margin-top: auto;
+}
+
+.nv-lunette path {
+  stroke: var(--nv-gold-deep);
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.nv-glass-ground {
+  fill: #f9e3b4;
+}
+
+.nv-glass-ray {
+  fill: none;
+}
+
+.nv-glass-leaf {
+  fill: #3d9a5c;
+}
+
+.nv-glass-side {
+  fill: var(--glass-side);
+}
+
+.nv-glass-petal {
+  fill: var(--glass);
+}
+
+.nv-lunette .nv-glass-rim {
+  fill: none;
+  stroke: var(--nv-gold);
+  stroke-width: 3;
+}
+
+.matrika-window-small {
+  font-size: 0.95em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.matrika-window-big {
+  font-size: 2.6em;
+  line-height: 1;
+}
+
+.matrika-window-time .matrika-window-big {
+  font-size: 1.9em;
+}
+
+.matrika-window-mid {
+  font-size: 1.35em;
+  letter-spacing: 0.04em;
+}
+
+.matrika-window .matrika-pin {
+  width: 1.3em;
+  height: 1.3em;
+  margin-bottom: 0.2em;
+  color: var(--nv-rose);
+}
+
+.matrika-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem 1rem;
+  padding-top: clamp(0.2rem, 1dvh, 0.6rem);
+}
+
+.scene-matrika .matrika-btn {
+  height: auto;
+  padding: 0.7em 1.4em 0.62em;
+  border: 2px solid var(--nv-plum);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 0 0 2px var(--btn-face, var(--nv-gold)),
+    inset 0 0 0 3.5px var(--nv-plum),
+    4px 4px 0 var(--nv-plum);
   font-family: 'Federo', var(--font-serif);
-  font-size: 1rem;
-  letter-spacing: 0.05em;
+  font-size: clamp(0.9rem, min(4.4vw, 2.2dvh), 1.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scene-matrika .matrika-btn-calendar {
+  --btn-face: var(--nv-ivory);
+  background: var(--nv-ivory);
+  color: var(--nv-plum);
+}
+
+/* Landscape screens: the title on one line, so the windows and buttons stay above the ground. */
+@media (min-aspect-ratio: 5/4) {
+  .matrika-title-layer {
+    flex-direction: row;
+    gap: 0.25em;
+  }
+
+  .matrika-windows {
+    width: min(100%, max(23rem, 27rem + (100dvh - 800px) * 0.5));
+  }
+}
+
+/* Phone on its side: the text sits in the left half, so the halo moves behind it. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .matrika-sky {
+    --halo-d: min(46vw, 92dvh);
+  }
+
+  .matrika-halo,
+  .matrika-halo-spin {
+    top: 40%;
+    left: 26%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .matrika-halo-spin {
+    animation: none;
+  }
+}
+
+.scene-matrika .matrika-btn:active {
+  translate: 3px 3px;
+  box-shadow:
+    inset 0 0 0 2px var(--btn-face, var(--nv-gold)),
+    inset 0 0 0 3.5px var(--nv-plum),
+    1px 1px 0 var(--nv-plum);
 }

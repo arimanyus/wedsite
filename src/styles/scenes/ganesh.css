@@ -1,65 +1,435 @@
 /* ───────────────────────── Ganesh Pujan · Madhubani ─────────────────────────
-   Component: src/scenes/GaneshScene.tsx. Frieze: `madhubani` (src/journey/scenes.ts).
+   Component: src/scenes/GaneshScene.tsx, drawings in src/scenes/MadhubaniArt.tsx.
+   Frieze: `madhubani` (src/journey/scenes.ts).
    (a) Backdrop ............ .sky.scene-ganesh
-   (b) Sky decorations ..... inside <Sky>: none yet
-   (c) Text block .......... .scene-text.scene-ganesh and everything in it
+   (b) Sky decorations ..... inside <Sky>: .ganesh-sky (the flower-filled field, the toran of mango
+                             leaves along the top, two fish on wide screens)
+   (c) Text block .......... .scene-text.scene-ganesh and everything in it: .day-label,
+                             .ganesh-title (three stacked layers), .ganesh-patch (date, time, place),
+                             .ganesh-btn
    (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-ganesh */
 
 .scene-ganesh {
-  --ink: #1a1a1a;
-  --btn-bg: #d7263d;
-  --btn-fg: #fff6e0;
-  --btn-line: #1a1a1a;
-  --btn-outline-fg: #1a1a1a;
-  --btn-outline-bg: #fff6e0;
-  --btn-ring: rgb(26 26 26 / 0.4);
+  --sky: #0c8a4c;
+  --sky-light: #1aa55e;
+  --sky-dark: #06683a;
+
+  --mb-ink: #151212;
+  --mb-cream: #fff3d9;
+  --mb-red: #e3262b;
+  --mb-yellow: #ffd31f;
+  --mb-pink: #ff4f9d;
+  --mb-blue: #2462e6;
+  --mb-orange: #ff8a1c;
+  --wobble: 16px 7px 14px 6px / 7px 14px 6px 16px;
+
+  --ink: var(--mb-ink);
+  --btn-bg: transparent;
+  --btn-fg: var(--mb-ink);
+  --btn-line: var(--mb-ink);
+  --btn-outline-fg: var(--mb-ink);
+  --btn-outline-bg: transparent;
+  --btn-ring: var(--mb-yellow);
+
+  --chrome-bg: #151212;
+  --chrome-fg: #fff3d9;
+  --chrome-accent: #ffd31f;
 }
 
 /* ── (a) Backdrop ── */
 
 .sky.scene-ganesh {
-  background: #f9bf1f;
+  background: var(--sky);
+}
+
+/* ── (b) Sky decorations ── */
+
+.ganesh-sky,
+.ganesh-field {
+  position: absolute;
+  inset: 0;
+}
+
+.ganesh-field {
+  width: 100%;
+  height: 100%;
+}
+
+.mb-field-flower path {
+  fill: var(--sky-light);
+}
+
+.mb-field-flower circle,
+.mb-field-dots circle {
+  fill: var(--sky-dark);
+}
+
+.ganesh-toran {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(4.6rem, 11dvh, 7.5rem);
+}
+
+.mb-ink {
+  fill: var(--mb-ink);
+}
+
+.mb-cream {
+  fill: var(--mb-cream);
+}
+
+.mb-red {
+  fill: var(--mb-red);
+}
+
+.mb-yellow {
+  fill: var(--mb-yellow);
+}
+
+.mb-pink {
+  fill: var(--mb-pink);
+}
+
+.mb-blue {
+  fill: var(--mb-blue);
+}
+
+.mb-orange {
+  fill: var(--mb-orange);
+}
+
+.mb-tooth {
+  stroke: var(--mb-ink);
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.mb-leaf-rim,
+.mb-leaf-gap,
+.mb-leaf-vein {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mb-leaf-rim {
+  stroke: var(--mb-ink);
+  stroke-width: 7.5;
+}
+
+.mb-leaf-gap {
+  stroke: var(--mb-cream);
+  stroke-width: 2.4;
+}
+
+.mb-leaf-vein {
+  stroke: var(--mb-ink);
+  stroke-width: 1.8;
+}
+
+/* The fish, in the sky and beside the time. */
+.mb-fish {
+  overflow: visible;
+}
+
+.mb-fish path,
+.mb-fish circle {
+  stroke: var(--mb-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3.2;
+}
+
+.mb-fish-body {
+  fill: var(--mb-yellow);
+}
+
+.mb-fish-head,
+.mb-fish-tail {
+  fill: var(--mb-pink);
+}
+
+.mb-fish-fin {
+  fill: var(--mb-blue);
+}
+
+.mb-fish-scales,
+.mb-fish-line {
+  fill: none;
+}
+
+.mb-fish .mb-fish-scales {
+  stroke-width: 2.2;
+}
+
+.mb-fish-eye {
+  fill: #fff;
+}
+
+.mb-fish-pupil {
+  fill: var(--mb-ink);
+}
+
+.ganesh-sky-fish {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .ganesh-sky-fish {
+    position: absolute;
+    top: calc(var(--hud-h) + (100dvh - var(--hud-h) - var(--ground-h)) * 0.5);
+    display: block;
+    width: clamp(9rem, 15vw, 17rem);
+    translate: 0 -50%;
+  }
+
+  .ganesh-sky-fish-left {
+    left: 5vw;
+    rotate: -8deg;
+    animation: ganesh-swim 7s ease-in-out infinite;
+  }
+
+  .ganesh-sky-fish-right {
+    right: 5vw;
+    rotate: 8deg;
+    animation: ganesh-swim 7s ease-in-out -3.5s infinite;
+  }
+}
+
+@keyframes ganesh-swim {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-0.9rem) rotate(-5deg);
+  }
 }
 
 /* ── (c) Text block ── */
 
 .scene-text.scene-ganesh {
+  gap: clamp(0.45rem, 1.6dvh, 1.1rem);
   font-family: 'Kalam', var(--font-sans);
 }
 
-.scene-ganesh .event-title {
-  font-size: clamp(2.2rem, min(10.5vw, 9dvh), 5.4rem);
-  font-weight: 700;
-  line-height: 1.05;
-  text-shadow:
-    0.035em 0.035em 0 #fff6e0,
-    0.075em 0.075em 0 #d7263d;
-}
-
-.scene-ganesh .event-date,
-.scene-ganesh .event-place {
-  font-weight: 700;
-}
-
-.scene-ganesh .event-time {
-  padding: 0.15em 0.9em 0.05em;
-  border: 2px solid #1a1a1a;
-  border-radius: 6px;
-  background: #fff6e0;
-  box-shadow:
-    0 0 0 3px #f9bf1f,
-    0 0 0 5px #1a1a1a;
-  font-weight: 700;
-}
-
-.scene-ganesh .btn {
-  padding-top: 0.2em;
-  border: 2px solid #1a1a1a;
-  border-radius: 6px;
-  box-shadow:
-    0 0 0 2px #f9bf1f,
-    0 0 0 4px #1a1a1a;
+.scene-ganesh .day-label {
+  padding: 0.35em 1em 0.15em;
+  border-radius: var(--wobble);
+  background: var(--mb-ink);
+  color: var(--mb-cream);
   font-family: 'Kalam', var(--font-sans);
-  font-size: 1.05rem;
+  font-size: clamp(0.78rem, min(3.9vw, 1.9dvh), 1.35rem);
   font-weight: 700;
+  letter-spacing: 0.14em;
+  opacity: 1;
+  outline: 2px dashed var(--mb-yellow);
+  outline-offset: -5px;
+  rotate: -2deg;
+}
+
+.ganesh-title {
+  display: grid;
+  font-family: 'Kalam', var(--font-sans);
+  font-size: clamp(3.4rem, min(20vw, 10.5dvh), 8rem);
+  font-weight: 700;
+  line-height: 0.8;
+}
+
+.ganesh-title-layer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-area: 1 / 1;
+}
+
+.ganesh-word {
+  display: block;
+  padding: 0.12em 0.1em 0;
+}
+
+.ganesh-word-1 {
+  rotate: -3deg;
+}
+
+.ganesh-word-2 {
+  rotate: 2deg;
+  translate: 0.25em 0;
+}
+
+.ganesh-title-outer {
+  color: var(--mb-ink);
+  -webkit-text-stroke: 0.24em var(--mb-ink);
+  translate: 0.05em 0.07em;
+}
+
+.ganesh-title-gap {
+  z-index: 1;
+  color: var(--mb-cream);
+  -webkit-text-stroke: 0.15em var(--mb-cream);
+}
+
+.ganesh-title-fill {
+  z-index: 2;
+  -webkit-text-stroke: 0.05em var(--mb-ink);
+}
+
+.ganesh-title-fill .ganesh-word-1 {
+  color: var(--mb-pink);
+}
+
+.ganesh-title-fill .ganesh-word-2 {
+  color: var(--mb-yellow);
+}
+
+/* Painted patches: a fill in a doubled black outline, slightly askew, with a hatched shadow. */
+.ganesh-patch,
+.scene-ganesh .ganesh-btn {
+  --face: var(--mb-cream);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  color: var(--mb-ink);
+  font-family: 'Kalam', var(--font-sans);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.ganesh-patch::before,
+.ganesh-patch::after,
+.scene-ganesh .ganesh-btn::before,
+.scene-ganesh .ganesh-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--wobble);
+}
+
+.ganesh-patch::before,
+.scene-ganesh .ganesh-btn::before {
+  z-index: -1;
+  border: 3px solid var(--mb-ink);
+  background: var(--face);
+  box-shadow:
+    0 0 0 3px var(--mb-cream),
+    0 0 0 6px var(--mb-ink);
+}
+
+.ganesh-patch::after,
+.scene-ganesh .ganesh-btn::after {
+  z-index: -2;
+  inset: -6px;
+  background: repeating-linear-gradient(-45deg, var(--mb-ink) 0 2px, transparent 2px 6px);
+  translate: 8px 8px;
+}
+
+.ganesh-patch {
+  padding: 0.3em 1em 0.12em;
+}
+
+.ganesh-date {
+  --face: var(--mb-yellow);
+  flex-wrap: wrap;
+  column-gap: 0.3em;
+  font-size: clamp(1.05rem, min(5.2vw, 2.9dvh), 2.2rem);
+  rotate: -2deg;
+}
+
+.ganesh-date span {
+  white-space: nowrap;
+}
+
+.ganesh-time {
+  --face: var(--mb-pink);
+  padding-inline: 0.6em;
+  font-size: clamp(1.3rem, min(6.2vw, 3.8dvh), 2.9rem);
+  white-space: nowrap;
+  rotate: 1.5deg;
+}
+
+.ganesh-time-fish {
+  width: 1.45em;
+  height: auto;
+  animation: ganesh-wiggle 2.8s ease-in-out infinite;
+}
+
+.ganesh-time-fish:last-child {
+  animation-delay: -1.4s;
+}
+
+@keyframes ganesh-wiggle {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+.ganesh-place {
+  --face: var(--mb-cream);
+  font-size: clamp(1.05rem, min(5vw, 2.8dvh), 2.1rem);
+  rotate: -1deg;
+}
+
+.ganesh-place svg {
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--mb-red);
+}
+
+.ganesh-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.3rem;
+  padding-top: clamp(0.2rem, 1dvh, 0.6rem);
+}
+
+.scene-ganesh .ganesh-btn {
+  height: auto;
+  padding: 0.5em 1.15em 0.32em;
+  border: 0;
+  border-radius: var(--wobble);
+  font-size: clamp(1.05rem, min(5.2vw, 2.6dvh), 1.8rem);
+}
+
+.scene-ganesh .ganesh-btn svg {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.scene-ganesh .ganesh-btn-maps {
+  --face: var(--mb-red);
+  color: var(--mb-cream);
+  rotate: -2deg;
+}
+
+.scene-ganesh .ganesh-btn-calendar {
+  --face: var(--mb-cream);
+  color: var(--mb-ink);
+  rotate: 1.5deg;
+}
+
+.scene-ganesh .ganesh-btn:active {
+  translate: 4px 4px;
+}
+
+.scene-ganesh .ganesh-btn:active::after {
+  translate: 3px 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-ganesh .mb-fish {
+    animation: none;
+  }
 }
