@@ -1,23 +1,26 @@
 import { weddingStart } from '@/data/wedding'
 import { pad2, timeLeft, useNow } from '@/lib/hooks'
 
-/** Days, hours, minutes and seconds until the wedding ceremony, counted in real time. */
+/**
+ * Days, hours, minutes and seconds until the wedding ceremony, counted in real time. Each digit is
+ * keyed by its value, so a digit that changes is mounted afresh and its entry animation plays.
+ */
 export function Countdown({ className = '' }: { className?: string }) {
   const left = timeLeft(weddingStart, useNow())
 
   if (left.over) {
     return (
       <p className={`countdown countdown-over ${className}`} role="status">
-        Just married
+        <span className="countdown-over-text">Just married</span>
       </p>
     )
   }
 
-  const units: [string, string][] = [
-    [String(left.days), left.days === 1 ? 'day' : 'days'],
-    [pad2(left.hours), 'hours'],
-    [pad2(left.minutes), 'minutes'],
-    [pad2(left.seconds), 'seconds'],
+  const units: [id: string, value: string, label: string][] = [
+    ['days', String(left.days), left.days === 1 ? 'day' : 'days'],
+    ['hours', pad2(left.hours), 'hours'],
+    ['minutes', pad2(left.minutes), 'minutes'],
+    ['seconds', pad2(left.seconds), 'seconds'],
   ]
 
   return (
@@ -26,10 +29,16 @@ export function Countdown({ className = '' }: { className?: string }) {
       role="timer"
       aria-label={`${left.days} days, ${left.hours} hours and ${left.minutes} minutes until the wedding ceremony`}
     >
-      {units.map(([value, unit]) => (
-        <div key={unit} className="countdown-unit" aria-hidden="true">
-          <span className="countdown-value">{value}</span>
-          <span className="countdown-label">{unit}</span>
+      {units.map(([id, value, label]) => (
+        <div key={id} className={`countdown-unit countdown-${id}`} aria-hidden="true">
+          <span className="countdown-value">
+            {[...value].map((digit, place) => (
+              <span key={`${value.length - place}-${digit}`} className="countdown-digit">
+                {digit}
+              </span>
+            ))}
+          </span>
+          <span className="countdown-label">{label}</span>
         </div>
       ))}
     </div>

@@ -1,35 +1,83 @@
-/* ───────────────────────── The Wedding · Pichwai ─────────────────────────
+/* ───────────────────────── The Wedding · Sunrise over the palace ─────────────────────────
    Component: src/scenes/WeddingScene.tsx. Frieze: `pichwai` (src/journey/scenes.ts). Its pond
    runs off the bottom of the screen into the schedule section (.guide-shore in guide.css).
-   (a) Backdrop ............ .sky.scene-wedding
-   (b) Sky decorations ..... inside <Sky>: the paper corners and the toran
+   (a) Backdrop ............ .sky.scene-wedding: the night breaking into bands of dawn
+   (b) Sky decorations ..... inside <Sky>: the last stars, the rising sun, the toran
    (c) Text block .......... .scene-text.scene-wedding and everything in it
    (d) Over the frieze ..... inside <Foreground>: the falling petals */
 
 .scene-wedding {
-  --ink: #4a3413;
-  --btn-bg: #8a5f17;
-  --btn-fg: #fff8e6;
-  --btn-line: #9a6b1f;
-  --btn-outline-fg: #6f4a10;
-  --btn-outline-bg: rgb(255 250 238 / 0.6);
-  --btn-ring: rgb(154 107 31 / 0.45);
+  --ink: #fff3dc;
+  --plum: #2a0b3d;
+  --cream: #fff3dc;
+  --gold: #ffd35a;
+  --rose: #e8264f;
+  --btn-bg: var(--rose);
+  --btn-fg: #fff;
+  --btn-line: var(--plum);
+  --btn-outline-fg: var(--plum);
+  --btn-outline-bg: var(--cream);
+  --btn-ring: var(--plum);
+  --chrome-bg: #fff3dc;
+  --chrome-fg: #2a0b3d;
+  --chrome-accent: #d8351c;
 }
 
-/* ── (a) Backdrop ── */
+/* ── (a) Backdrop: hard bands of dawn, measured up from the top of the ground ── */
 
 .sky.scene-wedding {
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 100%, rgb(203 170 110 / 0.2), transparent 70%),
-    var(--paper);
+  --horizon: var(--ground-h);
+  background: linear-gradient(
+    to top,
+    #ffc53a calc(var(--horizon) + 3dvh),
+    #ffa12c 0 calc(var(--horizon) + 7dvh),
+    #ff7b3b 0 calc(var(--horizon) + 11.5dvh),
+    #f2545a 0 calc(var(--horizon) + 16.5dvh),
+    #d43b74 0 calc(var(--horizon) + 22.5dvh),
+    #a62b82 0 calc(var(--horizon) + 29.5dvh),
+    #722387 0 calc(var(--horizon) + 38dvh),
+    #45176f 0 calc(var(--horizon) + 48dvh),
+    #2a0f55 0
+  );
 }
 
 /* ── (b) Sky decorations ── */
 
-.scene-wedding .paper-corner-br,
-.scene-wedding .paper-corner-bl {
-  display: none;
+.dawn-stars {
+  position: absolute;
+  inset: 0;
+}
+
+.dawn-stars span {
+  position: absolute;
+  width: calc(1.3rem * var(--star-size, 1));
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: #fff3dc;
+  clip-path: polygon(50% 0, 57% 43%, 100% 50%, 57% 57%, 50% 100%, 43% 57%, 0 50%, 43% 43%);
+  opacity: 0.75;
+}
+
+/* The sun sits behind the palace with its lower half below the tree line. */
+.dawn-sun {
+  --sun: min(84vw, 46dvh, 36rem);
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--ground-h) - var(--sun) * 0.42);
+  width: var(--sun);
+  aspect-ratio: 1;
+  margin-left: calc(var(--sun) / -2);
+  will-change: transform;
+}
+
+.dawn-sun-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #fff6c4 0 30%, #ffe36b 58%, #ffc72c);
+  box-shadow:
+    0 0 0 calc(var(--sun) * 0.06) rgb(255 222 110 / 0.3),
+    0 0 0 calc(var(--sun) * 0.14) rgb(255 200 90 / 0.14);
 }
 
 .toran {
@@ -47,126 +95,348 @@
 
 /* ── (c) Text block ── */
 
-/* Starts below the toran. */
+/* Starts below the toran. The marigold is drawn as rings of round-capped dots: each ring is one
+   circle whose dashes have no length, so every dash is a petal. */
 .scene-text.scene-wedding {
   --content-top: clamp(3.4rem, 11dvh, 7rem);
-  font-family: var(--font-serif);
+  --rhythm: clamp(0.3rem, 1dvh, 0.75rem);
+  --marigold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-52 -52 104 104' stroke-linecap='round'%3E%3Ccircle r='38' fill='%232a0b3d' stroke='%232a0b3d' stroke-width='26.8' stroke-dasharray='0 14.923'/%3E%3Ccircle r='38' fill='%23ff7a00' stroke='%23ff7a00' stroke-width='22' stroke-dasharray='0 14.923'/%3E%3Ccircle r='30' fill='none' stroke='%23ff9a12' stroke-width='19' stroke-dasharray='0 11.781' stroke-dashoffset='5.89'/%3E%3Ccircle r='22' fill='none' stroke='%23ffb627' stroke-width='18' stroke-dasharray='0 11.519'/%3E%3Ccircle r='24' fill='%23ffd75e'/%3E%3C/svg%3E");
+  gap: var(--rhythm);
+  font-family: var(--font-sans);
 }
 
-.scene-wedding .btn {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+.scene-text.scene-wedding > * {
+  flex-shrink: 0;
 }
 
-.scene-wedding .event-date {
-  color: #6b4a14;
-  font-weight: 600;
-}
-
-.wedding-kicker {
-  font-size: clamp(1rem, 2.8dvh, 1.5rem);
-  font-style: italic;
-}
-
-.scene-wedding .names {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  gap: 0.3em;
-  color: #8a5f17;
-  font-family: var(--font-serif);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.scene-wedding .names-name {
-  font-size: clamp(2.1rem, min(10.5vw, 8.5dvh), 5.6rem);
-  letter-spacing: 0.01em;
-}
-
-.scene-wedding .names-weds {
-  color: #a67a2b;
-  font-size: clamp(1.05rem, min(5vw, 4dvh), 2.4rem);
-  font-style: italic;
-}
-
-.wedding-when {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0 0.5em;
-}
-
-.wedding-when span {
-  white-space: nowrap;
-}
-
-.wedding-when span:first-child::after {
-  content: '·';
-  margin-left: 0.5em;
-}
-
-/* On a phone the date and time sit on two lines, where a trailing dot would dangle. */
-@media (max-width: 480px) {
-  .wedding-when {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .wedding-when span:first-child::after {
-    content: none;
-  }
-}
-
-.scene-wedding .countdown {
-  display: flex;
-  gap: clamp(0.35rem, 1.6vw, 0.9rem);
-}
-
-.scene-wedding .countdown-unit {
+.wedding-head,
+.wedding-row {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
-  min-width: clamp(3.3rem, 14vw, 5.4rem);
-  padding: 0.75em 0.3em 0.45em;
-  border: 1px solid rgb(154 107 31 / 0.6);
-  border-radius: 999px 999px 0.6rem 0.6rem;
-  background: rgb(255 250 238 / 0.82);
-  box-shadow:
-    inset 0 0 0 3px var(--paper),
-    inset 0 0 0 4px rgb(154 107 31 / 0.3),
-    0 4px 14px rgb(96 62 10 / 0.12);
+  gap: var(--rhythm);
+  max-width: 100%;
 }
 
-.scene-wedding .countdown-value {
-  color: #7a4f10;
-  font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 4.6dvh, 2.5rem);
-  font-variant-numeric: lining-nums tabular-nums;
+.wedding-head {
+  gap: 0.2rem;
+}
+
+/* On a wide screen the details pair up side by side, so the block stays short above the frieze. */
+@media (min-width: 700px) and (min-aspect-ratio: 1/1) {
+  .wedding-head {
+    flex-direction: row;
+    gap: 1.1rem;
+  }
+
+  .wedding-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 2rem;
+  }
+}
+
+.scene-wedding .day-label {
+  align-items: center;
+  color: var(--cream);
+  font-size: clamp(0.62rem, 1.5dvh, 0.8rem);
+  letter-spacing: 0.22em;
+  opacity: 1;
+}
+
+.wedding-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--gold);
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: clamp(1.05rem, min(5.4vw, 3dvh), 1.7rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.wedding-title::before,
+.wedding-title::after {
+  content: '';
+  width: 0.45em;
+  aspect-ratio: 1;
+  background: currentColor;
+  rotate: 45deg;
+}
+
+/* The names: gold Rozha One, struck in relief with a copper edge and a deep plum shadow. */
+.scene-wedding .names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--gold);
+  font-family: 'Rozha One', var(--font-serif);
+  font-weight: 400;
+  line-height: 0.92;
+}
+
+/* Gold lit from below by the sunrise. The fill is a gradient clipped to the letters, so the
+   extrusion is two stacked drop shadows (static, painted once) rather than text shadows, which
+   would show through the clipped fill. */
+.scene-wedding .names-name {
+  padding: 0 0.06em 0.08em 0;
+  background: linear-gradient(#fff4cf 18%, #ffd65c 52%, #ffb02e 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0.028em 0.03em 0 #d9480f) drop-shadow(0.03em 0.034em 0 var(--plum));
+  font-size: clamp(2.6rem, min(16vw, 7.8dvh), 7.4rem);
+}
+
+.scene-wedding .names-weds {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0.05em 0 0.12em;
+  color: var(--cream);
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: clamp(1rem, min(5.2vw, 3dvh), 2.2rem);
+  font-style: italic;
   font-weight: 600;
   line-height: 1;
 }
 
-.scene-wedding .countdown-label {
-  color: #8b6a36;
-  font-family: var(--font-sans);
-  font-size: clamp(0.5rem, 1.3dvh, 0.62rem);
+.scene-wedding .names-weds::before,
+.scene-wedding .names-weds::after {
+  content: '';
+  width: 2.2em;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.scene-wedding .names-weds::after {
+  scale: -1 1;
+}
+
+/* Where there is room across (and on shorter phones, where there is none down), the names stand on
+   one line with "weds" between them. */
+@media (min-width: 700px) and (min-aspect-ratio: 1/1), (max-height: 820px) {
+  .scene-wedding .names {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.24em;
+  }
+
+  .scene-wedding .names-name {
+    font-size: clamp(2.6rem, min(8.6vw, 13dvh), 8.4rem);
+  }
+
+  .scene-wedding .names-weds {
+    align-self: center;
+    margin: 0;
+    font-size: clamp(1rem, min(2.6vw, 4dvh), 2.6rem);
+  }
+
+  .scene-wedding .names-weds::before,
+  .scene-wedding .names-weds::after {
+    display: none;
+  }
+}
+
+@media (max-height: 820px) and (max-aspect-ratio: 1/1) {
+  .scene-wedding .names-name {
+    font-size: clamp(1.9rem, 12vw, 3.4rem);
+  }
+
+  .scene-wedding .names-weds {
+    font-size: clamp(0.85rem, 4.6vw, 1.3rem);
+  }
+}
+
+@media (max-height: 700px) and (max-aspect-ratio: 1/1) {
+  .scene-wedding .countdown-unit {
+    --bloom: clamp(3.2rem, 8.6dvh, 4.2rem);
+  }
+}
+
+/* The date and time: one cream ticket, the time on a rose stub. */
+.wedding-when {
+  display: grid;
+  border: 3px solid var(--plum);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 var(--plum);
+  font-size: clamp(0.88rem, min(4.3vw, 2.5dvh), 1.3rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
+  line-height: 1.1;
+  rotate: -1.5deg;
+}
+
+.wedding-when span {
+  padding: 0.45em 0.85em 0.4em;
+  white-space: nowrap;
+}
+
+.wedding-day {
+  background: var(--cream);
+  color: var(--plum);
+}
+
+.wedding-time {
+  background: var(--rose);
+  color: #fff;
+}
+
+@media (min-width: 560px) {
+  .wedding-when {
+    grid-auto-flow: column;
+  }
+}
+
+.wedding-place {
+  padding: 0.35em 0.95em 0.35em 0.75em;
+  border-radius: 999px;
+  background: var(--plum);
+  color: var(--cream);
+  font-size: clamp(0.8rem, min(3.8vw, 2.2dvh), 1.1rem);
+  font-weight: 500;
+}
+
+.wedding-place svg {
+  color: var(--gold);
+}
+
+/* The countdown: four marigolds, slowly turning, with the numbers held upright in their hearts. */
+.scene-wedding .countdown {
+  display: flex;
+  gap: clamp(0.5rem, 3vw, 1.6rem);
+}
+
+.scene-wedding .countdown-unit {
+  --bloom: clamp(3.6rem, min(15.5vw, 9.5dvh), 5.6rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--plum);
+}
+
+.scene-wedding .countdown-value {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--bloom);
+  aspect-ratio: 1;
+  font-family: 'Rozha One', var(--font-serif);
+  font-size: calc(var(--bloom) * 0.4);
+  line-height: 1;
+}
+
+.scene-wedding .countdown-value::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--marigold) center / contain no-repeat;
+  animation: bloom-turn 40s linear infinite;
+}
+
+.scene-wedding .countdown-hours .countdown-value::before {
+  animation-direction: reverse;
+}
+
+.scene-wedding .countdown-minutes .countdown-value::before {
+  animation-duration: 52s;
+}
+
+.scene-wedding .countdown-seconds .countdown-value::before {
+  animation-duration: 30s;
+  animation-direction: reverse;
+}
+
+@keyframes bloom-turn {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.scene-wedding .countdown-value {
+  isolation: isolate;
+}
+
+.scene-wedding .countdown-digit {
+  display: inline-block;
+  width: 0.56em;
+  text-align: center;
+  animation: digit-drop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+
+@keyframes digit-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4em);
+  }
+}
+
+.scene-wedding .countdown-label {
+  padding: 0.3em 0.6em 0.25em;
+  border-radius: 999px;
+  background: var(--plum);
+  color: var(--cream);
+  font-size: clamp(0.55rem, 1.4dvh, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
 .scene-wedding .countdown-over {
-  color: #8a5f17;
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 5dvh, 2.6rem);
-  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  color: var(--plum);
+  font-family: 'Rozha One', var(--font-serif);
+  font-size: clamp(1.6rem, min(8vw, 5.4dvh), 3rem);
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
-/* ── (d) Over the frieze: petals drifting down across the whole screen ── */
+.scene-wedding .countdown-over-text {
+  padding: 0.12em 0.8em 0.18em;
+  border: 3px solid var(--plum);
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 4px 4px 0 var(--plum);
+  rotate: -2deg;
+}
+
+.scene-wedding .countdown-over::before,
+.scene-wedding .countdown-over::after {
+  content: '';
+  width: 1.5em;
+  aspect-ratio: 1;
+  background: var(--marigold) center / contain no-repeat;
+  animation: bloom-turn 40s linear infinite;
+}
+
+.scene-wedding .countdown-over::after {
+  animation-direction: reverse;
+}
+
+.scene-wedding .btn {
+  border: 3px solid var(--plum);
+  box-shadow: 4px 4px 0 var(--plum);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scene-wedding .btn:active {
+  translate: 3px 3px;
+  box-shadow: 1px 1px 0 var(--plum);
+}
+
+/* ── (d) Over the frieze: rose and marigold petals drifting down across the whole screen ── */
 
 .petals {
   position: absolute;
@@ -181,13 +451,12 @@
   width: calc(13px * var(--petal-size, 1));
   height: calc(19px * var(--petal-size, 1));
   border-radius: 80% 10% 80% 10%;
-  background: radial-gradient(ellipse at 30% 30%, #f8d5cf, #e58a8a 75%);
-  opacity: 0.85;
+  background: radial-gradient(ellipse at 30% 30%, #ff8aa0, #e8264f 75%);
   animation: petal-fall 14s linear infinite;
 }
 
 .petals span:nth-child(3n) {
-  background: radial-gradient(ellipse at 30% 30%, #f9d36a, #ee8f24 75%);
+  background: radial-gradient(ellipse at 30% 30%, #ffd36a, #ff8a00 75%);
 }
 
 @keyframes petal-fall {
@@ -199,8 +468,62 @@
   }
 }
 
+/* ── Phone held sideways: the ground fills the right half, 72dvh tall, so the dawn is measured from
+   lower down and the sun comes up behind the palace at the centre of that half. ── */
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .sky.scene-wedding {
+    --horizon: 18dvh;
+  }
+
+  .dawn-sun {
+    --sun: 46dvh;
+    left: 74%;
+    bottom: calc(72dvh - var(--sun) * 0.5);
+  }
+
+  .scene-wedding .names-name {
+    font-size: clamp(2rem, min(6vw, 13dvh), 3.4rem);
+  }
+
+  /* The shared short-screen rules hide day labels; here it shares the title's line, so it stays. */
+  .scene-text.scene-wedding .day-label {
+    display: flex;
+  }
+
+  .scene-wedding .countdown-unit {
+    --bloom: clamp(2.6rem, 13dvh, 3.6rem);
+  }
+
+  .wedding-when {
+    font-size: clamp(0.78rem, 3.6dvh, 1rem);
+  }
+
+  .scene-wedding .btn {
+    padding-inline: 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  /* The text has half a phone's width, so the buttons keep the short labels a phone held upright
+     gets (MapButton.tsx switches to the long ones at Tailwind's `sm` width). */
+  .scene-wedding .btn > .sm\:hidden {
+    display: inline;
+  }
+
+  .scene-wedding .btn > .sm\:inline {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .petals {
     display: none;
+  }
+
+  .scene-wedding .countdown-value::before,
+  .scene-wedding .countdown-over::before,
+  .scene-wedding .countdown-over::after,
+  .scene-wedding .countdown-digit {
+    animation: none;
   }
 }

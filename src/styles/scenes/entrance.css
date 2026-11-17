@@ -1,173 +1,317 @@
-/* ───────────────────────── Entrance · Pichwai ─────────────────────────
+/* ───────────────────────── Entrance · The pink gateway ─────────────────────────
    Component: src/scenes/EntranceScene.tsx. Frieze: `pichwai` (src/journey/scenes.ts).
    (a) Backdrop ............ .sky.scene-entrance
-   (b) Sky decorations ..... inside <Sky>: the paper corners
+   (b) Sky decorations ..... inside <Sky>: the gateway of arches (EntranceGateway.tsx), sparkles
    (c) Text block .......... .scene-text.scene-entrance and everything in it
-   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-entrance */
+   (d) Over the frieze ..... the "Begin" button, which reaches down from the text block */
 
 .scene-entrance {
-  --ink: #4a3413;
-  --btn-bg: #8a5f17;
-  --btn-fg: #fff8e6;
-  --btn-line: #9a6b1f;
-  --btn-outline-fg: #6f4a10;
-  --btn-outline-bg: rgb(255 250 238 / 0.6);
-  --btn-ring: rgb(154 107 31 / 0.45);
+  --ink: #fff1d6;
+  --plum: #2a0718;
+  --marigold: #ffb81c;
+  --cream: #fff1d6;
+  --peacock: #0f9a91;
+  --btn-bg: var(--cream);
+  --btn-fg: var(--plum);
+  --btn-line: var(--plum);
+  --btn-outline-fg: var(--plum);
+  --btn-outline-bg: var(--cream);
+  --btn-ring: var(--marigold);
+  --chrome-bg: #2a0718;
+  --chrome-fg: #fff1d6;
+  --chrome-accent: #ffb81c;
 }
 
-/* ── (a) Backdrop ── */
+/* ── (a) Backdrop: hot rani pink ── */
 
 .sky.scene-entrance {
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 100%, rgb(203 170 110 / 0.2), transparent 70%),
-    var(--paper);
+  background: #f5288d;
 }
 
-/* ── (b) Sky decorations: flower sprigs in the top corners of the invitation ── */
+/* ── (b) Sky decorations ── */
 
-.scene-entrance .paper-corner-br,
-.scene-entrance .paper-corner-bl {
-  display: none;
+.gateway {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gateway-trim {
+  fill: none;
+  stroke: #ffc94a;
+  stroke-width: 2.5;
+}
+
+.gateway-beads {
+  fill: none;
+  stroke: #ffe3a6;
+  stroke-dasharray: 0 9;
+  stroke-linecap: round;
+  stroke-width: 3.2;
+  opacity: 0.85;
+}
+
+.sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sparkles span {
+  position: absolute;
+  width: calc(2.3rem * var(--sparkle-size, 1));
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: #fff0c2;
+  clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+  animation: sparkle 3.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.sparkles span:nth-child(2n) {
+  background: var(--marigold);
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.55) rotate(45deg);
+  }
 }
 
 /* ── (c) Text block ── */
 
 .scene-text.scene-entrance {
-  font-family: var(--font-serif);
+  gap: clamp(0.35rem, 1.6dvh, 1rem);
+  font-family: var(--font-sans);
 }
 
-.scene-entrance .btn {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+.scene-text.scene-entrance > * {
+  flex-shrink: 0;
 }
 
+/* The names: a poster title in Shrikhand, cream on an extruded marigold and plum shadow. */
 .scene-entrance .names {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #8a5f17;
-  font-family: var(--font-serif);
-  font-weight: 500;
+  color: var(--cream);
+  font-family: 'Shrikhand', var(--font-serif);
+  font-weight: 400;
   line-height: 0.92;
+  rotate: -4deg;
 }
 
 .scene-entrance .names-name {
-  font-size: clamp(2.8rem, min(16vw, 10.5dvh), 6.5rem);
+  font-size: clamp(3.3rem, min(22vw, 11.6dvh), 8.5rem);
   letter-spacing: 0.01em;
+  paint-order: stroke fill;
+  text-shadow:
+    0.035em 0.045em 0 var(--marigold),
+    0.07em 0.09em 0 var(--plum);
+  -webkit-text-stroke: 0.05em var(--plum);
 }
 
 .scene-entrance .names-weds {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0.08em 0 0.16em;
-  color: #a67a2b;
-  font-size: clamp(1.1rem, min(5.5vw, 3.6dvh), 2.2rem);
+  position: relative;
+  z-index: 1;
+  margin: -0.35em 0 -0.25em;
+  padding: 0.12em 0.7em 0.2em;
+  border: 3px solid var(--plum);
+  border-radius: 999px;
+  background: var(--peacock);
+  color: var(--cream);
+  box-shadow: 3px 3px 0 var(--plum);
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: clamp(1rem, min(5.2vw, 2.9dvh), 1.75rem);
   font-style: italic;
-}
-
-.scene-entrance .names-weds::before,
-.scene-entrance .names-weds::after {
-  content: '';
-  width: 1.7em;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
+  font-weight: 800;
+  line-height: 1;
+  rotate: 8deg;
 }
 
 @media (min-width: 900px) and (min-aspect-ratio: 1/1) {
   .scene-entrance .names {
     flex-direction: row;
-    align-items: baseline;
-    gap: 0.3em;
-    line-height: 1;
+    align-items: center;
+    gap: 0.25em;
+  }
+
+  .scene-entrance .names-name {
+    font-size: clamp(3.3rem, min(9vw, 15dvh), 9rem);
   }
 
   .scene-entrance .names-weds {
     margin: 0;
   }
-
-  .scene-entrance .names-weds::before,
-  .scene-entrance .names-weds::after {
-    display: none;
-  }
 }
 
-.entrance-dates {
-  color: #6b4a14;
-  font-size: clamp(0.8rem, min(3.7vw, 2.6dvh), 1.45rem);
+/* The tagline arches over the names like the gateway behind it. */
+.entrance-tagline {
+  order: -1;
+  width: min(100%, 27rem);
+  margin-bottom: calc(-1 * clamp(0.1rem, 0.8dvh, 0.5rem));
+}
+
+.entrance-tagline svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* A halo in the colour of the innermost arch stops the gold trims short of the letters. */
+.entrance-tagline text {
+  fill: var(--cream);
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: 18px;
+  font-style: italic;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  paint-order: stroke fill;
+  stroke: #ae0661;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+}
+
+/* The dates, on a marigold ribbon with notched ends and a hard plum shadow. */
+.entrance-dates {
+  position: relative;
+  display: inline-grid;
+  rotate: -2deg;
+}
+
+.entrance-dates::before,
+.entrance-dates span {
+  grid-area: 1 / 1;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.9em) 50%, 100% 100%, 0 100%, 0.9em 50%);
+}
+
+.entrance-dates::before {
+  content: '';
+  background: var(--plum);
+  translate: 4px 4px;
+}
+
+.entrance-dates span {
+  padding: 0.5em 1.9em 0.45em;
+  border-block: 3px solid var(--plum);
+  background: var(--marigold);
+  color: var(--plum);
+  font-size: clamp(0.78rem, min(3.7vw, 2.3dvh), 1.2rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.entrance-tagline {
-  font-size: clamp(0.85rem, min(4vw, 2.4dvh), 1.3rem);
-  font-style: italic;
-}
-
-.entrance-regards {
-  display: flex;
-  flex-direction: column;
-  font-size: clamp(0.95rem, 2.4dvh, 1.25rem);
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.entrance-regards span {
-  font-style: italic;
-  font-weight: 400;
-}
-
+/* The countdown: four little palace windows, each a sticker of its own colour. */
 .scene-entrance .countdown {
   display: flex;
-  gap: clamp(0.35rem, 1.6vw, 0.9rem);
+  gap: clamp(0.45rem, 2.2vw, 1.1rem);
+  padding: 0.2rem 0.3rem 0.4rem;
 }
 
 .scene-entrance .countdown-unit {
+  --tile: var(--cream);
+  --tile-ink: var(--plum);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
-  min-width: clamp(3.3rem, 14vw, 5.4rem);
-  padding: 0.75em 0.3em 0.45em;
-  border: 1px solid rgb(154 107 31 / 0.6);
-  /* An arch, like the doorways of the pavilion in the frieze. */
-  border-radius: 999px 999px 0.6rem 0.6rem;
-  background: rgb(255 250 238 / 0.82);
-  box-shadow:
-    inset 0 0 0 3px var(--paper),
-    inset 0 0 0 4px rgb(154 107 31 / 0.3),
-    0 4px 14px rgb(96 62 10 / 0.12);
+  gap: 0.2rem;
+  min-width: clamp(4.1rem, 19vw, 6.6rem);
+  padding: 0.75em 0.35em 0.45em;
+  border: 3px solid var(--plum);
+  border-radius: 999px 999px 0.55rem 0.55rem;
+  background: var(--tile);
+  color: var(--tile-ink);
+  box-shadow: 4px 4px 0 var(--plum);
+}
+
+.scene-entrance .countdown-days {
+  --tile: var(--marigold);
+  rotate: -3deg;
+}
+
+.scene-entrance .countdown-hours {
+  rotate: 2deg;
+}
+
+.scene-entrance .countdown-minutes {
+  --tile: var(--peacock);
+  --tile-ink: var(--cream);
+  rotate: -2deg;
+}
+
+.scene-entrance .countdown-seconds {
+  --tile: #ff5a1f;
+  --tile-ink: var(--plum);
+  rotate: 3deg;
 }
 
 .scene-entrance .countdown-value {
-  color: #7a4f10;
-  font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 4.6dvh, 2.5rem);
-  font-variant-numeric: lining-nums tabular-nums;
-  font-weight: 600;
+  display: flex;
+  font-family: 'Shrikhand', var(--font-serif);
+  font-size: clamp(1.9rem, min(9.6vw, 5.6dvh), 3.4rem);
   line-height: 1;
 }
 
+.scene-entrance .countdown-digit {
+  display: inline-block;
+  width: 0.66em;
+  text-align: center;
+  animation: digit-roll 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+@keyframes digit-roll {
+  from {
+    opacity: 0;
+    transform: translateY(-0.45em) rotate(-12deg);
+  }
+}
+
 .scene-entrance .countdown-label {
-  color: #8b6a36;
-  font-family: var(--font-sans);
-  font-size: clamp(0.5rem, 1.3dvh, 0.62rem);
+  font-size: clamp(0.55rem, 1.4dvh, 0.72rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .scene-entrance .countdown-over {
-  color: #8a5f17;
-  font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 5dvh, 2.6rem);
+  padding: 0.25em 0.9em 0.35em;
+  border: 3px solid var(--plum);
+  border-radius: 0.6rem;
+  background: var(--marigold);
+  color: var(--plum);
+  box-shadow: 5px 5px 0 var(--plum);
+  font-family: 'Shrikhand', var(--font-serif);
+  font-size: clamp(1.6rem, min(8.4vw, 5.4dvh), 3.2rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  rotate: -3deg;
+}
+
+/* The families' sign-off stays formal: an italic serif, quiet against everything above it. */
+.entrance-regards {
+  display: flex;
+  flex-direction: column;
+  color: var(--cream);
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: clamp(0.95rem, min(4.6vw, 2.5dvh), 1.35rem);
   font-style: italic;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.entrance-regards span {
+  font-size: 0.82em;
+  opacity: 0.9;
 }
 
 /* The "Begin" button sits at the foot of the screen, over the frieze. The text block ends where
@@ -179,16 +323,29 @@
   translate: -50% 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.45rem 0.9rem 0.45rem 1.15rem;
+  gap: 0.25rem;
+  padding: 0.45rem 0.8rem 0.45rem 1.1rem;
+  border: 3px solid var(--plum);
   border-radius: 999px;
-  background: rgb(255 250 238 / 0.94);
-  color: #6f4a10;
-  box-shadow: 0 4px 18px rgb(60 35 5 / 0.3);
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
+  background: var(--marigold);
+  color: var(--plum);
+  box-shadow: 3px 3px 0 var(--plum);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
   font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   animation: hint-bob 2.2s ease-in-out infinite;
+}
+
+.scroll-hint:active {
+  box-shadow: 1px 1px 0 var(--plum);
+  translate: calc(-50% + 2px) 2px;
+}
+
+.scroll-hint:focus-visible {
+  outline: 3px solid var(--cream);
+  outline-offset: 3px;
 }
 
 .scroll-hint svg {
@@ -202,10 +359,35 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .scroll-hint {
-    animation: none;
+/* ── Phone held sideways: the text has the left half. The names go on one line, which leaves room
+   for the families' sign-off that the shared short-screen rules would otherwise hide. ── */
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .scene-entrance .names {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.2em;
+  }
+
+  .scene-entrance .names-name {
+    font-size: clamp(2rem, min(6.4vw, 15dvh), 3.6rem);
+  }
+
+  .scene-entrance .names-weds {
+    margin: 0;
+    font-size: clamp(0.85rem, 4dvh, 1.1rem);
+  }
+
+  .scene-text.scene-entrance .entrance-regards {
+    display: flex;
+    font-size: clamp(0.85rem, 4dvh, 1rem);
   }
 }
 
-/* ── (d) Over the frieze: nothing yet ── */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint,
+  .sparkles span,
+  .scene-entrance .countdown-digit {
+    animation: none;
+  }
+}
