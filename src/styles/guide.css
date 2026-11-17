@@ -11,9 +11,9 @@
   --ev-tilak-ink: #4d0d18;
   --ev-food-blessings: #f47b20;
   --ev-food-blessings-ink: #3a0911;
-  --ev-ganesh-pujan: #0b7a4f;
+  --ev-ganesh-pujan: #0c8a4c;
   --ev-ganesh-pujan-ink: #ffffff;
-  --ev-matrika-pujan: #5a1b5e;
+  --ev-matrika-pujan: #4b0f50;
   --ev-matrika-pujan-ink: #fff4dc;
   --ev-baraat: #ffc21f;
   --ev-baraat-ink: #151515;
@@ -30,7 +30,7 @@
   --type-baraat: 'Bungee Shade', 'Bungee', var(--font-sans);
   --type-pool: 'Bangers', var(--font-sans);
   --type-sangeet: 'Tilt Neon', var(--font-sans);
-  --type-wedding: 'Cormorant Garamond', var(--font-serif);
+  --type-wedding: 'Rozha One', var(--font-serif);
 }
 
 /* The top bar and the section navigation while the guest is in this section. */
@@ -469,9 +469,7 @@
   --ev-ink: var(--ev-wedding-ink);
   --ev-type: var(--type-wedding);
   --tilt: -3deg;
-  font-size: calc(var(--tile) * 0.86);
-  font-style: italic;
-  font-weight: 700;
+  font-size: calc(var(--tile) * 0.72);
 }
 
 /* The shortcut to whatever is on next. */
@@ -1004,7 +1002,7 @@
 
 /* Sunrise on the wedding day. */
 .ticket[data-event='wedding'] {
-  --title-size: clamp(1.75rem, 7.6vw, 2.2rem);
+  --title-size: clamp(1.45rem, 6.4vw, 1.9rem);
   background: linear-gradient(170deg, #ff7a6b, #ff9a57 55%, #ffc65a);
 }
 
@@ -1015,8 +1013,7 @@
 }
 
 .ticket[data-event='wedding'] .ticket-title {
-  font-weight: 700;
-  font-style: italic;
+  font-weight: 400;
   letter-spacing: 0.005em;
 }
 
