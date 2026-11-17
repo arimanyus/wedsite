@@ -435,7 +435,8 @@
 .plan-tile[data-scene='baraat'] {
   --ev: var(--ev-baraat);
   --ev-ink: #e3172a;
-  --ev-type: var(--type-baraat);
+  /* Bungee Shade's inline closes up at tile size, so the tile uses the solid cut. */
+  --ev-type: 'Bungee', var(--font-sans);
   --tilt: 4deg;
   font-size: calc(var(--tile) * 0.66);
 }

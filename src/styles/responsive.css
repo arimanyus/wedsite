@@ -2,8 +2,7 @@
 
 @media (max-height: 720px) {
   .entrance-tagline,
-  .scene-text .divider,
-  .wedding-kicker {
+  .scene-text .divider {
     display: none;
   }
 }
@@ -33,20 +32,6 @@
     overflow: hidden;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%);
     mask-image: linear-gradient(90deg, transparent, #000 14%);
-  }
-
-  /* The ground's centre is 74% of the way across, so the frieze's ripples are placed from there. */
-  .guide-shore {
-    background-position-x: calc(74% - var(--unit) * (1200 - 16.28));
-  }
-
-  /* The drive home keeps the road at its usual height. */
-  .homeward {
-    height: calc(46dvh + 13.5rem);
-  }
-
-  .homeward .bus-route {
-    height: 46dvh;
   }
 
   .day-label,
