@@ -107,7 +107,8 @@ button {
   top: var(--content-top, var(--hud-h));
   left: 0;
   right: 0;
-  height: calc(100% - var(--content-top, var(--hud-h)) - var(--scene-h) + 1.5dvh);
+  /* The frieze layers are drawn 6% larger than their box for parallax, so they rise a little above it. */
+  height: calc(100% - var(--content-top, var(--hud-h)) - var(--scene-h) * 1.04);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -777,6 +778,20 @@ button {
 .wedding-when span:first-child::after {
   content: '·';
   margin-left: 0.5em;
+}
+
+/* On a phone these pairs sit on two lines, where a trailing dot would dangle. */
+@media (max-width: 480px) {
+  .era-label,
+  .wedding-when {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .era-label span:first-child::after,
+  .wedding-when span:first-child::after {
+    content: none;
+  }
 }
 
 .toran {
@@ -1971,9 +1986,9 @@ button {
   opacity: 0.8;
 }
 
-/* ───────────────────────── Short screens (phones held sideways, small laptops) ───────────────────────── */
+/* ───────────────────────── Short screens (small laptops, phones held sideways) ───────────────────────── */
 
-@media (max-height: 640px) {
+@media (max-height: 720px) {
   .entrance-tagline,
   .room-content .divider,
   .wedding-kicker {
@@ -1981,39 +1996,82 @@ button {
   }
 }
 
-@media (max-height: 520px) {
+/* A phone held sideways has no room to stack text above the frieze, so the text takes the left
+   half of the painting and the frieze the right half. */
+@media (max-height: 520px) and (orientation: landscape) {
   :root {
-    --hud-h: 3rem;
-  }
-
-  .room-content {
-    gap: 0.2rem;
-  }
-
-  .era-label,
-  .ganesha-mark,
-  .entrance-regards,
-  .event-note,
-  .route-line,
-  .room-wedding .countdown,
-  .toran {
-    display: none;
+    --hud-h: 3.1rem;
   }
 
   .room-wedding {
     --content-top: var(--hud-h);
   }
 
+  .room-content {
+    right: auto;
+    width: 52%;
+    height: calc(100% - var(--content-top, var(--hud-h)));
+    gap: 0.3rem;
+    padding: 0 0.5rem 0.4rem max(1.25rem, env(safe-area-inset-left));
+  }
+
+  .scene {
+    left: auto;
+    right: 0;
+    width: 50%;
+    height: 72dvh;
+    aspect-ratio: auto;
+    translate: none;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%);
+    mask-image: linear-gradient(90deg, transparent, #000 14%);
+  }
+
+  .scene .scene-layer {
+    inset: auto;
+    bottom: 0;
+    left: 50%;
+    width: auto;
+    aspect-ratio: 4 / 1;
+    translate: -50% 0;
+  }
+
+  .bus-route {
+    left: 50%;
+    height: 72dvh;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%);
+    mask-image: linear-gradient(90deg, transparent, #000 14%);
+  }
+
+  .bus-route-world {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .homeward .bus-route {
+    left: 0;
+    height: var(--scene-h);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .era-label,
+  .ganesha-mark,
+  .entrance-regards,
+  .route-line,
+  .toran,
+  .scroll-hint {
+    display: none;
+  }
+
   .countdown-unit {
-    flex-direction: row;
-    align-items: baseline;
-    min-width: 0;
-    padding: 0.3em 0.8em;
-    border-radius: 999px;
+    min-width: 3.1rem;
+    padding: 0.6em 0.2em 0.35em;
   }
 
   .era-btn.h-11 {
-    height: 2.25rem;
+    height: 2.4rem;
     padding-inline: 0.9rem;
   }
 }

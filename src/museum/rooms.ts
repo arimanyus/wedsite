@@ -199,7 +199,8 @@ export function roomPose(index: number, t: number, { hung, calm }: PoseOptions):
   const walk = (t - end) / WALK
   if (walk >= 1) return HIDDEN
   if (calm) {
-    return { visible: true, scale: 1, x: 0, framed: 0, presence: 0, inside: 1, opacity: 1 - ease(walk) }
+    // The next painting dissolves in over this one, so this one stays solid underneath.
+    return { visible: true, scale: 1, x: 0, framed: 0, presence: 0, inside: 1, opacity: 1 }
   }
   const stepOut = ease(clamp01(walk / STEP_OUT_END))
   return {

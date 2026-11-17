@@ -2,7 +2,7 @@ import { Hud } from '@/components/Hud'
 import { Museum } from '@/components/Museum'
 import { MuseumNav } from '@/components/MuseumNav'
 import { VisitorGuide } from '@/components/VisitorGuide'
-import { MuseumProvider } from '@/museum/context'
+import { MuseumProvider } from '@/museum/MuseumProvider'
 
 export default function App() {
   return (
