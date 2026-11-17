@@ -3,11 +3,10 @@ import type { CSSProperties } from 'react'
 
 import { art } from '@/art'
 import { Countdown } from '@/components/Countdown'
-import { EraLabel } from '@/components/EventDetails'
+import { DayLabel } from '@/components/EventDetails'
 import { CalendarButton, MapButton } from '@/components/MapButton'
 import { Divider, PaperCorners } from '@/components/Ornaments'
-import { Room } from '@/components/Room'
-import { Scene } from '@/components/Scene'
+import { Foreground, Sky, TextBlock } from '@/components/SceneLayers'
 import { couple, formatDay, venues, weddingEvent } from '@/data/wedding'
 
 const PETALS = Array.from({ length: 16 }, (_, index) => ({
@@ -17,32 +16,41 @@ const PETALS = Array.from({ length: 16 }, (_, index) => ({
   size: 0.7 + ((index * 7) % 5) / 8,
 }))
 
-/** Gallery VIII. The wedding ceremony, back in the Pichwai style the walk began with. */
-export function WeddingRoom({ index }: { index: number }) {
+/**
+ * The wedding ceremony, 3 Dec, back in the Pichwai style the journey began with, with the
+ * countdown. Styles: src/styles/scenes/wedding.css. Frieze: `pichwai`.
+ */
+export function WeddingScene() {
   const toran = art('orn-toran')
   const venue = venues[weddingEvent.venue]
 
   return (
-    <Room index={index} plaque="The Wedding Ceremony">
-      <PaperCorners />
-      {toran && <div className="toran" style={{ backgroundImage: `url(${toran})` }} aria-hidden="true" />}
-      <div className="petals" aria-hidden="true">
-        {PETALS.map((petal, petalIndex) => (
-          <span
-            key={petalIndex}
-            style={
-              {
-                left: `${petal.left}%`,
-                animationDelay: `${petal.delay}s`,
-                animationDuration: `${petal.duration}s`,
-                '--petal-size': petal.size,
-              } as CSSProperties
-            }
-          />
-        ))}
-      </div>
-      <div className="room-content">
-        <EraLabel room="wedding" />
+    <>
+      <Sky>
+        <PaperCorners />
+        {toran && <div className="toran" style={{ backgroundImage: `url(${toran})` }} />}
+      </Sky>
+
+      <Foreground>
+        <div className="petals">
+          {PETALS.map((petal, petalIndex) => (
+            <span
+              key={petalIndex}
+              style={
+                {
+                  left: `${petal.left}%`,
+                  animationDelay: `${petal.delay}s`,
+                  animationDuration: `${petal.duration}s`,
+                  '--petal-size': petal.size,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+      </Foreground>
+
+      <TextBlock>
+        <DayLabel event={weddingEvent} />
         <p className="wedding-kicker">The {weddingEvent.title}</p>
         <h2 className="names names-inline">
           <span className="names-name">{couple.bride}</span>
@@ -63,8 +71,7 @@ export function WeddingRoom({ index }: { index: number }) {
           <MapButton venue={weddingEvent.venue} />
           <CalendarButton event={weddingEvent} variant="outline" />
         </div>
-      </div>
-      <Scene name="pichwai" />
-    </Room>
+      </TextBlock>
+    </>
   )
 }

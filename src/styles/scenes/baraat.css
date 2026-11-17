@@ -1,0 +1,135 @@
+/* ───────────────────────── Baraat Prasthan · Truck art & film poster ─────────────────────────
+   Component: src/scenes/BaraatScene.tsx. Frieze: `baraat` (src/journey/scenes.ts), with the bus
+   driving its highway (BaraatBus in src/components/Frieze.tsx, styled as .bus in journey.css).
+   Ground ................... .frieze.scene-baraat
+   (a) Backdrop ............ .sky.scene-baraat
+   (b) Sky decorations ..... inside <Sky>: the sunburst
+   (c) Text block .......... .scene-text.scene-baraat and everything in it, including the route line
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-baraat */
+
+/* The bus parks at both ends of this frieze, so the frieze lies over its neighbours with short
+   fades and the road stays solid under the wheels. */
+.frieze.scene-baraat {
+  --fade-l: 2.5%;
+  --fade-r: 2.5%;
+  z-index: 1;
+}
+
+.scene-baraat {
+  --ink: #151515;
+  --btn-bg: #e3172a;
+  --btn-fg: #fff;
+  --btn-line: #151515;
+  --btn-outline-fg: #151515;
+  --btn-outline-bg: #fff;
+  --btn-ring: rgb(21 21 21 / 0.4);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-baraat {
+  background: #ffc21f;
+}
+
+/* ── (b) Sky decorations ── */
+
+.sunburst {
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(from 0deg at 50% 66%, #ffd21f 0 7.5deg, #ffb000 7.5deg 15deg);
+}
+
+.sunburst::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 66%, rgb(255 255 255 / 0.55), transparent 55%);
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-baraat {
+  font-family: 'Yatra One', var(--font-sans);
+}
+
+.scene-baraat .day-label {
+  opacity: 1;
+}
+
+.scene-baraat .event-title {
+  color: #e3172a;
+  font-family: 'Bungee Shade', 'Bungee', var(--font-sans);
+  font-size: clamp(1.7rem, min(8.6vw, 7.4dvh), 4.6rem);
+  font-weight: 400;
+  line-height: 1.02;
+}
+
+.scene-baraat .event-time {
+  padding: 0.2em 0.8em 0.12em;
+  border: 3px solid #151515;
+  border-radius: 0.5rem;
+  background: #1438c9;
+  color: #fff;
+  box-shadow: 4px 4px 0 #151515;
+  font-family: 'Bungee', var(--font-sans);
+  font-weight: 400;
+  rotate: -2deg;
+}
+
+.scene-baraat .event-note {
+  padding: 0.25em 0.9em 0.15em;
+  border: 2px dashed #151515;
+  border-radius: 0.4rem;
+  background: #fff3d6;
+}
+
+.route-line {
+  display: grid;
+  grid-template-columns: auto minmax(4rem, 14rem) auto;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Bungee', var(--font-sans);
+  font-size: clamp(0.72rem, 1.9dvh, 0.95rem);
+}
+
+.route-track {
+  position: relative;
+  height: 0;
+  border-top: 3px dashed #151515;
+}
+
+/* Spans the track and slides along it by its own width, carrying the marker at its left edge. */
+.route-progress {
+  position: absolute;
+  top: -1.5px;
+  left: 0;
+  width: 100%;
+  height: 0;
+  will-change: transform;
+}
+
+.route-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.95rem;
+  height: 0.95rem;
+  translate: -50% -50%;
+  border: 3px solid #151515;
+  border-radius: 50%;
+  background: #e3172a;
+}
+
+.scene-baraat .btn {
+  border: 3px solid #151515;
+  border-radius: 0.6rem;
+  box-shadow: 4px 4px 0 #151515;
+  font-family: 'Bungee', var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.scene-baraat .btn:active {
+  translate: 3px 3px;
+  box-shadow: 1px 1px 0 #151515;
+}

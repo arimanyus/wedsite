@@ -2,19 +2,24 @@ import { ChevronDown } from 'lucide-react'
 
 import { Countdown } from '@/components/Countdown'
 import { Divider, GaneshaMark, PaperCorners } from '@/components/Ornaments'
-import { Room } from '@/components/Room'
-import { Scene } from '@/components/Scene'
+import { Sky, TextBlock } from '@/components/SceneLayers'
 import { couple } from '@/data/wedding'
-import { useMuseum } from '@/museum/context'
+import { useJourney } from '@/journey/context'
 
-/** Gallery I. The invitation itself, in the Pichwai style, with the countdown. */
-export function EntranceRoom({ index }: { index: number }) {
-  const { goTo } = useMuseum()
+/**
+ * The first screen: the invitation itself, in the Pichwai style, with the countdown.
+ * Styles: src/styles/scenes/entrance.css. Frieze: `pichwai`.
+ */
+export function EntranceScene() {
+  const { goTo } = useJourney()
 
   return (
-    <Room index={index} plaque={`${couple.bride} weds ${couple.groom}`}>
-      <PaperCorners />
-      <div className="room-content">
+    <>
+      <Sky>
+        <PaperCorners />
+      </Sky>
+
+      <TextBlock>
         <GaneshaMark />
         <h1 className="names">
           <span className="names-name">{couple.bride}</span>
@@ -29,12 +34,11 @@ export function EntranceRoom({ index }: { index: number }) {
           <span>With regards,</span>
           {couple.families}
         </p>
-      </div>
-      <Scene name="pichwai" />
-      <button type="button" className="scroll-hint" onClick={() => goTo(index + 1)}>
-        Step inside
-        <ChevronDown aria-hidden="true" />
-      </button>
-    </Room>
+        <button type="button" className="scroll-hint" onClick={() => goTo(1)}>
+          Begin
+          <ChevronDown aria-hidden="true" />
+        </button>
+      </TextBlock>
+    </>
   )
 }

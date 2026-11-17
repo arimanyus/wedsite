@@ -1,0 +1,73 @@
+/* ───────────────────────── Matrika Pujan · Art Nouveau ─────────────────────────
+   Component: src/scenes/MatrikaScene.tsx. Frieze: `nouveau` (src/journey/scenes.ts).
+   (a) Backdrop ............ .sky.scene-matrika
+   (b) Sky decorations ..... inside <Sky>: none yet
+   (c) Text block .......... .scene-text.scene-matrika and everything in it
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-matrika */
+
+.scene-matrika {
+  --ink: #f6e7c8;
+  --btn-bg: #e3a83b;
+  --btn-fg: #0a2f3b;
+  --btn-line: #e3a83b;
+  --btn-outline-fg: #f6e7c8;
+  --btn-outline-bg: rgb(10 47 59 / 0.45);
+  --btn-ring: rgb(227 168 59 / 0.5);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-matrika {
+  background:
+    radial-gradient(ellipse 75% 55% at 50% 8%, rgb(47 143 134 / 0.6), transparent 72%),
+    linear-gradient(#0f4a4c, #0a2f3b);
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-matrika {
+  font-family: var(--font-serif);
+}
+
+.scene-matrika .day-label {
+  color: #f3c35f;
+}
+
+.scene-matrika .event-title {
+  color: #f3c35f;
+  font-family: 'Federo', var(--font-serif);
+  font-size: clamp(2.1rem, min(10vw, 8.8dvh), 5.2rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0.04em 0 rgb(6 32 42 / 0.6);
+}
+
+.scene-matrika .event-date {
+  font-size: clamp(1.1rem, 3dvh, 1.65rem);
+  font-style: italic;
+}
+
+.scene-matrika .event-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  font-family: 'Federo', var(--font-serif);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.scene-matrika .event-time::before,
+.scene-matrika .event-time::after {
+  content: '';
+  width: clamp(1em, 6vw, 2.2em);
+  height: 0.5em;
+  border-top: 1.5px solid #e3a83b;
+  border-radius: 50%;
+}
+
+.scene-matrika .btn {
+  font-family: 'Federo', var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}

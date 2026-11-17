@@ -1,18 +1,18 @@
+import { Guide } from '@/components/Guide'
 import { Hud } from '@/components/Hud'
-import { Museum } from '@/components/Museum'
-import { MuseumNav } from '@/components/MuseumNav'
-import { VisitorGuide } from '@/components/VisitorGuide'
-import { MuseumProvider } from '@/museum/MuseumProvider'
+import { Journey } from '@/components/Journey'
+import { SceneNav } from '@/components/SceneNav'
+import { JourneyProvider } from '@/journey/JourneyProvider'
 
 export default function App() {
   return (
-    <MuseumProvider>
+    <JourneyProvider>
       <Hud />
-      <MuseumNav />
+      <SceneNav />
       <main>
-        <Museum />
-        <VisitorGuide />
+        <Journey />
+        <Guide />
       </main>
-    </MuseumProvider>
+    </JourneyProvider>
   )
 }

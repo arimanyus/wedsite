@@ -1,0 +1,35 @@
+@theme {
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Iowan Old Style', 'Times New Roman', serif;
+}
+
+:root {
+  --paper: #f6ecd9;
+  --gold: #9a6b1f;
+  --gold-bright: #c9973a;
+
+  --hud-h: 3.75rem;
+  /* Height of the ground: the strip of friezes along the bottom of the screen. The friezes are 4:1,
+     so 25vw shows one whole frieze across the screen; on tall phones the ground grows, only the
+     centre of a frieze fits, and the camera pans across the rest. */
+  --ground-h: min(max(25vw, 32dvh), 46dvh);
+  /* Space either side of each scene's text block. */
+  --text-pad: clamp(1.25rem, 6vw, 4rem);
+}
+
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: #3b2a14;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+}

@@ -4,16 +4,16 @@ import type { ComponentProps } from 'react'
 
 import { cn } from '@/lib/utils'
 
-// Colours come from CSS variables so each painting can restyle the same button for its era.
+// Colours come from CSS variables so each scene can restyle the same button in its own art style.
 const buttonVariants = cva(
   "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap font-medium outline-none transition-[transform,box-shadow,background-color,color,filter] duration-200 select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
-          'era-btn bg-(--btn-bg) text-(--btn-fg) hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0',
+          'btn bg-(--btn-bg) text-(--btn-fg) hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0',
         outline:
-          'era-btn era-btn-outline border border-(--btn-line,currentColor) bg-(--btn-outline-bg,transparent) text-(--btn-outline-fg,currentColor) hover:-translate-y-0.5 active:translate-y-0',
+          'btn btn-outline border border-(--btn-line,currentColor) bg-(--btn-outline-bg,transparent) text-(--btn-outline-fg,currentColor) hover:-translate-y-0.5 active:translate-y-0',
         ghost: 'text-current hover:bg-current/10',
       },
       size: {

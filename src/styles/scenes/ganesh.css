@@ -1,0 +1,65 @@
+/* ───────────────────────── Ganesh Pujan · Madhubani ─────────────────────────
+   Component: src/scenes/GaneshScene.tsx. Frieze: `madhubani` (src/journey/scenes.ts).
+   (a) Backdrop ............ .sky.scene-ganesh
+   (b) Sky decorations ..... inside <Sky>: none yet
+   (c) Text block .......... .scene-text.scene-ganesh and everything in it
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-ganesh */
+
+.scene-ganesh {
+  --ink: #1a1a1a;
+  --btn-bg: #d7263d;
+  --btn-fg: #fff6e0;
+  --btn-line: #1a1a1a;
+  --btn-outline-fg: #1a1a1a;
+  --btn-outline-bg: #fff6e0;
+  --btn-ring: rgb(26 26 26 / 0.4);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-ganesh {
+  background: #f9bf1f;
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-ganesh {
+  font-family: 'Kalam', var(--font-sans);
+}
+
+.scene-ganesh .event-title {
+  font-size: clamp(2.2rem, min(10.5vw, 9dvh), 5.4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-shadow:
+    0.035em 0.035em 0 #fff6e0,
+    0.075em 0.075em 0 #d7263d;
+}
+
+.scene-ganesh .event-date,
+.scene-ganesh .event-place {
+  font-weight: 700;
+}
+
+.scene-ganesh .event-time {
+  padding: 0.15em 0.9em 0.05em;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  background: #fff6e0;
+  box-shadow:
+    0 0 0 3px #f9bf1f,
+    0 0 0 5px #1a1a1a;
+  font-weight: 700;
+}
+
+.scene-ganesh .btn {
+  padding-top: 0.2em;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 2px #f9bf1f,
+    0 0 0 4px #1a1a1a;
+  font-family: 'Kalam', var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+}

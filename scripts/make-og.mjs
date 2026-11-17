@@ -1,4 +1,4 @@
-// Renders the link-preview image (public/og.jpg) from the entrance painting.
+// Renders the link-preview image (public/og.jpg) from the first screen of the journey.
 // usage: start the dev server, then `node scripts/make-og.mjs [url]`
 import puppeteer from 'puppeteer-core'
 
@@ -12,7 +12,7 @@ await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 })
 await page.goto(url, { waitUntil: 'networkidle0' })
 await page.evaluate(() => document.fonts.ready)
 await page.addStyleTag({
-  content: '.hud, .museum-nav, .scroll-hint, .countdown { display: none !important; }',
+  content: '.hud, .scene-nav, .scroll-hint, .countdown { display: none !important; }',
 })
 await new Promise((resolve) => setTimeout(resolve, 600))
 await page.screenshot({

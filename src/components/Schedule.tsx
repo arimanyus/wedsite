@@ -4,8 +4,8 @@ import { CalendarButton, MapButton } from '@/components/MapButton'
 import { dayParts, events, eventStatus, nextEvent, type WeddingEvent } from '@/data/wedding'
 import { useNow } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
-import { useMuseum } from '@/museum/context'
-import { rooms } from '@/museum/rooms'
+import { useJourney } from '@/journey/context'
+import { sceneIndex } from '@/journey/scenes'
 
 const days = Object.values(
   events.reduce<Record<string, WeddingEvent[]>>((byDay, event) => {
@@ -17,7 +17,7 @@ const days = Object.values(
 
 /** Every celebration, day by day, as on the invitation. The next one is marked. */
 export function Schedule() {
-  const { goTo } = useMuseum()
+  const { goTo } = useJourney()
   const now = useNow(30_000)
   const upNext = nextEvent(now)
 
@@ -47,8 +47,8 @@ export function Schedule() {
                       <h3>
                         <button
                           type="button"
-                          onClick={() => goTo(rooms.findIndex((room) => room.id === event.room))}
-                          title="See the painting"
+                          onClick={() => goTo(sceneIndex(event.scene))}
+                          title="Show this celebration"
                         >
                           {event.title}
                         </button>

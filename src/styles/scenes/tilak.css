@@ -1,0 +1,87 @@
+/* ───────────────────────── Tilak · Mughal miniature ─────────────────────────
+   Component: src/scenes/TilakScene.tsx. Frieze: `mughal` (src/journey/scenes.ts).
+   (a) Backdrop ............ .sky.scene-tilak
+   (b) Sky decorations ..... inside <Sky>: none yet
+   (c) Text block .......... .scene-text.scene-tilak and everything in it
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-tilak */
+
+.scene-tilak {
+  --ink: #4d0d18;
+  --btn-bg: #5a0f1c;
+  --btn-fg: #fbe3a4;
+  --btn-line: #5a0f1c;
+  --btn-outline-fg: #4d0d18;
+  --btn-outline-bg: rgb(251 241 216 / 0.7);
+  --btn-ring: rgb(90 15 28 / 0.4);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-tilak {
+  background:
+    radial-gradient(ellipse 85% 60% at 50% 0%, #fcd873, transparent 72%),
+    linear-gradient(#f7b733, #f08a24);
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-tilak {
+  font-family: var(--font-serif);
+}
+
+.scene-tilak .event-title {
+  color: #5a0f1c;
+  font-family: 'Cinzel Decorative', var(--font-serif);
+  font-size: clamp(1.75rem, min(8vw, 7.2dvh), 4.4rem);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 1px 0 #fbe09a,
+    0 0.06em 0.02em rgb(90 15 28 / 0.25);
+}
+
+.scene-tilak .event-date {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.scene-tilak .event-times li {
+  padding: 0.25rem 0.3rem 0.25rem 1.1rem;
+  border: 1px solid #b8862f;
+  border-radius: 999px;
+  background: rgb(251 241 216 / 0.82);
+  box-shadow: 0 2px 8px rgb(90 15 28 / 0.12);
+}
+
+.scene-tilak .event-times .event-name {
+  font-weight: 700;
+}
+
+.scene-tilak .event-times .event-time {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.scene-tilak .event-times .btn {
+  border: 0;
+  background: #5a0f1c;
+  color: #fbe3a4;
+}
+
+.scene-tilak .event-place {
+  font-weight: 600;
+}
+
+.scene-tilak .btn {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  box-shadow:
+    0 0 0 2px #f6d77c,
+    0 0 0 3px #5a0f1c;
+}
+
+.scene-tilak .event-times .btn,
+.scene-tilak .btn-outline {
+  box-shadow: none;
+}

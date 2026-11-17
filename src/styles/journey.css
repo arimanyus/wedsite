@@ -1,0 +1,221 @@
+/* ───────────────────────── The journey ─────────────────────────
+   The track is very tall and only provides scroll length; the stage inside it stays pinned to the
+   screen. The stage is four planes shared by every scene, back to front. Every element a scene
+   contributes to a plane carries the scene's class, `.scene-<id>`, which is where each scene's
+   file in ./scenes/ styles it. All motion comes from src/journey/timeline.ts as transform and
+   opacity on these elements; nothing here animates. */
+
+.journey {
+  position: relative;
+  /* The provider keeps the scroll position on resize; the browser's own anchoring would fight it. */
+  overflow-anchor: none;
+}
+
+.journey-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+/* ── Plane 1: the sky. One backdrop per scene, stacked in order; each dissolves in over the last. ── */
+
+.sky-plane {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+  will-change: opacity;
+}
+
+/* ── Plane 2: the ground. Every frieze on one strip, overlapping its neighbours a little. ── */
+
+.ground {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--ground-h);
+  pointer-events: none;
+}
+
+/* A box the size of one frieze, centred on the ground, which the camera moves sideways. */
+.frieze-box {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 100%;
+  aspect-ratio: 4 / 1;
+  translate: -50% 0;
+  will-change: transform;
+}
+
+/* Both ends of every frieze fade out (along an S-curve) across --frieze-fade, which is set from
+   FEATHER in timeline.ts. Neighbours overlap by more than one fade, so where one landscape gives
+   way to the next the two fades cross and the ground stays solid. */
+.frieze {
+  --fade-l: var(--frieze-fade);
+  --fade-r: var(--frieze-fade);
+  --mask: linear-gradient(
+    90deg,
+    transparent,
+    rgb(0 0 0 / 0.16) calc(var(--fade-l) * 0.25),
+    rgb(0 0 0 / 0.5) calc(var(--fade-l) * 0.5),
+    rgb(0 0 0 / 0.84) calc(var(--fade-l) * 0.75),
+    #000 var(--fade-l),
+    #000 calc(100% - var(--fade-r)),
+    rgb(0 0 0 / 0.84) calc(100% - var(--fade-r) * 0.75),
+    rgb(0 0 0 / 0.5) calc(100% - var(--fade-r) * 0.5),
+    rgb(0 0 0 / 0.16) calc(100% - var(--fade-r) * 0.25),
+    transparent
+  );
+  -webkit-mask-image: var(--mask);
+  mask-image: var(--mask);
+}
+
+/* The two ends of the whole strip have no neighbour to fade into. The camera stops with them at
+   the screen edge, so they stay sharp, except on screens so wide that a frieze no longer spans
+   them, where they fade into the sky. */
+.frieze-first {
+  --fade-l: var(--edge-fade, 0%);
+}
+
+.frieze-last {
+  --fade-r: var(--edge-fade, 0%);
+}
+
+@media (min-aspect-ratio: 184/100) {
+  .ground {
+    --edge-fade: 7%;
+  }
+}
+
+.frieze-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  user-select: none;
+}
+
+/* Slightly oversized, so leaning against the pointer never uncovers its ends inside the frieze. */
+.frieze-back {
+  scale: 1.02;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+/* The baraat bus, on the highway of the Baraat frieze (and of the trip home in the schedule). On
+   the ground it rides in a frieze-sized box of its own above every frieze. */
+.bus-box {
+  z-index: 2;
+}
+
+.bus {
+  position: absolute;
+  left: 50%;
+  bottom: 7.4%;
+  height: 42%;
+  aspect-ratio: 900 / 420;
+  translate: -50% 0;
+  will-change: transform;
+}
+
+.bus-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  transform-origin: 50% 100%;
+  animation: bus-bob 0.42s ease-in-out infinite alternate;
+}
+
+.bus-img-back {
+  animation-name: bus-bob-back;
+}
+
+@keyframes bus-bob {
+  from {
+    transform: translateY(0) rotate(-0.25deg);
+  }
+  to {
+    transform: translateY(-1.4%) rotate(0.3deg);
+  }
+}
+
+@keyframes bus-bob-back {
+  from {
+    transform: scaleX(-1) translateY(0) rotate(-0.25deg);
+  }
+  to {
+    transform: scaleX(-1) translateY(-1.4%) rotate(0.3deg);
+  }
+}
+
+/* ── Plane 3: decorations in front of the ground and behind the text. ── */
+
+.foreground-plane {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.foreground {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: opacity;
+}
+
+/* ── Plane 4: the text. Each scene's block fills the space between the top bar and the ground. ── */
+
+.text-plane {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.scene-text {
+  position: absolute;
+  top: var(--content-top, var(--hud-h));
+  left: 0;
+  right: 0;
+  height: calc(100% - var(--content-top, var(--hud-h)) - var(--ground-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  gap: clamp(0.3rem, 1.3dvh, 0.85rem);
+  padding: 0 var(--text-pad);
+  color: var(--ink, #3b2a14);
+  text-align: center;
+  pointer-events: auto;
+  will-change: transform, opacity;
+}
+
+.scene-text > * {
+  margin: 0;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bus-img {
+    animation: none;
+  }
+
+  .bus-img-back {
+    transform: scaleX(-1);
+  }
+}

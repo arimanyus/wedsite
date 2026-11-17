@@ -3,9 +3,9 @@
 The wedding website for Mansi and Vivek, 28 November to 3 December 2026.
 Home: [mansiwedsvivek.xyz](https://mansiwedsvivek.xyz)
 
-The site is a museum that travels through time. Each celebration hangs as a painting from a different art era, and you walk from one to the next as you scroll:
+The site is one continuous illustrated journey. As you scroll, the view travels along a single painted landscape, and each celebration has its own stretch of it, drawn in a different art style:
 
-| Celebration | Date | Painted as |
+| Celebration | Date | Drawn as |
 | --- | --- | --- |
 | Welcome | | Pichwai |
 | Tilak Ceremony, Food & Blessings | Sat 28 Nov | Mughal miniature |
@@ -18,7 +18,7 @@ The site is a museum that travels through time. Each celebration hangs as a pain
 
 Along the way there is a live countdown to the ceremony, the full schedule, and for every event an Open in Google Maps button and an Add to Google Calendar button.
 
-After the last painting comes the visitor guide: the day-by-day schedule, the two venues with directions, the baraat's road from Indore to Nanded, and the bus heading home.
+At the end of the journey the wedding's lotus pond runs on into the plan: the day-by-day schedule, the two venues with directions, the baraat's road from Indore to Nanded, and the bus heading home.
 
 ## Run it locally
 
@@ -57,11 +57,14 @@ Everything a guest reads comes from one file, [`src/data/wedding.ts`](src/data/w
 
 ## How it is built
 
-- `src/museum/rooms.ts` lists the galleries and turns the scroll position into each painting's pose: hanging on the wall, walking past, or stepped inside.
-- `src/rooms/` has one component per painting, and `src/index.css` holds each era's typography and colour.
-- `src/components/VisitorGuide.tsx` is the schedule and directions section.
-- `src/art/*.svg` is the artwork, all hand-drawn SVG. Each painting is a 2400 x 600 frieze with a `back` and a `front` group; `scripts/build-art.mjs` splits and optimises them into `src/art/build/` so the two layers can drift apart as you move.
-- Guests who ask their device for reduced motion get a gentle dissolve between paintings instead of the walk.
+- The journey is a pinned stage with three shared planes: the sky (one backdrop per scene, cross-dissolving), the ground (every scene's frieze on one strip, overlapping its neighbours a little) and the text. `src/components/Journey.tsx` and `src/components/Planes.tsx` build it.
+- `src/journey/scenes.ts` lists the scenes in order with their frieze and how long their text stays on screen. `src/journey/timeline.ts` turns the scroll position into everything that moves: where the camera is along the ground, which sky and text are showing, and where the baraat bus is. Its timing constants are at the top of the file.
+- `src/scenes/` has one small component per scene. Each puts its pieces on the planes with `<Sky>`, `<Foreground>` and `<TextBlock>`.
+- `src/index.css` imports the styles in order from `src/styles/`: `journey.css` for the stage, `event.css` for the typography every scene shares, one file per scene in `scenes/` (each lists which selectors set its backdrop, sky decorations, text block and decorations over the frieze), `guide.css` for the plan, `chrome.css` for the top bar and the scene dots, and `responsive.css` last.
+- `src/components/Guide.tsx` is the schedule and directions section after the journey.
+- `src/art/*.svg` is the artwork, all hand-drawn SVG. Each frieze is 2400 x 600 with a `back` and a `front` group; `scripts/build-art.mjs` splits and optimises them into `src/art/build/` so the two layers can drift apart as you move.
+- Guests who ask their device for reduced motion get a gentle dissolve in place between scenes instead of the camera travelling, and no bobbing bus or falling petals.
+- `node scripts/shot.mjs <name> <width> <height> <dpr> <stops> [calm]` takes screenshots of the dev server at chosen points of the journey, for checking the motion.
 
 ## Stack
 

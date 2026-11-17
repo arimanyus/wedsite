@@ -1,0 +1,137 @@
+/* ───────────────────────── Sangeet · Neon retro-future ─────────────────────────
+   Component: src/scenes/SangeetScene.tsx. Frieze: `sangeet` (src/journey/scenes.ts).
+   (a) Backdrop ............ .sky.scene-sangeet
+   (b) Sky decorations ..... inside <Sky>: the stars
+   (c) Text block .......... .scene-text.scene-sangeet and everything in it
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-sangeet */
+
+.scene-sangeet {
+  --ink: #f3e8ff;
+  --btn-bg: transparent;
+  --btn-fg: #ffd9f8;
+  --btn-line: #20e3ff;
+  --btn-outline-fg: #d7faff;
+  --btn-outline-bg: transparent;
+  --btn-ring: rgb(32 227 255 / 0.5);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-sangeet {
+  background: linear-gradient(#0d0221, #2a0845);
+}
+
+/* ── (b) Sky decorations ── */
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 90px 120px, #ffd9f8, transparent),
+    radial-gradient(1.5px 1.5px at 160px 60px, #bff6ff, transparent),
+    radial-gradient(1px 1px at 230px 170px, #fff, transparent),
+    radial-gradient(2px 2px at 280px 20px, #ffe94a, transparent),
+    radial-gradient(1px 1px at 50px 200px, #fff, transparent);
+  background-size: 310px 240px;
+  opacity: 0.8;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  to {
+    opacity: 0.35;
+  }
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-sangeet {
+  font-family: 'Tilt Neon', var(--font-sans);
+}
+
+.scene-sangeet .day-label {
+  color: #20e3ff;
+  text-shadow: 0 0 0.8em rgb(32 227 255 / 0.8);
+}
+
+.scene-sangeet .event-title {
+  color: #fff;
+  font-size: clamp(3.2rem, min(18vw, 13dvh), 8rem);
+  font-weight: 400;
+  line-height: 1;
+  text-shadow:
+    0 0 0.05em #fff,
+    0 0 0.2em #ff2bd6,
+    0 0 0.5em #ff2bd6,
+    0 0 1.1em rgb(255 43 214 / 0.7);
+  animation: neon-flicker 6s linear infinite;
+}
+
+@keyframes neon-flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  24%,
+  55% {
+    opacity: 0.55;
+  }
+}
+
+.scene-sangeet .event-date {
+  color: #ffe94a;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 0.6em rgb(255 233 74 / 0.7);
+}
+
+.scene-sangeet .event-time {
+  color: #d7faff;
+  font-size: clamp(1.25rem, 3.6dvh, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 0.3em #20e3ff,
+    0 0 0.9em rgb(32 227 255 / 0.7);
+}
+
+.scene-sangeet .event-note {
+  padding: 0.3em 1.1em;
+  border: 2px solid #ff4f9a;
+  border-radius: 999px;
+  color: #ffd9f8;
+  box-shadow:
+    0 0 0.9em rgb(255 79 154 / 0.7),
+    inset 0 0 0.9em rgb(255 79 154 / 0.35);
+}
+
+.scene-sangeet .btn {
+  border: 2px solid var(--btn-line);
+  box-shadow:
+    0 0 0.9rem rgb(32 227 255 / 0.65),
+    inset 0 0 0.9rem rgb(32 227 255 / 0.3);
+  font-family: 'Tilt Neon', var(--font-sans);
+  font-size: 1.05rem;
+  text-shadow: 0 0 0.6em currentColor;
+}
+
+.scene-sangeet .btn:not(.btn-outline) {
+  --btn-line: #ff2bd6;
+  box-shadow:
+    0 0 0.9rem rgb(255 43 214 / 0.7),
+    inset 0 0 0.9rem rgb(255 43 214 / 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars,
+  .scene-sangeet .event-title {
+    animation: none;
+  }
+}

@@ -1,0 +1,206 @@
+/* ───────────────────────── The Wedding · Pichwai ─────────────────────────
+   Component: src/scenes/WeddingScene.tsx. Frieze: `pichwai` (src/journey/scenes.ts). Its pond
+   runs off the bottom of the screen into the schedule section (.guide-shore in guide.css).
+   (a) Backdrop ............ .sky.scene-wedding
+   (b) Sky decorations ..... inside <Sky>: the paper corners and the toran
+   (c) Text block .......... .scene-text.scene-wedding and everything in it
+   (d) Over the frieze ..... inside <Foreground>: the falling petals */
+
+.scene-wedding {
+  --ink: #4a3413;
+  --btn-bg: #8a5f17;
+  --btn-fg: #fff8e6;
+  --btn-line: #9a6b1f;
+  --btn-outline-fg: #6f4a10;
+  --btn-outline-bg: rgb(255 250 238 / 0.6);
+  --btn-ring: rgb(154 107 31 / 0.45);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-wedding {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 100%, rgb(203 170 110 / 0.2), transparent 70%),
+    var(--paper);
+}
+
+/* ── (b) Sky decorations ── */
+
+.scene-wedding .paper-corner-br,
+.scene-wedding .paper-corner-bl {
+  display: none;
+}
+
+.toran {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(3.4rem, 11dvh, 7rem);
+  background-position: center top;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  pointer-events: none;
+}
+
+/* ── (c) Text block ── */
+
+/* Starts below the toran. */
+.scene-text.scene-wedding {
+  --content-top: clamp(3.4rem, 11dvh, 7rem);
+  font-family: var(--font-serif);
+}
+
+.scene-wedding .btn {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.scene-wedding .event-date {
+  color: #6b4a14;
+  font-weight: 600;
+}
+
+.wedding-kicker {
+  font-size: clamp(1rem, 2.8dvh, 1.5rem);
+  font-style: italic;
+}
+
+.scene-wedding .names {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.3em;
+  color: #8a5f17;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.scene-wedding .names-name {
+  font-size: clamp(2.1rem, min(10.5vw, 8.5dvh), 5.6rem);
+  letter-spacing: 0.01em;
+}
+
+.scene-wedding .names-weds {
+  color: #a67a2b;
+  font-size: clamp(1.05rem, min(5vw, 4dvh), 2.4rem);
+  font-style: italic;
+}
+
+.wedding-when {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.5em;
+}
+
+.wedding-when span {
+  white-space: nowrap;
+}
+
+.wedding-when span:first-child::after {
+  content: '·';
+  margin-left: 0.5em;
+}
+
+/* On a phone the date and time sit on two lines, where a trailing dot would dangle. */
+@media (max-width: 480px) {
+  .wedding-when {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wedding-when span:first-child::after {
+    content: none;
+  }
+}
+
+.scene-wedding .countdown {
+  display: flex;
+  gap: clamp(0.35rem, 1.6vw, 0.9rem);
+}
+
+.scene-wedding .countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: clamp(3.3rem, 14vw, 5.4rem);
+  padding: 0.75em 0.3em 0.45em;
+  border: 1px solid rgb(154 107 31 / 0.6);
+  border-radius: 999px 999px 0.6rem 0.6rem;
+  background: rgb(255 250 238 / 0.82);
+  box-shadow:
+    inset 0 0 0 3px var(--paper),
+    inset 0 0 0 4px rgb(154 107 31 / 0.3),
+    0 4px 14px rgb(96 62 10 / 0.12);
+}
+
+.scene-wedding .countdown-value {
+  color: #7a4f10;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 4.6dvh, 2.5rem);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.scene-wedding .countdown-label {
+  color: #8b6a36;
+  font-family: var(--font-sans);
+  font-size: clamp(0.5rem, 1.3dvh, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scene-wedding .countdown-over {
+  color: #8a5f17;
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 5dvh, 2.6rem);
+  font-style: italic;
+}
+
+/* ── (d) Over the frieze: petals drifting down across the whole screen ── */
+
+.petals {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.petals span {
+  position: absolute;
+  top: -6%;
+  width: calc(13px * var(--petal-size, 1));
+  height: calc(19px * var(--petal-size, 1));
+  border-radius: 80% 10% 80% 10%;
+  background: radial-gradient(ellipse at 30% 30%, #f8d5cf, #e58a8a 75%);
+  opacity: 0.85;
+  animation: petal-fall 14s linear infinite;
+}
+
+.petals span:nth-child(3n) {
+  background: radial-gradient(ellipse at 30% 30%, #f9d36a, #ee8f24 75%);
+}
+
+@keyframes petal-fall {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(9vw, 115dvh, 0) rotate(560deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petals {
+    display: none;
+  }
+}

@@ -1,0 +1,178 @@
+/* ───────────────────────── Shared event typography ─────────────────────────
+   The elements every scene's text block is built from (see EventDetails.tsx). These are the
+   defaults; each scene's file in ./scenes/ restyles them in its own art style under `.scene-<id>`. */
+
+.day-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.8em;
+  font-family: var(--font-sans);
+  font-size: clamp(0.6rem, 1.5dvh, 0.76rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+.day-label span {
+  white-space: nowrap;
+}
+
+.day-label span:first-child::after {
+  content: '·';
+  margin-left: 0.8em;
+}
+
+.event-title {
+  font-size: clamp(2rem, min(9vw, 8.5dvh), 5rem);
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.event-date {
+  font-size: clamp(0.95rem, min(4.7vw, 2.7dvh), 1.5rem);
+  line-height: 1.15;
+}
+
+.event-time {
+  font-size: clamp(1.1rem, 3.1dvh, 1.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.event-times {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0;
+  list-style: none;
+}
+
+.event-times li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.event-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.7rem;
+  line-height: 1.15;
+}
+
+.event-times .event-time,
+.event-times .event-name {
+  font-size: clamp(0.95rem, 2.4dvh, 1.3rem);
+  white-space: nowrap;
+}
+
+.event-place {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: clamp(0.9rem, 2.3dvh, 1.2rem);
+  line-height: 1.2;
+}
+
+.event-place svg {
+  flex: none;
+  width: 1em;
+  height: 1em;
+}
+
+.event-note {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: clamp(0.82rem, min(4vw, 2.3dvh), 1.2rem);
+  line-height: 1.2;
+}
+
+.event-note-label {
+  font-size: 0.72em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  padding-top: clamp(0.1rem, 0.8dvh, 0.5rem);
+}
+
+/* ───────────────────────── Buttons ─────────────────────────
+   `.btn` and `.btn-outline` come from components/ui/button.tsx and take their colours from the
+   --btn-* variables each scene sets. */
+
+.btn {
+  border-radius: 999px;
+}
+
+[data-slot='button']:focus-visible {
+  outline: 3px solid var(--btn-ring, currentColor);
+  outline-offset: 2px;
+}
+
+/* ───────────────────────── Shared ornaments ─────────────────────────
+   Structure only; sizes and colours are set where they are used. */
+
+.ganesha-mark {
+  width: auto;
+  height: clamp(2.2rem, 6.5dvh, 3.6rem);
+}
+
+.divider {
+  width: auto;
+  height: clamp(0.9rem, 2.4dvh, 1.4rem);
+}
+
+.divider-fallback {
+  width: 8rem;
+  border: 0;
+  border-top: 1px solid var(--gold-bright);
+}
+
+.paper-corners {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.paper-corner {
+  position: absolute;
+  width: clamp(5.5rem, 17vw, 12rem);
+  max-width: none;
+  aspect-ratio: 1;
+}
+
+.paper-corner-tl {
+  top: 0;
+  left: 0;
+}
+
+.paper-corner-tr {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.paper-corner-br {
+  right: 0;
+  bottom: 0;
+  transform: scale(-1);
+}
+
+.paper-corner-bl {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}

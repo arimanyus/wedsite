@@ -1,0 +1,497 @@
+/* ───────────────────────── The plan (after the journey) ─────────────────────────
+   Component: src/components/Guide.tsx. The stage un-pins and scrolls away above this section, so
+   its top edge meets the bottom of the wedding scene's Pichwai frieze. That frieze ends in a band
+   of lotus-pond water; .guide-shore carries the same water on for a moment, and the page comes
+   out of it onto the invitation's paper. */
+
+.guide {
+  --ink: #4a3413;
+  --btn-bg: #8a5f17;
+  --btn-fg: #fff8e6;
+  --btn-line: #9a6b1f;
+  --btn-outline-fg: #6f4a10;
+  --btn-outline-bg: rgb(255 250 238 / 0.6);
+  --btn-ring: rgb(154 107 31 / 0.45);
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+}
+
+.guide .btn {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── The shore: the frieze's pond water, continued ──
+   The ripple tile is the `pWave` pattern of src/art/pichwai.svg (22 x 9 units of a 600-unit-tall
+   frieze), scaled to the frieze's height and placed in phase with it: the frieze is centred on
+   the screen when the stage lets go, and its bottom edge (y = 600) falls 6 units into a tile. */
+
+.guide-shore {
+  --unit: calc(var(--ground-h) / 600);
+  position: relative;
+  height: clamp(1.6rem, 3.6vw, 2.6rem);
+  background-color: #245a70;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 9'%3E%3Cpath d='M0,6 Q5.5,1 11,6 T22,6' fill='none' stroke='%23bfe0dc' stroke-opacity='.55' stroke-width='.9'/%3E%3Cpath d='M-11,1.5 Q-5.5,-3 0,1.5 T11,1.5 T22,1.5' fill='none' stroke='%239cc9c9' stroke-opacity='.35' stroke-width='.7'/%3E%3C/svg%3E");
+  background-position: calc(50% - var(--unit) * (1200 - 11)) calc(var(--unit) * -6);
+  background-size: calc(var(--unit) * 22) calc(var(--unit) * 9);
+}
+
+/* The bank: a row of paper scallops edged in gold, rising out of the water. */
+.guide-shore::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.75rem;
+  background: radial-gradient(
+      circle 0.75rem at 50% 100%,
+      var(--paper) 0.62rem,
+      var(--gold) 0.62rem 0.72rem,
+      transparent 0.74rem
+    )
+    center bottom / 1.5rem 100% repeat-x;
+}
+
+/* ── The schedule and the venues ── */
+
+.guide-paper {
+  position: relative;
+  padding: clamp(4.2rem, 10vw, 7rem) max(clamp(1rem, 5vw, 5rem), calc((100% - 52rem) / 2))
+    clamp(3rem, 7vw, 5rem);
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 85% 100%, rgb(203 170 110 / 0.2), transparent 70%);
+}
+
+.guide-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.75rem);
+  text-align: center;
+}
+
+.guide-header h2 {
+  margin: 0;
+  color: #8a5f17;
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.guide-eyebrow {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.guide-dates {
+  margin: 0;
+  color: #6b4a14;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.guide-sub {
+  margin: 0;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.guide-header-way {
+  margin-top: clamp(3rem, 8vw, 5rem);
+}
+
+.guide-lotus {
+  width: 4.2rem;
+}
+
+.schedule {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-day {
+  display: grid;
+  grid-template-columns: clamp(4.2rem, 16vw, 8rem) 1fr;
+  gap: clamp(1.4rem, 4vw, 2.6rem);
+}
+
+.schedule-date {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.15rem;
+  text-align: right;
+}
+
+.schedule-date-day {
+  color: #6b4a14;
+  font-size: clamp(1.05rem, 3.6vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.schedule-date-weekday {
+  font-size: clamp(0.9rem, 3vw, 1.15rem);
+  font-style: italic;
+}
+
+.schedule-events {
+  position: relative;
+  display: grid;
+  border-left: 1.5px solid var(--gold-bright);
+  padding-left: clamp(1rem, 3.5vw, 2rem);
+}
+
+/* The ring on the timeline for each day. */
+.schedule-events::before {
+  content: '';
+  position: absolute;
+  top: 1.45rem;
+  left: -0.42rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.schedule-event {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.25rem;
+  padding: 1rem 0;
+}
+
+.schedule-day:not(:last-child) .schedule-event:last-child {
+  border-bottom: 1px solid rgb(154 107 31 / 0.28);
+}
+
+.schedule-event-text {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.schedule-event h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.7rem;
+  margin: 0;
+  font-size: clamp(1.4rem, 4.6vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.schedule-event h3 button {
+  text-align: left;
+  text-decoration: underline transparent;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color 0.2s;
+}
+
+.schedule-event h3 button:hover,
+.schedule-event h3 button:focus-visible {
+  outline: none;
+  text-decoration-color: var(--gold-bright);
+}
+
+.schedule-badge {
+  padding: 0.3em 0.75em;
+  border-radius: 999px;
+  background: #b8432f;
+  color: #fff8e6;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.schedule-time {
+  margin: 0.15rem 0 0;
+  font-size: clamp(1.1rem, 3.6vw, 1.3rem);
+  font-weight: 600;
+}
+
+.schedule-note {
+  margin: 0;
+  font-size: 1.08rem;
+  font-style: italic;
+}
+
+.schedule-place {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.15rem 0 0;
+  font-size: 1.05rem;
+}
+
+.schedule-place svg {
+  flex: none;
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--gold);
+}
+
+.schedule-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.schedule-event.is-done {
+  opacity: 0.55;
+}
+
+.schedule-event.is-next {
+  margin: 0.35rem -0.75rem;
+  padding: 1rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgb(255 250 238 / 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgb(154 107 31 / 0.4),
+    0 6px 20px rgb(96 62 10 / 0.1);
+}
+
+.venues {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 760px) {
+  .venues {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+}
+
+.venue-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid rgb(154 107 31 / 0.45);
+  border-radius: 12rem 12rem 0.75rem 0.75rem;
+  background: rgb(255 250 238 / 0.85);
+  box-shadow:
+    inset 0 0 0 5px var(--paper),
+    inset 0 0 0 6px rgb(154 107 31 / 0.25);
+  text-align: center;
+}
+
+.venue-card-dates {
+  margin: 1.5rem 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.venue-card h3 {
+  margin: 0;
+  color: #8a5f17;
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.venue-card-address {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.venue-card-events {
+  flex: 1;
+  margin: 0.3rem 0 0.9rem;
+  padding: 0;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.35;
+  list-style: none;
+}
+
+.venues-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.venues-link-line {
+  width: 2rem;
+  border-top: 2px dashed var(--gold-bright);
+}
+
+@media (min-width: 760px) {
+  .venues-link {
+    flex-direction: column;
+  }
+
+  .venues-link-line {
+    width: 0;
+    height: 2.2rem;
+    border-top: 0;
+    border-left: 2px dashed var(--gold-bright);
+  }
+}
+
+/* ── The drive home: the Baraat scene's highway once more, across the full width ── */
+
+.homeward {
+  position: relative;
+  height: calc(var(--ground-h) + 13.5rem);
+  overflow: hidden;
+  background: #ffc21f;
+  color: #151515;
+  isolation: isolate;
+}
+
+.homeward-sky {
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(from 0deg at 50% 66%, #ffd21f 0 7.5deg, #ffb000 7.5deg 15deg);
+}
+
+.homeward-sky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 66%, rgb(255 255 255 / 0.55), transparent 55%);
+}
+
+.homeward-text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1.5rem 0;
+  text-align: center;
+}
+
+.homeward-text p {
+  max-width: 30rem;
+  margin: 0;
+  font-family: 'Yatra One', var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.homeward-text .homeward-kicker {
+  font-family: 'Bungee', var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+}
+
+.homeward h2 {
+  margin: 0;
+  color: #e3172a;
+  font-family: 'Bungee Shade', 'Bungee', var(--font-sans);
+  font-size: clamp(1.5rem, 6vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+}
+
+.bus-route {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--ground-h);
+  pointer-events: none;
+}
+
+.bus-route-world {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  aspect-ratio: 4 / 1;
+  will-change: transform;
+}
+
+/* On very wide, short screens the road no longer reaches the edges, so its ends fade out. */
+@media (min-aspect-ratio: 184/100) {
+  .bus-route-world {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+}
+
+/* ── Footer ── */
+
+.guide-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: clamp(3rem, 8vw, 5rem) 1rem clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+}
+
+.guide-footer .ganesha-mark {
+  height: 3rem;
+}
+
+.guide-footer .names {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  margin: 0;
+  color: #8a5f17;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.guide-footer .names-name {
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  letter-spacing: 0.01em;
+}
+
+.guide-footer .names-weds {
+  color: #a67a2b;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-style: italic;
+}
+
+.guide-footer-regards {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0.6rem;
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.guide-footer-regards span {
+  font-style: italic;
+  opacity: 0.8;
+}

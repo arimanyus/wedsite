@@ -1,0 +1,115 @@
+/* ───────────────────────── Pool Party Carnival · Pop art ─────────────────────────
+   Component: src/scenes/PoolScene.tsx. Frieze: `pool` (src/journey/scenes.ts).
+   (a) Backdrop ............ .sky.scene-pool
+   (b) Sky decorations ..... inside <Sky>: the halftone dots
+   (c) Text block .......... .scene-text.scene-pool and everything in it
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-pool */
+
+.scene-pool {
+  --ink: #111;
+  --btn-bg: #ffe14d;
+  --btn-fg: #111;
+  --btn-line: #111;
+  --btn-outline-fg: #111;
+  --btn-outline-bg: #fff;
+  --btn-ring: rgb(17 17 17 / 0.4);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-pool {
+  background: #4cc3f5;
+}
+
+/* ── (b) Sky decorations ── */
+
+.halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, rgb(255 255 255 / 0.8) 0 24%, transparent 26%);
+  background-size: 16px 16px;
+  -webkit-mask-image: linear-gradient(125deg, #000, transparent 58%);
+  mask-image: linear-gradient(125deg, #000, transparent 58%);
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-pool {
+  font-family: var(--font-sans);
+}
+
+.scene-pool .day-label {
+  padding: 0.25em 0.9em;
+  background: #111;
+  color: #fff;
+  opacity: 1;
+}
+
+.scene-pool .event-title {
+  color: #fff;
+  font-family: 'Bangers', var(--font-sans);
+  font-size: clamp(2.5rem, min(12.5vw, 10.5dvh), 6.4rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  paint-order: stroke fill;
+  rotate: -3deg;
+  text-shadow:
+    0.05em 0.05em 0 #111,
+    0.1em 0.1em 0 #ff2d87;
+  -webkit-text-stroke: 0.045em #111;
+}
+
+.scene-pool .event-date,
+.scene-pool .event-time {
+  padding: 0.2em 0.8em;
+  border: 3px solid #111;
+  background: #ffe14d;
+  box-shadow: 4px 4px 0 #111;
+  font-weight: 600;
+}
+
+.scene-pool .event-time {
+  background: #fff;
+  rotate: 1.5deg;
+}
+
+.scene-pool .event-place {
+  font-weight: 600;
+}
+
+.scene-pool .event-note {
+  position: relative;
+  white-space: nowrap;
+  padding: 0.1em 1em 0.05em;
+  border: 3px solid #111;
+  border-radius: 999px;
+  background: #ff5fa2;
+  color: #fff;
+  box-shadow: 4px 4px 0 #111;
+  font-family: 'Bangers', var(--font-sans);
+  font-size: clamp(1.1rem, 3dvh, 1.6rem);
+  letter-spacing: 0.05em;
+  rotate: -1.5deg;
+}
+
+.scene-pool .event-note-label {
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  opacity: 1;
+}
+
+.scene-pool .btn {
+  border: 3px solid #111;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #111;
+  font-family: 'Bangers', var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.scene-pool .btn:active {
+  translate: 3px 3px;
+  box-shadow: 1px 1px 0 #151515;
+}

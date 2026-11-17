@@ -1,5 +1,5 @@
 // Everything guests need to know lives here. Change a time, a venue or a link in this file and
-// every room, the schedule, the countdown and the calendar links follow.
+// every scene, the schedule, the countdown and the calendar links follow.
 
 export const couple = {
   bride: 'Mansi',
@@ -47,7 +47,7 @@ export const venues: Record<VenueId, Venue> = {
   },
 }
 
-export type RoomId =
+export type SceneId =
   | 'entrance'
   | 'tilak'
   | 'ganesh'
@@ -60,8 +60,8 @@ export type RoomId =
 export interface WeddingEvent {
   id: string
   title: string
-  /** The room (painting) this event hangs in. */
-  room: Exclude<RoomId, 'entrance'>
+  /** The scene of the journey this event appears in. */
+  scene: Exclude<SceneId, 'entrance'>
   start: IstDateTime
   /**
    * The invitation gives an end time only for the Tilak. For everything else this is a sensible
@@ -80,7 +80,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'tilak',
     title: 'Tilak Ceremony',
-    room: 'tilak',
+    scene: 'tilak',
     start: '2026-11-28T13:00',
     end: '2026-11-28T15:00',
     timeLabel: '1:00 – 3:00 PM',
@@ -90,7 +90,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'food-blessings',
     title: 'Food & Blessings',
-    room: 'tilak',
+    scene: 'tilak',
     start: '2026-11-28T19:00',
     end: '2026-11-28T22:00',
     timeLabel: '7:00 PM onwards',
@@ -100,7 +100,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'ganesh-pujan',
     title: 'Ganesh Pujan',
-    room: 'ganesh',
+    scene: 'ganesh',
     start: '2026-11-29T10:00',
     end: '2026-11-29T13:00',
     timeLabel: '10:00 AM onwards',
@@ -110,7 +110,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'matrika-pujan',
     title: 'Matrika Pujan',
-    room: 'matrika',
+    scene: 'matrika',
     start: '2026-11-30T10:00',
     end: '2026-11-30T13:00',
     timeLabel: '10:00 AM onwards',
@@ -120,7 +120,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'baraat',
     title: 'Baraat Prasthan',
-    room: 'baraat',
+    scene: 'baraat',
     start: '2026-12-01T17:00',
     end: '2026-12-01T18:00',
     timeLabel: '5:00 PM',
@@ -131,7 +131,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'pool-party',
     title: 'Pool Party Carnival',
-    room: 'pool',
+    scene: 'pool',
     start: '2026-12-02T09:00',
     end: '2026-12-02T13:00',
     timeLabel: '9:00 AM onwards',
@@ -142,7 +142,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'sangeet',
     title: 'Sangeet',
-    room: 'sangeet',
+    scene: 'sangeet',
     start: '2026-12-02T19:00',
     end: '2026-12-02T23:00',
     timeLabel: '7:00 PM onwards',
@@ -153,7 +153,7 @@ export const events: WeddingEvent[] = [
   {
     id: 'wedding',
     title: 'Wedding Ceremony',
-    room: 'wedding',
+    scene: 'wedding',
     start: '2026-12-03T11:00',
     end: '2026-12-03T15:00',
     timeLabel: '11:00 AM onwards',
@@ -170,8 +170,8 @@ export function toDate(value: IstDateTime): Date {
 
 export const weddingStart = toDate(weddingEvent.start)
 
-export function eventsInRoom(room: RoomId): WeddingEvent[] {
-  return events.filter((event) => event.room === room)
+export function eventsInScene(scene: SceneId): WeddingEvent[] {
+  return events.filter((event) => event.scene === scene)
 }
 
 const dayFormat = new Intl.DateTimeFormat('en-IN', {

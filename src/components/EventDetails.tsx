@@ -2,31 +2,33 @@ import { MapPin } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 import { CalendarButton, MapButton } from '@/components/MapButton'
-import { eventsInRoom, formatDay, type RoomId } from '@/data/wedding'
-import { rooms } from '@/museum/rooms'
+import { events, eventsInScene, formatDay, venues, type SceneId, type WeddingEvent } from '@/data/wedding'
 
-/** The label every painting carries: which gallery this is and which era it was painted in. */
-export function EraLabel({ room }: { room: RoomId }) {
-  const def = rooms.find((candidate) => candidate.id === room)!
+const DAY_MS = 86_400_000
+const dayOf = (event: WeddingEvent) => Date.parse(event.start.slice(0, 10))
+const firstDay = Math.min(...events.map(dayOf))
+
+/** "Day 1 · Indore": which day of the celebrations an event falls on, and in which city. */
+export function DayLabel({ event }: { event: WeddingEvent }) {
   return (
-    <p className="era-label">
-      <span>Gallery {def.gallery}</span>
-      <span>{def.era}</span>
+    <p className="day-label">
+      <span>Day {Math.round((dayOf(event) - firstDay) / DAY_MS) + 1}</span>
+      <span>{venues[event.venue].city}</span>
     </p>
   )
 }
 
 /**
- * Title, date, time, place and the two actions for the event (or events) shown in a room.
- * Each room restyles these same elements for its era in CSS.
+ * Title, date, time, place and the two actions for the event (or events) of a scene. Each scene
+ * restyles these same elements in its own art style in CSS.
  */
-export function EventDetails({ room, children }: { room: Exclude<RoomId, 'entrance'>; children?: ReactNode }) {
-  const list = eventsInRoom(room)
+export function EventDetails({ scene, children }: { scene: Exclude<SceneId, 'entrance'>; children?: ReactNode }) {
+  const list = eventsInScene(scene)
   const main = list[0]
 
   return (
     <>
-      <EraLabel room={room} />
+      <DayLabel event={main} />
       <h2 className="event-title">{main.title}</h2>
       <p className="event-date">{formatDay(main)} 2026</p>
 

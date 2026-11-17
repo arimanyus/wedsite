@@ -1,0 +1,70 @@
+/* ───────────────────────── Short screens (small laptops, phones held sideways) ───────────────────────── */
+
+@media (max-height: 720px) {
+  .entrance-tagline,
+  .scene-text .divider,
+  .wedding-kicker {
+    display: none;
+  }
+}
+
+/* A phone held sideways has no room to stack text above the ground, so the text takes the left
+   half of the screen and the ground the right half, where it fades in from the text side. */
+@media (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --hud-h: 3.1rem;
+    --ground-h: 72dvh;
+  }
+
+  .scene-text.scene-wedding {
+    --content-top: var(--hud-h);
+  }
+
+  .scene-text {
+    right: auto;
+    width: 52%;
+    height: calc(100% - var(--content-top, var(--hud-h)));
+    gap: 0.3rem;
+    padding: 0 0.5rem 0.4rem max(1.25rem, env(safe-area-inset-left));
+  }
+
+  .ground {
+    left: 48%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%);
+    mask-image: linear-gradient(90deg, transparent, #000 14%);
+  }
+
+  /* The ground's centre is 74% of the way across, so the frieze's ripples are placed from there. */
+  .guide-shore {
+    background-position-x: calc(74% - var(--unit) * (1200 - 16.28));
+  }
+
+  /* The drive home keeps the road at its usual height. */
+  .homeward {
+    height: calc(46dvh + 13.5rem);
+  }
+
+  .homeward .bus-route {
+    height: 46dvh;
+  }
+
+  .day-label,
+  .scene-text .ganesha-mark,
+  .entrance-regards,
+  .route-line,
+  .toran,
+  .scroll-hint {
+    display: none;
+  }
+
+  .scene-text .countdown-unit {
+    min-width: 3.1rem;
+    padding: 0.6em 0.2em 0.35em;
+  }
+
+  .btn.h-11 {
+    height: 2.4rem;
+    padding-inline: 0.9rem;
+  }
+}

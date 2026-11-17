@@ -1,7 +1,7 @@
 // Screenshots of the running dev server at chosen scroll positions (a development tool).
 // usage: node scripts/shot.mjs <name> <width> <height> <dpr> <stop>[,<stop>...] [calm]
 // output: $SHOT_DIR/<name>-<stop>.png (default /tmp/shots). `calm` emulates prefers-reduced-motion.
-// stop: a number = museum t (screen heights), "guide", "guide+<px>", "end"
+// stop: a number = journey t (screen heights), "guide", "guide+<px>", "end"
 import puppeteer from 'puppeteer-core'
 
 const [name, w, h, dpr, stops, extra] = process.argv.slice(2)
@@ -20,7 +20,7 @@ await page.goto(url, { waitUntil: 'networkidle0' })
 await page.evaluate(() => document.fonts.ready)
 for (const stop of stops.split(',')) {
   await page.evaluate((stop) => {
-    const track = document.querySelector('.museum')
+    const track = document.querySelector('.journey')
     const top = track.getBoundingClientRect().top + window.scrollY
     const length = track.offsetHeight - window.innerHeight
     const total = (track.offsetHeight / window.innerHeight) - 1

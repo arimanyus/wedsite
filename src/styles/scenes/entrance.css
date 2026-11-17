@@ -1,0 +1,211 @@
+/* ───────────────────────── Entrance · Pichwai ─────────────────────────
+   Component: src/scenes/EntranceScene.tsx. Frieze: `pichwai` (src/journey/scenes.ts).
+   (a) Backdrop ............ .sky.scene-entrance
+   (b) Sky decorations ..... inside <Sky>: the paper corners
+   (c) Text block .......... .scene-text.scene-entrance and everything in it
+   (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-entrance */
+
+.scene-entrance {
+  --ink: #4a3413;
+  --btn-bg: #8a5f17;
+  --btn-fg: #fff8e6;
+  --btn-line: #9a6b1f;
+  --btn-outline-fg: #6f4a10;
+  --btn-outline-bg: rgb(255 250 238 / 0.6);
+  --btn-ring: rgb(154 107 31 / 0.45);
+}
+
+/* ── (a) Backdrop ── */
+
+.sky.scene-entrance {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 100%, rgb(203 170 110 / 0.2), transparent 70%),
+    var(--paper);
+}
+
+/* ── (b) Sky decorations: flower sprigs in the top corners of the invitation ── */
+
+.scene-entrance .paper-corner-br,
+.scene-entrance .paper-corner-bl {
+  display: none;
+}
+
+/* ── (c) Text block ── */
+
+.scene-text.scene-entrance {
+  font-family: var(--font-serif);
+}
+
+.scene-entrance .btn {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.scene-entrance .names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8a5f17;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 0.92;
+}
+
+.scene-entrance .names-name {
+  font-size: clamp(2.8rem, min(16vw, 10.5dvh), 6.5rem);
+  letter-spacing: 0.01em;
+}
+
+.scene-entrance .names-weds {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0.08em 0 0.16em;
+  color: #a67a2b;
+  font-size: clamp(1.1rem, min(5.5vw, 3.6dvh), 2.2rem);
+  font-style: italic;
+}
+
+.scene-entrance .names-weds::before,
+.scene-entrance .names-weds::after {
+  content: '';
+  width: 1.7em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  .scene-entrance .names {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.3em;
+    line-height: 1;
+  }
+
+  .scene-entrance .names-weds {
+    margin: 0;
+  }
+
+  .scene-entrance .names-weds::before,
+  .scene-entrance .names-weds::after {
+    display: none;
+  }
+}
+
+.entrance-dates {
+  color: #6b4a14;
+  font-size: clamp(0.8rem, min(3.7vw, 2.6dvh), 1.45rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.entrance-tagline {
+  font-size: clamp(0.85rem, min(4vw, 2.4dvh), 1.3rem);
+  font-style: italic;
+}
+
+.entrance-regards {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.95rem, 2.4dvh, 1.25rem);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.entrance-regards span {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.scene-entrance .countdown {
+  display: flex;
+  gap: clamp(0.35rem, 1.6vw, 0.9rem);
+}
+
+.scene-entrance .countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: clamp(3.3rem, 14vw, 5.4rem);
+  padding: 0.75em 0.3em 0.45em;
+  border: 1px solid rgb(154 107 31 / 0.6);
+  /* An arch, like the doorways of the pavilion in the frieze. */
+  border-radius: 999px 999px 0.6rem 0.6rem;
+  background: rgb(255 250 238 / 0.82);
+  box-shadow:
+    inset 0 0 0 3px var(--paper),
+    inset 0 0 0 4px rgb(154 107 31 / 0.3),
+    0 4px 14px rgb(96 62 10 / 0.12);
+}
+
+.scene-entrance .countdown-value {
+  color: #7a4f10;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 4.6dvh, 2.5rem);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.scene-entrance .countdown-label {
+  color: #8b6a36;
+  font-family: var(--font-sans);
+  font-size: clamp(0.5rem, 1.3dvh, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scene-entrance .countdown-over {
+  color: #8a5f17;
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 5dvh, 2.6rem);
+  font-style: italic;
+}
+
+/* The "Begin" button sits at the foot of the screen, over the frieze. The text block ends where
+   the ground begins, so it reaches down by the ground's height. */
+.scroll-hint {
+  position: absolute;
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) - var(--ground-h));
+  left: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.9rem 0.45rem 1.15rem;
+  border-radius: 999px;
+  background: rgb(255 250 238 / 0.94);
+  color: #6f4a10;
+  box-shadow: 0 4px 18px rgb(60 35 5 / 0.3);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  animation: hint-bob 2.2s ease-in-out infinite;
+}
+
+.scroll-hint svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+@keyframes hint-bob {
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    animation: none;
+  }
+}
+
+/* ── (d) Over the frieze: nothing yet ── */

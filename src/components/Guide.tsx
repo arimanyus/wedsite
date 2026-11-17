@@ -8,7 +8,7 @@ import { Divider, GaneshaMark, Lotus, PaperCorners } from '@/components/Ornament
 import { Schedule } from '@/components/Schedule'
 import { Button } from '@/components/ui/button'
 import { couple, events, formatShortDay, routeUrl, venues, type VenueId } from '@/data/wedding'
-import { useMuseum } from '@/museum/context'
+import { useJourney } from '@/journey/context'
 
 function VenueCard({ id }: { id: VenueId }) {
   const venue = venues[id]
@@ -33,21 +33,27 @@ function VenueCard({ id }: { id: VenueId }) {
   )
 }
 
-/** The exit hall: the full programme, both venues with directions, and the bus ride home. */
-export function VisitorGuide() {
-  const { afterRef, goTo } = useMuseum()
+/**
+ * After the journey: the full programme, both venues with directions, and the bus ride home. The
+ * stage un-pins above it and this section scrolls up under the last frieze; its top edge carries
+ * on that frieze's lotus pond.
+ */
+export function Guide() {
+  const { afterRef, goTo } = useJourney()
   const road = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: road, offset: ['start end', 'end start'] })
   const homeward = useTransform(scrollYProgress, [0.12, 0.88], [0, 1], { clamp: true })
 
   return (
     <section ref={afterRef} id="guide" className="guide">
+      <div className="guide-shore" aria-hidden="true" />
+
       <div className="guide-paper">
         <PaperCorners />
 
         <header className="guide-header">
           <GaneshaMark />
-          <p className="guide-eyebrow">Visitor guide</p>
+          <p className="guide-eyebrow">The plan</p>
           <h2>The Celebrations</h2>
           <p className="guide-dates">{couple.dateRange}</p>
           <Divider />
@@ -83,7 +89,7 @@ export function VisitorGuide() {
       </div>
 
       <div ref={road} className="homeward">
-        <div className="sunburst" aria-hidden="true" />
+        <div className="homeward-sky" aria-hidden="true" />
         <div className="homeward-text">
           <p className="homeward-kicker">
             {venues.nanded.city} <span aria-hidden="true">→</span> {venues.indore.city}
@@ -107,7 +113,7 @@ export function VisitorGuide() {
         </p>
         <Button variant="outline" size="sm" onClick={() => goTo(0)}>
           <ArrowUp aria-hidden="true" />
-          Back to the entrance
+          Back to the top
         </Button>
       </footer>
     </section>
