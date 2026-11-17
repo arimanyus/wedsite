@@ -7,6 +7,22 @@
   }
 }
 
+/* The narrowest phones: keep the two buttons side by side, so the text block stays clear of the ground. */
+@media (max-width: 350px) {
+  .scene-text .event-actions,
+  .scene-text .matrika-actions {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  .scene-text .event-actions .btn,
+  .scene-text .matrika-actions .btn {
+    padding-inline: 0.7rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+}
+
 /* A phone held sideways has no room to stack text above the ground, so the text takes the left
    half of the screen and the ground the right half, where it fades in from the text side. */
 @media (max-height: 520px) and (orientation: landscape) {
