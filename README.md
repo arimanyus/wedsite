@@ -39,7 +39,13 @@ The dev server runs at http://localhost:4826.
 | `npm run lint` | Lints with oxlint |
 | `npm run art` | Rebuilds the artwork layers (runs automatically before `dev` and `build`) |
 
-`dist/` is plain static files, so it can go on any static host (Vercel, Netlify, Cloudflare Pages, GitHub Pages). Point `mansiwedsvivek.xyz` at whichever one you use.
+## Deploying
+
+The site is hosted on GitHub Pages at `mansiwedsvivek.xyz`. Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds the site and publishes `dist/`.
+
+One-time setup in the GitHub repository: **Settings → Pages → Build and deployment → Source: GitHub Actions**, with `mansiwedsvivek.xyz` as the custom domain. With the source left on "Deploy from a branch", Pages serves the raw source files and the page stays blank.
+
+`dist/` is plain static files, so it can go on any other static host (Vercel, Netlify, Cloudflare Pages) just as well.
 
 ## Changing the details
 
