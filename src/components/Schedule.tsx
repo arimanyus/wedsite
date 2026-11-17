@@ -1,81 +1,79 @@
-import { MapPin } from 'lucide-react'
+import { Fragment } from 'react'
 
-import { CalendarButton, MapButton } from '@/components/MapButton'
-import { dayParts, events, eventStatus, nextEvent, type WeddingEvent } from '@/data/wedding'
-import { useNow } from '@/lib/hooks'
+import { EventTicket } from '@/components/guide/EventTicket'
+import { RoadLink } from '@/components/guide/RoadLink'
+import { VenueStop } from '@/components/guide/VenueStop'
+import { dayParts, events, eventStatus, nextEvent, type VenueId, type WeddingEvent } from '@/data/wedding'
 import { cn } from '@/lib/utils'
-import { useJourney } from '@/journey/context'
-import { sceneIndex } from '@/journey/scenes'
 
-const days = Object.values(
-  events.reduce<Record<string, WeddingEvent[]>>((byDay, event) => {
-    const key = event.start.slice(0, 10)
-    ;(byDay[key] ??= []).push(event)
-    return byDay
-  }, {}),
-)
+interface Day {
+  key: string
+  events: WeddingEvent[]
+}
 
-/** Every celebration, day by day, as on the invitation. The next one is marked. */
-export function Schedule() {
-  const { goTo } = useJourney()
-  const now = useNow(30_000)
+interface Leg {
+  venue: VenueId
+  days: Day[]
+}
+
+/** The days in runs held at one venue: Indore until the baraat leaves, then Nanded. */
+const legs = events.reduce<Leg[]>((list, event) => {
+  const key = event.start.slice(0, 10)
+  let leg = list.at(-1)
+  if (leg?.venue !== event.venue) list.push((leg = { venue: event.venue, days: [] }))
+  let day = leg.days.at(-1)
+  if (day?.key !== key) leg.days.push((day = { key, events: [] }))
+  day.events.push(event)
+  return list
+}, [])
+
+/** Every celebration, day by day, under the city it is held in. The next one is marked. */
+export function Schedule({ now }: { now: Date }) {
   const upNext = nextEvent(now)
 
   return (
-    <ol className="schedule">
-      {days.map((dayEvents) => {
-        const date = dayParts(dayEvents[0])
+    <div className="schedule">
+      {legs.map((leg, index) => {
+        const held = leg.days.flatMap((day) => day.events)
+        const previous = legs[index - 1]
         return (
-          <li key={dayEvents[0].start} className="schedule-day">
-            <div className="schedule-date">
-              <span className="schedule-date-day">
-                {date.day} {date.month}
-              </span>
-              <span className="schedule-date-weekday">{date.weekday}</span>
-            </div>
-
-            <div className="schedule-events">
-              {dayEvents.map((event) => {
-                const status = eventStatus(event, now)
-                const isNext = upNext?.id === event.id
+          <Fragment key={leg.venue}>
+            {previous && <RoadLink from={previous.venue} to={leg.venue} />}
+            <VenueStop
+              venue={leg.venue}
+              events={held}
+              over={held.every((event) => eventStatus(event, now) === 'done')}
+            />
+            <ol className="schedule-days">
+              {leg.days.map((day) => {
+                const date = dayParts(day.events[0])
+                const statuses = day.events.map((event) => eventStatus(event, now))
                 return (
-                  <article
-                    key={event.id}
-                    className={cn('schedule-event', isNext && 'is-next', status === 'done' && 'is-done')}
+                  <li
+                    key={day.key}
+                    className={cn(
+                      'schedule-day',
+                      day.events.some((event) => event.id === upNext?.id) && 'has-next',
+                      statuses.every((status) => status === 'done') && 'is-done',
+                    )}
                   >
-                    <div className="schedule-event-text">
-                      <h3>
-                        <button
-                          type="button"
-                          onClick={() => goTo(sceneIndex(event.scene))}
-                          title="Show this celebration"
-                        >
-                          {event.title}
-                        </button>
-                        {isNext && <span className="schedule-badge">{status === 'now' ? 'Happening now' : 'Next up'}</span>}
-                      </h3>
-                      <p className="schedule-time">{event.timeLabel}</p>
-                      {event.note && (
-                        <p className="schedule-note">
-                          {event.note.label}: {event.note.text}
-                        </p>
-                      )}
-                      <p className="schedule-place">
-                        <MapPin aria-hidden="true" />
-                        {event.placeLabel}
-                      </p>
+                    <time className="schedule-date" dateTime={day.key}>
+                      <span className="schedule-weekday">{date.weekday.slice(0, 3)}</span>
+                      <span className="schedule-num">{Number(date.day)}</span>
+                      <span className="schedule-month">{date.month}</span>
+                    </time>
+                    <div className="schedule-events">
+                      {day.events.map((event, i) => (
+                        <EventTicket key={event.id} event={event} status={statuses[i]} isNext={event.id === upNext?.id} />
+                      ))}
                     </div>
-                    <div className="schedule-actions">
-                      <MapButton venue={event.venue} size="sm" variant="outline" label="Maps" />
-                      <CalendarButton event={event} size="sm" variant="outline" label="Calendar" />
-                    </div>
-                  </article>
+                  </li>
                 )
               })}
-            </div>
-          </li>
+            </ol>
+          </Fragment>
         )
       })}
-    </ol>
+    </div>
   )
 }
