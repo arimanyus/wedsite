@@ -20,7 +20,7 @@
   contain: layout paint;
 }
 
-/* ── Plane 1: the sky. One backdrop per scene, stacked in order; each dissolves in over the last. ── */
+/* ── Plane 1: the sky. One backdrop per scene, stacked in order; each sweeps in over the last. ── */
 
 .sky-plane {
   position: absolute;
@@ -28,12 +28,58 @@
   z-index: 0;
 }
 
+/* A new sky arrives from the right behind a band that travels with the camera (SKY_BAND in
+   timeline.ts). Across the band's first half, .sweep-light fades the old sky into light; across
+   its second half, the new sky fades in out of that light. Both masks are fixed, --sweep-ramp
+   wide, and the boxes only ever move by transform. .sweep-hold moves back by as much as its
+   .sweep, so the layer it holds keeps the size of the stage and stays put on screen. */
+.sky-plane,
+.foreground-plane {
+  --sweep-light: #fff8ea;
+  --sweep-mask: linear-gradient(
+    90deg,
+    transparent,
+    rgb(0 0 0 / 0.16) calc(var(--sweep-ramp) * 0.25),
+    rgb(0 0 0 / 0.5) calc(var(--sweep-ramp) * 0.5),
+    rgb(0 0 0 / 0.84) calc(var(--sweep-ramp) * 0.75),
+    #000 var(--sweep-ramp)
+  );
+}
+
+.sweep,
+.sweep-light {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-mask-image: var(--sweep-mask);
+  mask-image: var(--sweep-mask);
+  will-change: transform;
+}
+
+.sweep {
+  width: calc(100% + var(--sweep-ramp));
+}
+
+.sweep-light {
+  width: calc(var(--sweep-ramp) * 2);
+  background: var(--sweep-light);
+}
+
+.sweep-hold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - var(--sweep-ramp));
+  will-change: transform;
+}
+
 .sky {
   position: absolute;
   inset: 0;
   overflow: hidden;
   background: var(--paper);
-  will-change: opacity;
 }
 
 /* ── Plane 2: the ground. Every frieze on one strip, overlapping its neighbours a little. ── */
@@ -59,12 +105,15 @@
   will-change: transform;
 }
 
-/* Both ends of every frieze fade out (along an S-curve) across --frieze-fade, which is set from
-   FEATHER in timeline.ts. Neighbours overlap by more than one fade, so where one landscape gives
-   way to the next the two fades cross and the ground stays solid. */
+/* Both ends of every frieze fade out (along an S-curve) across --fade-l and --fade-r, which
+   Frieze.tsx sets from friezeFade() in timeline.ts. Neighbours overlap by more than one fade, so
+   where one landscape gives way to the next the two fades cross and the ground stays solid. The
+   two ends of the whole strip have no neighbour: the camera stops with them at the screen edge, so
+   they stay sharp, except on screens so wide that a frieze no longer spans them, where they fade
+   into the sky. */
 .frieze {
-  --fade-l: var(--frieze-fade);
-  --fade-r: var(--frieze-fade);
+  --fade-l: var(--edge-fade, 0%);
+  --fade-r: var(--edge-fade, 0%);
   --mask: linear-gradient(
     90deg,
     transparent,
@@ -82,15 +131,10 @@
   mask-image: var(--mask);
 }
 
-/* The two ends of the whole strip have no neighbour to fade into. The camera stops with them at
-   the screen edge, so they stay sharp, except on screens so wide that a frieze no longer spans
-   them, where they fade into the sky. */
-.frieze-first {
-  --fade-l: var(--edge-fade, 0%);
-}
-
-.frieze-last {
-  --fade-r: var(--edge-fade, 0%);
+/* A frieze with a followed subject (Baraat) lies over its neighbours, so the road under the bus
+   stays solid right to its ends. */
+.frieze-lead {
+  z-index: 1;
 }
 
 @media (min-aspect-ratio: 184/100) {
@@ -175,7 +219,6 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  will-change: opacity;
 }
 
 /* ── Plane 4: the text. Each scene's block fills the space between the top bar and the ground. ── */

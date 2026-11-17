@@ -13,6 +13,9 @@
   --btn-outline-fg: #111;
   --btn-outline-bg: #fff;
   --btn-ring: rgb(17 17 17 / 0.4);
+  --chrome-bg: #ffe14d;
+  --chrome-fg: #111;
+  --chrome-accent: #e8006f;
 }
 
 /* ── (a) Backdrop ── */

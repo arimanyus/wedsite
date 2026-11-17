@@ -11,7 +11,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, typ
 import { useMediaQuery } from '@/lib/hooks'
 import { ActiveSceneContext, JourneyContext, type GroundSize, type JourneyState } from './context'
 import { scenes } from './scenes'
-import { activeScene, cameraAt, focusPoint, TOTAL } from './timeline'
+import { activeScene, cameraAt, focusPoint, skyBand, TOTAL } from './timeline'
 
 export function JourneyProvider({ children }: { children: ReactNode }) {
   const trackRef = useRef<HTMLDivElement>(null)
@@ -20,7 +20,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const metrics = useRef({ top: 0, length: 1, height: 0 })
   /** How far through the journey the guest is (0 to 1), as of the last scroll the guest made. */
   const place = useRef(0)
-  const size = useRef<GroundSize>({ view: 0.4, frieze: 1000 })
+  const size = useRef<GroundSize>({ view: 0.4, frieze: 1000, stage: 400, centre: 200, band: skyBand(400) })
   const measured = useMotionValue(0)
   const { scrollY } = useScroll()
 
@@ -50,7 +50,14 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       }
       if (ground && ground.clientHeight > 0) {
         const frieze = ground.clientHeight * 4
-        size.current = { frieze, view: ground.clientWidth / frieze }
+        const stage = ground.offsetParent?.clientWidth ?? window.innerWidth
+        size.current = {
+          frieze,
+          view: ground.clientWidth / frieze,
+          stage,
+          centre: ground.offsetLeft + ground.clientWidth / 2,
+          band: skyBand(stage),
+        }
       }
       measured.set(measured.get() + 1)
     }

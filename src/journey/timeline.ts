@@ -4,15 +4,14 @@
 // text is on screen and the camera drifts slowly) and between two dwells there is a glide (the
 // camera sweeps along the ground to the next frieze while the sky and the text change over).
 //
-// The ground is one long strip: the friezes stand side by side, overlapping by OVERLAP, and the
-// camera position is measured along it in frieze widths. Frieze `i` is centred at
-// `i * (1 - OVERLAP) + 0.5`. `view` is the width of the visible ground in frieze widths (about 1
-// on a desktop, about 0.36 on a phone held upright).
+// The ground is one long strip: the friezes stand side by side, overlapping a little, and the
+// camera position is measured along it in frieze widths. `view` is the width of the visible ground
+// in frieze widths (about 1 on a desktop, about 0.36 on a phone held upright).
 //
-// Everything here is a pure function of `t` and `view`, so scrolling back up replays the journey
-// exactly, and resizing the window only changes `view`.
+// Everything here is a pure function of `t` and the screen's size, so scrolling back up replays
+// the journey exactly, and resizing the window only changes the size.
 
-import { busPosition } from './bus'
+import type { GroundSize } from './context'
 import { scenes } from './scenes'
 
 // ─── Timing (screen heights of scrolling) ───
@@ -24,11 +23,19 @@ export const GLIDE = 1
  * 0.5 it never cruises: it swells to full speed at the midpoint and eases straight back down.
  */
 export const GLIDE_RAMP = 0.34
-/** Within a glide (0 to 1), the outgoing text has faded out by here. */
-export const TEXT_OUT = 0.4
+/**
+ * Within a glide (0 to 1), the outgoing text has faded out by here. The sky's band crosses the
+ * middle of the ground halfway through, so the old text goes just before it and the new arrives
+ * just after, over its own sky.
+ */
+export const TEXT_OUT = 0.44
 /** Within a glide, the incoming text starts fading in here and is fully in when the glide ends. */
-export const TEXT_IN = 0.58
-/** Within a glide, the sky cross-dissolves to the next scene's between these two points. */
+export const TEXT_IN = 0.54
+/**
+ * Within a glide, the next scene's sky arrives between these two points. On screen it sweeps in
+ * behind a band that moves with the camera, so the exact moments vary a little with the screen's
+ * shape; with reduced motion it dissolves in place across exactly this span.
+ */
 export const SKY_FROM = 0.2
 export const SKY_TO = 0.75
 /** With reduced motion there is no camera travel: within a glide the friezes dissolve in place. */
@@ -44,6 +51,19 @@ export const OVERLAP = 0.08
  * and the ground never thins out where one landscape gives way to the next.
  */
 export const FEATHER = 0.6 * OVERLAP
+/**
+ * A frieze with a followed subject lies over its neighbours with a narrower overlap and sharper
+ * fades: the subject stops near its ends, and a neighbour's end reaching far under it would show
+ * through its open sky. Its own fades sit over the opaque part of the neighbour.
+ */
+export const LEAD_OVERLAP = 0.03
+export const LEAD_FEATHER = 0.015
+/**
+ * Width of the band over which one scene's sky fades into the next, as a share of the screen's
+ * width, up to SKY_BAND_MAX pixels.
+ */
+export const SKY_BAND = 0.5
+export const SKY_BAND_MAX = 560
 /** How far the camera drifts either side of a frieze's centre while that scene's text is on screen. */
 export const DRIFT = 0.03
 /** The back layer of a frieze lags behind the front by this share of the camera's travel. */
@@ -109,8 +129,35 @@ export function focusPoint(index: number): number {
 
 // ─── The camera ───
 
+const leads = (index: number) => scenes[index - 1].follow !== undefined || scenes[index].follow !== undefined
+
+/** How much frieze `index` overlaps the one before it. */
+function seamOverlap(index: number): number {
+  return leads(index) ? LEAD_OVERLAP : OVERLAP
+}
+
+const centres: number[] = []
+{
+  let centre = 0.5
+  scenes.forEach((_, index) => {
+    if (index > 0) centre += 1 - seamOverlap(index)
+    centres.push(centre)
+  })
+}
+
 export function friezeCentre(index: number): number {
-  return index * (1 - OVERLAP) + 0.5
+  return centres[index]
+}
+
+/**
+ * Width of the fade at the left (`side` -1) or right (1) end of frieze `index`, as a fraction of its
+ * width, or null at the two ends of the whole strip, which have no neighbour to fade into.
+ */
+export function friezeFade(index: number, side: -1 | 1): number | null {
+  const seam = side < 0 ? index : index + 1
+  if (seam <= 0 || seam > last) return null
+  if (!leads(seam)) return FEATHER
+  return scenes[index].follow ? LEAD_FEATHER : LEAD_OVERLAP - LEAD_FEATHER
 }
 
 interface CameraKeys {
@@ -132,13 +179,15 @@ function cameraKeys(view: number): CameraKeys {
     let from = centre - DRIFT
     let to = centre + DRIFT
     if (scene.follow) {
-      // Keep the subject in shot without showing more of the neighbours than needed: on a phone
-      // the camera starts with the frieze's left end at the screen edge and finishes with its right
-      // end there; on a screen wide enough for the whole frieze it just drifts like everywhere else.
+      // Keep the subject in shot without showing the neighbours: on a phone the camera starts with
+      // the end of the overlap at the screen's left edge and finishes with the next one at its
+      // right edge; on a screen wide enough for the whole frieze it drifts like everywhere else.
       const left = centre - 0.5
       const half = view / 2
-      from = left + Math.min(Math.max(half, scene.follow.from), 0.5 - DRIFT)
-      to = left + Math.max(Math.min(1 - half, scene.follow.to), 0.5 + DRIFT)
+      const before = index > 0 ? seamOverlap(index) : 0
+      const after = index < last ? seamOverlap(index + 1) : 0
+      from = left + Math.min(Math.max(half + before, scene.follow.from), 0.5 - DRIFT)
+      to = left + Math.max(Math.min(1 - half - after, scene.follow.to), 0.5 + DRIFT)
     } else if (index === 0) {
       from = centre
     } else if (index === last) {
@@ -224,14 +273,45 @@ export function textOffset(index: number, camera: number, view: number): number 
 
 // ─── Sky and text ───
 
-/** The sky stacks in scene order, so each one only has to dissolve in over the one before it. */
-export function skyOpacity(index: number, t: number): number {
+export function skyBand(stage: number): number {
+  return Math.min(stage * SKY_BAND, SKY_BAND_MAX)
+}
+
+/**
+ * The skies stack in scene order and each one sweeps in from the right over the one before, behind
+ * a soft band that travels with the camera. Returns where that band starts, in pixels from the
+ * stage's left edge. Across the band's first half the old sky gives way to light, across its
+ * second half the light gives way to the new sky, which is whole beyond `size.band` to the right.
+ *
+ * The band is centred on screen when the camera is halfway between the two dwells, which is where
+ * the seam between the two friezes is; elsewhere it moves in step with the ground, at the ground's
+ * speed where the screen is narrow enough (a phone), so it rides over the seam. On a wider screen
+ * the seam is still on screen when a dwell ends, so there the band runs ahead of it by just enough
+ * to be off screen during every dwell, and each scene's sky is whole while its text is up.
+ */
+export function skyEdge(index: number, camera: number, size: GroundSize): number {
+  const { view, frieze, stage, centre, band } = size
+  if (index === 0) return -band
+  const { from, to } = cameraKeys(view)
+  const half = (from[index] - to[index - 1]) / 2
+  const reach = Math.max(half * frieze, Math.max(centre, stage - centre) + band / 2)
+  const offset = ((to[index - 1] + half - camera) / half) * reach
+  return Math.min(Math.max(centre + offset - band / 2, -band), stage)
+}
+
+/** False while this sky is wholly off screen to the right, or once the next one wholly covers it. */
+export function skyShown(index: number, camera: number, size: GroundSize): boolean {
+  if (skyEdge(index, camera, size) >= size.stage) return false
+  return index === last || skyEdge(index + 1, camera, size) > -size.band
+}
+
+/** With reduced motion each sky dissolves in place over the one before it instead. */
+export function calmSkyOpacity(index: number, t: number): number {
   if (index === 0) return 1
   return smooth(ramp(glideInto(index, t), SKY_FROM, SKY_TO))
 }
 
-/** False once the next sky fully covers this one, or before this one starts dissolving in. */
-export function skyShown(index: number, t: number): boolean {
+export function calmSkyShown(index: number, t: number): boolean {
   if (index > 0 && glideInto(index, t) <= SKY_FROM) return false
   if (index < last && glideInto(index + 1, t) >= SKY_TO) return false
   return true
@@ -257,13 +337,13 @@ export function calmFriezeOpacity(index: number, t: number): number {
  * the guest scrolls. Returns the frieze's offset from centred, in frieze widths.
  */
 export function calmFriezeShift(index: number, t: number, view: number): number {
-  const { follow } = scenes[index]
-  if (!follow || view >= 1) return 0
-  const subject = follow.from + (follow.to - follow.from) * dwellProgress(index, t)
-  return 0.5 - Math.min(Math.max(subject, view / 2), 1 - view / 2)
+  if (!scenes[index].follow || view >= 1) return 0
+  return 0.5 - Math.min(Math.max(subjectAt(index, t), view / 2), 1 - view / 2)
 }
 
-/** Where the bus is along the Baraat frieze at scroll position `t` (fraction of its width). */
-export function busAt(index: number, t: number): number {
-  return busPosition(dwellProgress(index, t))
+/** Where a followed subject (the baraat bus) is along its frieze at scroll position `t` (fraction of its width). */
+export function subjectAt(index: number, t: number): number {
+  const { follow } = scenes[index]
+  if (!follow) return 0.5
+  return follow.from + (follow.to - follow.from) * dwellProgress(index, t)
 }

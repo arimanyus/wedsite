@@ -5,7 +5,7 @@ import { BaraatBus, Frieze } from '@/components/Frieze'
 import { couple, eventsInScene, type SceneId } from '@/data/wedding'
 import { PlaneContext, SceneContext, useJourney, useScene, type Plane, type SceneInfo } from '@/journey/context'
 import { sceneIndex, scenes } from '@/journey/scenes'
-import { FEATHER, skyOpacity, skyShown, textOffset, textOpacity } from '@/journey/timeline'
+import { calmSkyOpacity, calmSkyShown, skyEdge, skyShown, textOffset, textOpacity } from '@/journey/timeline'
 import { BaraatScene } from '@/scenes/BaraatScene'
 import { EntranceScene } from '@/scenes/EntranceScene'
 import { GaneshScene } from '@/scenes/GaneshScene'
@@ -50,30 +50,71 @@ function EachScene({ plane, layer: Layer }: { plane: Plane; layer: ComponentType
   )
 }
 
-/** A scene's backdrop. Later scenes stack on top and dissolve in over the one before. */
-function SkyLayer({ children }: { children: ReactNode }) {
-  const { t } = useJourney()
-  const { index, id } = useScene()
-  const opacity = useTransform(t, (time) => skyOpacity(index, time))
-  const display = useTransform(t, (time) => (skyShown(index, time) ? 'block' : 'none'))
+/**
+ * Carries a scene's layer in from the right over the previous scene's, behind the band that travels
+ * with the camera (see skyEdge). The layer arrives in the second half of the band. Its box moves
+ * with the band and the box inside moves back by as much, so what is drawn in it stays put on
+ * screen while the band passes over. With reduced motion the layer dissolves in place instead.
+ */
+function Sweep({ className, children }: { className: string; children: ReactNode }) {
+  const { t, camera, size, measured, calm } = useJourney()
+  const { index } = useScene()
+  const x = useTransform([camera, measured], ([c]: number[]) => {
+    const edge = calm ? -size.current.band : skyEdge(index, c, size.current)
+    return Math.round(edge + size.current.band / 2)
+  })
+  const holdX = useTransform(x, (value) => -value)
+  const opacity = useTransform(t, (time) => (calm ? calmSkyOpacity(index, time) : 1))
+  const display = useTransform([camera, t, measured], ([c, time]: number[]) => {
+    const shown = calm ? calmSkyShown(index, time) : skyShown(index, c, size.current)
+    return shown ? 'block' : 'none'
+  })
   return (
-    <motion.div className={`sky scene-${id}`} style={{ opacity, display }}>
-      {children}
+    <motion.div className="sweep" style={{ x, opacity, display }}>
+      <motion.div className="sweep-hold" style={{ x: holdX }}>
+        <div className={className}>{children}</div>
+      </motion.div>
     </motion.div>
   )
 }
 
-/** Decorations in front of the frieze, on the same schedule as the scene's sky. */
-function ForegroundLayer({ children }: { children: ReactNode }) {
-  const { t } = useJourney()
+/**
+ * The first half of the band: the old sky fades into light, and the new one fades in out of it, so
+ * two skies never mix into a muddy colour, however far apart their hues.
+ */
+function SweepLight() {
+  const { camera, size, measured, calm } = useJourney()
+  const { index } = useScene()
+  const x = useTransform([camera, measured], ([c]: number[]) => Math.round(skyEdge(index, c, size.current)))
+  const display = useTransform([camera, measured], ([c]: number[]) => {
+    const edge = skyEdge(index, c, size.current)
+    return !calm && edge > -size.current.band && edge < size.current.stage ? 'block' : 'none'
+  })
+  return <motion.div className="sweep-light" style={{ x, display }} />
+}
+
+/** A scene's backdrop. Later scenes stack on top, each sweeping in over the one before. */
+function SkyLayer({ children }: { children: ReactNode }) {
   const { index, id } = useScene()
-  const opacity = useTransform(t, (time) => skyOpacity(index, time))
-  const display = useTransform(t, (time) => (skyShown(index, time) ? 'block' : 'none'))
   return (
-    <motion.div className={`foreground scene-${id}`} style={{ opacity, display }}>
-      {children}
-    </motion.div>
+    <>
+      {index > 0 && <SweepLight />}
+      <Sweep className={`sky scene-${id}`}>{children}</Sweep>
+    </>
   )
+}
+
+/** Decorations in front of the frieze, arriving with the scene's sky. */
+function ForegroundLayer({ children }: { children: ReactNode }) {
+  const { id } = useScene()
+  return <Sweep className={`foreground scene-${id}`}>{children}</Sweep>
+}
+
+/** Half the width of the sky's travelling band, for the masks in journey.css. */
+function useBandStyle(): CSSProperties {
+  const { size, measured } = useJourney()
+  const ramp = useTransform(measured, () => `${Math.round(size.current.band / 2)}px`)
+  return { '--sweep-ramp': ramp } as unknown as CSSProperties
 }
 
 /**
@@ -98,9 +139,9 @@ function TextLayer({ children }: { children: ReactNode }) {
 
 export function SkyPlane() {
   return (
-    <div className="sky-plane" aria-hidden="true">
+    <motion.div className="sky-plane" style={useBandStyle()} aria-hidden="true">
       <EachScene plane="sky" layer={SkyLayer} />
-    </div>
+    </motion.div>
   )
 }
 
@@ -108,12 +149,7 @@ export function SkyPlane() {
 export function GroundPlane() {
   const { groundRef } = useJourney()
   return (
-    <div
-      ref={groundRef}
-      className="ground"
-      style={{ '--frieze-fade': `${FEATHER * 100}%` } as CSSProperties}
-      aria-hidden="true"
-    >
+    <div ref={groundRef} className="ground" aria-hidden="true">
       {scenes.map((scene, index) => (
         <Frieze key={scene.id} index={index} />
       ))}
@@ -124,9 +160,9 @@ export function GroundPlane() {
 
 export function ForegroundPlane() {
   return (
-    <div className="foreground-plane" aria-hidden="true">
+    <motion.div className="foreground-plane" style={useBandStyle()} aria-hidden="true">
       <EachScene plane="foreground" layer={ForegroundLayer} />
-    </div>
+    </motion.div>
   )
 }
 

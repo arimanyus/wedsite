@@ -7,14 +7,6 @@
    (c) Text block .......... .scene-text.scene-baraat and everything in it, including the route line
    (d) Over the frieze ..... inside <Foreground>: none yet, style as .foreground.scene-baraat */
 
-/* The bus parks at both ends of this frieze, so the frieze lies over its neighbours with short
-   fades and the road stays solid under the wheels. */
-.frieze.scene-baraat {
-  --fade-l: 2.5%;
-  --fade-r: 2.5%;
-  z-index: 1;
-}
-
 .scene-baraat {
   --ink: #151515;
   --btn-bg: #e3172a;
@@ -23,6 +15,9 @@
   --btn-outline-fg: #151515;
   --btn-outline-bg: #fff;
   --btn-ring: rgb(21 21 21 / 0.4);
+  --chrome-bg: #1438c9;
+  --chrome-fg: #fff;
+  --chrome-accent: #ffd21f;
 }
 
 /* ── (a) Backdrop ── */

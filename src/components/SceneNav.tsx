@@ -1,13 +1,17 @@
 import type { KeyboardEvent } from 'react'
 
-import { useActiveScene, useJourney } from '@/journey/context'
+import { useActiveScene, useActiveSceneClass, useJourney } from '@/journey/context'
 import { scenes } from '@/journey/scenes'
 
 const stops = [...scenes.map((scene) => ({ id: scene.id as string, label: scene.label })), { id: 'guide', label: 'The plan' }]
 
-/** A slim rail of dots along the right edge: one per scene, plus the schedule at the end. */
+/**
+ * A slim rail of dots along the right edge: one per scene, plus the schedule at the end. Like the
+ * top bar, it carries the class of the scene on screen and takes its colours from that scene.
+ */
 export function SceneNav() {
   const active = useActiveScene()
+  const sceneClass = useActiveSceneClass()
   const { goTo } = useJourney()
 
   // Up and down move between the dots, as in a list; Tab moves on out of the rail.
@@ -26,7 +30,11 @@ export function SceneNav() {
   }
 
   return (
-    <nav className="scene-nav" aria-label="Celebrations" data-away={active === stops.length - 1 ? '' : undefined}>
+    <nav
+      className={`scene-nav ${sceneClass}`}
+      aria-label="Celebrations"
+      data-away={active === stops.length - 1 ? '' : undefined}
+    >
       <ol onKeyDown={onKeyDown}>
         {stops.map((stop, index) => (
           <li key={stop.id}>

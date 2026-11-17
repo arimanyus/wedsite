@@ -23,8 +23,10 @@ export const scenes: SceneDef[] = [
   { id: 'tilak', label: 'Tilak', frieze: 'mughal', dwell: 0.6 },
   { id: 'ganesh', label: 'Ganesh Pujan', frieze: 'madhubani', dwell: 0.5 },
   { id: 'matrika', label: 'Matrika Pujan', frieze: 'nouveau', dwell: 0.5 },
-  // The bus drives from Indore to Nanded across the whole dwell, so it gets a long one.
-  { id: 'baraat', label: 'Baraat', frieze: 'baraat', dwell: 1.6, follow: { from: INDORE, to: NANDED } },
+  // The bus drives from Indore to Nanded across the whole dwell, so it gets a long one. It sets off
+  // and pulls up a little inside the two cities: on a phone the camera waits at the frieze's ends,
+  // and there the bus has to be whole on screen and clear of the scene navigation on the right.
+  { id: 'baraat', label: 'Baraat', frieze: 'baraat', dwell: 1.6, follow: { from: INDORE + 0.05, to: NANDED - 0.075 } },
   { id: 'pool', label: 'Pool Party', frieze: 'pool', dwell: 0.55 },
   { id: 'sangeet', label: 'Sangeet', frieze: 'sangeet', dwell: 0.55 },
   { id: 'wedding', label: 'The Wedding', frieze: 'pichwai', dwell: 0.7 },

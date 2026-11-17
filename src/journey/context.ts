@@ -3,11 +3,19 @@ import type { MotionValue } from 'motion/react'
 
 import type { SceneId } from '@/data/wedding'
 
+import { scenes } from './scenes'
+
 export interface GroundSize {
   /** Width of the visible ground, in frieze widths. */
   view: number
   /** Width of one frieze, in pixels. */
   frieze: number
+  /** Width of the stage, in pixels. */
+  stage: number
+  /** Middle of the visible ground, in pixels from the stage's left edge. */
+  centre: number
+  /** Width of the band over which one sky sweeps in over the last, in pixels. */
+  band: number
 }
 
 export interface JourneyState {
@@ -45,6 +53,15 @@ export const ActiveSceneContext = createContext(0)
 
 export function useActiveScene(): number {
   return useContext(ActiveSceneContext)
+}
+
+/**
+ * The class of the scene on screen, `scene-<id>`, or `scene-guide` in the schedule. The top bar and
+ * the scene navigation carry it, so they take their colours from that scene's --chrome-* tokens.
+ */
+export function useActiveSceneClass(): string {
+  const active = useActiveScene()
+  return `scene-${scenes[active]?.id ?? 'guide'}`
 }
 
 /** The stage is drawn in planes shared by every scene; each scene contributes a layer to each. */
