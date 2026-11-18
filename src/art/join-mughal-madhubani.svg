@@ -42,8 +42,8 @@
 </defs>
 <use href="#kT" fill="#a3152a"/><use href="#kT" fill="url(#k3)"/><use href="#kT" fill="url(#k4)"/>
 <use href="#kT" fill="none" stroke="#1a1a1a" stroke-width="8.4"/><use href="#kT" fill="none" stroke="url(#kx)" stroke-width="5"/>
-<use href="#kt3" transform="translate(333 402) rotate(-30)"/>
-<use href="#kt3" transform="translate(334 356) rotate(30)"/>
+<g data-move="sway" data-origin="333 402" data-amp="6" data-dur="4.6" data-pad="3"><use href="#kt3" transform="translate(333 402) rotate(-30)"/></g>
+<g data-move="sway" data-origin="334 356" data-amp="5" data-dur="5.3" data-pad="3"><use href="#kt3" transform="translate(334 356) rotate(30)"/></g>
 <path d="M276,452Q304,460 333,452" fill="none" stroke="#1a1a1a" stroke-width="9.5"/><path d="M276,452Q304,460 333,452" fill="none" stroke="#f7b500" stroke-width="6"/><path d="M276,452Q304,460 333,452" fill="none" stroke="#d7263d" stroke-width="2" stroke-dasharray="0 4"/>
 <path d="M276,468Q304,476 333,468" fill="none" stroke="#1a1a1a" stroke-width="9.5"/><path d="M276,468Q304,476 333,468" fill="none" stroke="#f7b500" stroke-width="6"/><path d="M276,468Q304,476 333,468" fill="none" stroke="#d7263d" stroke-width="2" stroke-dasharray="0 4"/>
 <path d="M224.5,458q8,3.5 17,0v6q-9,3.5 -17,0z" fill="#c8321f" stroke="#3a1a12" stroke-width=".8"/><path d="M225,461.6q8,3.5 16.5,0" stroke="#d9a520" stroke-width="1.4" fill="none" stroke-dasharray="3 2"/>
@@ -78,18 +78,19 @@
 <path d="M304,322Q359.2,216 396,70" fill="none" stroke="#1a1a1a" stroke-width="12"/><path d="M304,322Q359.2,216 396,70" fill="none" stroke="#a3152a" stroke-width="7"/>
 <use href="#kc" transform="translate(300 286) rotate(140) scale(0.9)"/>
 <use href="#kc" transform="translate(370 262) rotate(120) scale(1.0)"/>
-<use href="#kc" transform="translate(456 236) rotate(250) scale(0.8)"/>
+<g data-move="sway" data-origin="435.3 257.6" data-amp="2.6" data-dur="5.2" data-box="397 178.5 116.5 116.5"><use href="#kc" transform="translate(456 236) rotate(250) scale(0.8)"/></g>
 <use href="#kc" transform="translate(312 200) rotate(70) scale(1.15)"/>
 <use href="#kc" transform="translate(384 172) rotate(160) scale(1.15)"/>
-<g data-move="sway" data-origin="429.8 167.3" data-amp="2.4" data-dur="5.9"><use href="#kc" transform="translate(452 140) rotate(100) scale(0.95)"/></g>
-<use href="#kc" transform="translate(318 98) rotate(30) scale(1.2)"/>
-<g data-move="sway" data-origin="382.2 107.8" data-amp="2.0" data-dur="6.8"><use href="#kc" transform="translate(396 70) rotate(200) scale(1.05)"/></g>
-<g data-move="fly" data-path="34 -160" data-dur="11"><g transform="translate(196 136) scale(.75)"><use href="#kPZ" fill="#1b4fbf"/><use href="#kPZ" fill="url(#k6)"/><use href="#kPZ" fill="none" stroke="#1a1a1a" stroke-width="2.4"/><path d="M-2,-8L-2,0M6,-8L6,0" fill="none" stroke="#1a1a1a" stroke-width="2.4"/><use href="#kPB" fill="#1e8f4e" stroke="#1a1a1a" stroke-width="2.8"/><g data-move="flap" data-origin="191.5 107.5" data-amp="50" data-dur="0.42" data-delay="0"><use href="#kPW" fill="#5fb043"/><use href="#kPW" fill="url(#k11)"/><use href="#kPW" fill="none" stroke="#1a1a1a" stroke-width="2.4"/></g><circle cx="14" cy="-48" r="11" fill="#1e8f4e" stroke="#1a1a1a" stroke-width="2.6"/><path d="M22,-54Q36,-53 33,-39Q29,-46 22,-44Z" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.2"/><circle cx="16" cy="-50" r="4.6" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.8"/><circle cx="17" cy="-50" r="2.2" fill="#1a1a1a"/><path d="M8,-58Q12,-62 16,-58" fill="none" stroke="#1a1a1a" stroke-width="2"/></g></g>
-<g data-move="nod" data-origin="471.6 74" data-amp="14" data-dur="9"><use href="#kmp" transform="translate(470 58) scale(-1.6 1.6)"/></g>
 <g data-move="float" data-amp="5" data-dur="7.5"><use href="#kbd" transform="translate(520 34)"/><use href="#kbd" transform="translate(556 62) scale(.85)"/></g>
-<g data-move="bob" data-amp="1.2" data-dur="3.6"><use href="#kpad" transform="translate(178 538) rotate(170) scale(.5)"/><use href="#klo" transform="translate(186 538) scale(.36)"/></g>
-<g data-move="pace" data-path="48 0" data-dur="18"><use href="#kmf" transform="translate(410 486) scale(1.5)"/></g>
+<g data-move="fly" data-path="330 -250" data-dur="13"><g transform="translate(452 128) rotate(-20) scale(.75)"><use href="#kPZ" fill="#1b4fbf"/><use href="#kPZ" fill="url(#k6)"/><use href="#kPZ" fill="none" stroke="#1a1a1a" stroke-width="2.4"/><path d="M-2,-8L-2,0M6,-8L6,0" fill="none" stroke="#1a1a1a" stroke-width="2.4"/><use href="#kPB" fill="#1e8f4e" stroke="#1a1a1a" stroke-width="2.8"/><g data-move="flap" data-origin="438 102.8" data-amp="50" data-dur="0.42" data-delay="0"><use href="#kPW" fill="#5fb043"/><use href="#kPW" fill="url(#k11)"/><use href="#kPW" fill="none" stroke="#1a1a1a" stroke-width="2.4"/></g><circle cx="14" cy="-48" r="11" fill="#1e8f4e" stroke="#1a1a1a" stroke-width="2.6"/><path d="M22,-54Q36,-53 33,-39Q29,-46 22,-44Z" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.2"/><circle cx="16" cy="-50" r="4.6" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.8"/><circle cx="17" cy="-50" r="2.2" fill="#1a1a1a"/><path d="M8,-58Q12,-62 16,-58" fill="none" stroke="#1a1a1a" stroke-width="2"/></g></g>
+<g data-move="sway" data-origin="429.8 167.3" data-amp="2.4" data-dur="5.9" data-box="384.5 70.5 137 138"><use href="#kc" transform="translate(452 140) rotate(100) scale(0.95)"/></g>
+<use href="#kc" transform="translate(318 98) rotate(30) scale(1.2)"/>
+<g data-move="sway" data-origin="382.2 107.8" data-amp="2.0" data-dur="6.8" data-box="321 -6.5 151.5 151.5"><use href="#kc" transform="translate(396 70) rotate(200) scale(1.05)"/>
+<g data-move="nod" data-origin="471.6 74" data-amp="10" data-dur="9"><use href="#kmp" transform="translate(470 58) scale(-1.6 1.6)"/></g>
+</g>
 <g data-move="shimmer" data-amp="6" data-dur="3.8"><path d="M128 529.4q4-1.6 8 0M150 545.2q5-1.8 10 0M172 531q3-1.2 6 0" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>
+<g data-move="bob" data-amp="1.2" data-dur="3.6"><use href="#kpad" transform="translate(178 538) rotate(170) scale(.5)"/><use href="#klo" transform="translate(186 538) scale(.36)"/></g>
+<g data-move="pace" data-path="60 0" data-dur="16"><use href="#kmf" transform="translate(36 536) scale(1.4)"/></g>
 <use href="#kM" fill="#162a66" stroke="#3a1a12" stroke-width="5"/><use href="#kM" fill="none" stroke="#d9a520" stroke-width="2.6"/>
 <path d="M236,576C237,574.3 238.7,568.7 242,566C245.3,563.3 250.3,561.5 256,560C261.7,558.5 270,558.2 276,557C282,555.8 288,555 292,553C296,551 297.3,545 300,545C302.7,545 304,551 308,553C312,555 318,555.8 324,557C330,558.2 338.3,558.5 344,560C349.7,561.5 354.7,563.3 358,566C361.3,568.7 363,574.3 364,576V594H236Z" fill="#fff6e0" stroke="#1a1a1a" stroke-width="2"/>
 <g fill="#d9a520"><circle cx="230" cy="585" r="1.5"/><circle cx="370" cy="585" r="1.5"/><circle cx="300" cy="539.5" r="1.5"/><circle cx="249" cy="556.5" r="1.5"/><circle cx="351" cy="556.5" r="1.5"/></g>
