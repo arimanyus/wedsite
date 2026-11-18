@@ -20,6 +20,10 @@
 html {
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Every scene brings its own colours: a phone's dark mode must not repaint them. */
+  color-scheme: only light;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -32,4 +36,10 @@ body {
 
 button {
   cursor: pointer;
+}
+
+/* No wait for a possible double tap before a tap counts. */
+a,
+button {
+  touch-action: manipulation;
 }
