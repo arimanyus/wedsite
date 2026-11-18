@@ -171,15 +171,15 @@ export function friezeFade(index: number, side: -1 | 1): number | null {
 
 /**
  * The same under a join: `inset` is how far in from the frieze's end its fade starts, and `fade`
- * its width. The later frieze lies on top and fades in across JOIN_FEATHER around the middle of
- * the overlap; the earlier one stays solid under that and ends just past it.
+ * its width. The frieze on top (the lead, else the later one) fades in across JOIN_FEATHER around
+ * the middle of the overlap; the one below stays solid under that and ends just past it.
  */
 export function joinedFade(index: number, side: -1 | 1): { inset: number; fade: number } | null {
   const seam = side < 0 ? index : index + 1
   if (seam <= 0 || seam > last) return null
-  if (leads(seam)) return { inset: 0, fade: friezeFade(index, side) ?? 0 }
-  const before = OVERLAP / 2 - JOIN_FEATHER / 2
-  return side < 0 ? { inset: before, fade: JOIN_FEATHER } : { inset: 0, fade: before }
+  const before = seamOverlap(seam) / 2 - JOIN_FEATHER / 2
+  const onTop = leads(seam) ? scenes[index].follow !== undefined : side < 0
+  return onTop ? { inset: before, fade: JOIN_FEATHER } : { inset: 0, fade: before }
 }
 
 /** Where seam `seam` (between friezes `seam - 1` and `seam`) is along the ground: the middle of their overlap. */
