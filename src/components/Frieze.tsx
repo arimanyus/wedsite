@@ -1,6 +1,6 @@
 import { motion, useTransform } from 'motion/react'
 
-import { art } from '@/art'
+import { art, groundArt } from '@/art'
 import { Bus } from '@/components/BusRoute'
 import { BUS_WIDTH } from '@/journey/bus'
 import { useJourney } from '@/journey/context'
@@ -67,9 +67,13 @@ function useFriezePose(index: number) {
 /** One frieze on the ground. Its far layer lags behind its near layer as the camera passes, for depth. */
 export function Frieze({ index }: { index: number }) {
   const scene = scenes[index]
+  const { rasterWidth } = useJourney()
   const { x, backX, opacity, display } = useFriezePose(index)
-  const back = art(`${scene.frieze}.back`)
-  const front = art(`${scene.frieze}.front`)
+  // Nothing is fetched until the ground has been measured and the right size of bitmap is known.
+  const back = rasterWidth ? groundArt(`${scene.frieze}.back`, rasterWidth) : undefined
+  const front = rasterWidth ? groundArt(`${scene.frieze}.front`, rasterWidth) : undefined
+  // The opening frieze is what the guest sees first; the rest queue up behind it in travelling order.
+  const priority = index === 0 ? 'high' : 'low'
   const lead = scene.follow ? ' frieze-lead' : ''
   const left = endFade(index, -1)
   const right = endFade(index, 1)
@@ -78,9 +82,19 @@ export function Frieze({ index }: { index: number }) {
   return (
     <motion.div className={`frieze-box frieze${lead} scene-${scene.id}`} style={{ x, opacity, display, ...fades }}>
       {back && (
-        <motion.img src={back} alt="" className="frieze-layer frieze-back" draggable={false} style={{ x: backX }} />
+        <motion.img
+          src={back}
+          alt=""
+          className="frieze-layer frieze-back"
+          draggable={false}
+          decoding="async"
+          fetchPriority={priority}
+          style={{ x: backX }}
+        />
       )}
-      {front && <img src={front} alt="" className="frieze-layer" draggable={false} />}
+      {front && (
+        <img src={front} alt="" className="frieze-layer" draggable={false} decoding="async" fetchPriority={priority} />
+      )}
     </motion.div>
   )
 }
@@ -91,8 +105,8 @@ export function Frieze({ index }: { index: number }) {
  * dissolve in place and never meet, so there is nothing to join.
  */
 export function Join({ seam }: { seam: number }) {
-  const { camera, pointer, size, measured, calm } = useJourney()
-  const src = art(joinName(seam))
+  const { camera, pointer, size, measured, rasterWidth, calm } = useJourney()
+  const src = rasterWidth ? groundArt(joinName(seam), rasterWidth) : undefined
   const centre = seamCentre(seam)
   const x = useTransform([camera, pointer, measured], ([c, m]: number[]) =>
     percent(centre - leanCamera(c, m, size.current.view)),
@@ -104,7 +118,15 @@ export function Join({ seam }: { seam: number }) {
   return (
     <motion.div className="frieze-box join-box" data-seam={seam} style={{ x, display }}>
       {src && (
-        <img src={src} alt="" className="join" draggable={false} style={{ width: percent(joinWidth(seam)) }} />
+        <img
+          src={src}
+          alt=""
+          className="join"
+          draggable={false}
+          decoding="async"
+          fetchPriority="low"
+          style={{ width: percent(joinWidth(seam)) }}
+        />
       )}
     </motion.div>
   )

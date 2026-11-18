@@ -8,6 +8,7 @@ import {
 } from 'motion/react'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 
+import { rasterWidthFor } from '@/art'
 import { useMediaQuery } from '@/lib/hooks'
 import { ActiveSceneContext, JourneyContext, type GroundSize, type JourneyState } from './context'
 import { scenes } from './scenes'
@@ -22,6 +23,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const place = useRef(0)
   const size = useRef<GroundSize>({ view: 0.4, frieze: 1000, stage: 400, centre: 200, band: skyBand(400) })
   const measured = useMotionValue(0)
+  const [rasterWidth, setRasterWidth] = useState(0)
   const { scrollY } = useScroll()
 
   useLayoutEffect(() => {
@@ -58,6 +60,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
           centre: ground.offsetLeft + ground.clientWidth / 2,
           band: skyBand(stage),
         }
+        setRasterWidth(rasterWidthFor(frieze, window.devicePixelRatio || 1))
       }
       measured.set(measured.get() + 1)
     }
@@ -115,8 +118,8 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   )
 
   const state = useMemo<JourneyState>(
-    () => ({ trackRef, groundRef, afterRef, t, camera, pointer, size, measured, calm, goTo }),
-    [t, camera, pointer, measured, calm, goTo],
+    () => ({ trackRef, groundRef, afterRef, t, camera, pointer, size, measured, rasterWidth, calm, goTo }),
+    [t, camera, pointer, measured, rasterWidth, calm, goTo],
   )
 
   return (

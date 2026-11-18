@@ -4,12 +4,17 @@
 // Paintings contain two top-level groups, <g id="back"> and <g id="front">. Each group is written
 // out as its own optimised file so the page can move the layers independently as <img> elements,
 // which keeps parallax on the compositor instead of re-rasterising a large inline SVG every frame.
-// Everything else (ornaments, the bus) is optimised and copied as a single file.
+// Everything else (ornaments, the bus, the joins) is optimised and copied as a single file.
+//
+// With --raster (as `npm run build` runs it) the ground artwork is then also painted into bitmaps
+// for the published site: see scripts/raster-art.mjs.
 import { mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import * as cheerio from 'cheerio'
 import { optimize } from 'svgo'
+
+import { rasterArt } from './raster-art.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const sourceDir = join(root, 'src/art')
@@ -73,7 +78,9 @@ function optimise(markup, name) {
 
 // `node scripts/build-art.mjs` rebuilds everything; `node scripts/build-art.mjs pichwai bus` only
 // those drawings, leaving the rest of ./build alone (safe while someone else rebuilds another one).
-const only = process.argv.slice(2).map((name) => name.replace(/\.svg$/, ''))
+const args = process.argv.slice(2)
+const raster = args.includes('--raster')
+const only = args.filter((arg) => !arg.startsWith('--')).map((name) => name.replace(/\.svg$/, ''))
 
 await mkdir(outDir, { recursive: true })
 
@@ -96,11 +103,14 @@ for (const file of files) {
 
   for (const [outName, markup] of outputs) {
     const data = optimise(markup, outName)
+    written.add(outName)
+    // An unchanged drawing keeps its file and its date, so its bitmaps are not painted again.
+    const current = await readFile(join(outDir, outName), 'utf8').catch(() => null)
+    if (current === data) continue
     // Written beside the target and renamed into place, so the dev server never reads half a file.
     const temp = join(outDir, `.${outName}.${process.pid}.tmp`)
     await writeFile(temp, data)
     await rename(temp, join(outDir, outName))
-    written.add(outName)
     console.log(`${outName.padEnd(34)} ${(data.length / 1024).toFixed(1)} KB`)
   }
 }
@@ -109,5 +119,15 @@ for (const file of files) {
 if (only.length === 0) {
   for (const file of await readdir(outDir)) {
     if (file.endsWith('.svg') && !written.has(file)) await rm(join(outDir, file))
+  }
+}
+
+if (raster) {
+  // The site works without the bitmaps (it draws the SVGs instead), so a failure here must not
+  // stop it being built.
+  try {
+    await rasterArt(only)
+  } catch (error) {
+    console.warn(`raster: failed, the site will draw the SVGs instead: ${error.message}`)
   }
 }

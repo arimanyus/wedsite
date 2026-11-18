@@ -7,7 +7,7 @@
     "art": "node scripts/build-art.mjs",
     "predev": "node scripts/build-art.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/build-art.mjs",
+    "prebuild": "node scripts/build-art.mjs --raster",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

@@ -34,6 +34,8 @@ export interface JourneyState {
   /** Read inside transforms. `measured` changes whenever it does, so transforms that use it should list it. */
   size: RefObject<GroundSize>
   measured: MotionValue<number>
+  /** Which size of bitmap the ground artwork should use on this screen (see groundArt), or 0 before the ground is measured. */
+  rasterWidth: number
   /** The guest prefers reduced motion: no camera travel, scenes dissolve in place. */
   calm: boolean
   /** Scroll to a scene (index into `scenes`), or to the schedule with `scenes.length`. */
