@@ -34,7 +34,7 @@ The dev server runs at http://localhost:4826.
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Dev server with hot reload |
-| `npm run build` | Type-checks and builds the static site into `dist/` |
+| `npm run build` | Type-checks, paints the artwork into bitmaps and builds the static site into `dist/` |
 | `npm run preview` | Serves the built site at http://localhost:4827 |
 | `npm run lint` | Lints with oxlint |
 | `npm run art` | Rebuilds the artwork layers (runs automatically before `dev` and `build`) |
@@ -57,16 +57,21 @@ Everything a guest reads comes from one file, [`src/data/wedding.ts`](src/data/w
 
 ## How it is built
 
-- The journey is a pinned stage with shared planes: the sky (one backdrop per scene; each new sky sweeps in from the right with its landscape, through a colour that sits between the two skies), the ground (every scene's frieze on one strip, overlapping its neighbours a little), decorations in front of the ground, and the text. `src/components/Journey.tsx` and `src/components/Planes.tsx` build it.
+- The journey is a pinned stage with shared planes: the sky (one backdrop per scene; each new sky sweeps in from the right with its landscape, through a colour that sits between the two skies), the ground (every scene's frieze on one strip, with a join drawn over each place where two meet), decorations in front of the ground, and the text. `src/components/Journey.tsx` and `src/components/Planes.tsx` build it.
 - `src/journey/scenes.ts` lists the scenes in order with their frieze and how long their text stays on screen. `src/journey/timeline.ts` turns the scroll position into everything that moves: where the camera is along the ground, which sky and text are showing, and where the baraat bus is. Its timing constants are at the top of the file.
 - `src/scenes/` has one small component per scene. Each puts its pieces on the planes with `<Sky>`, `<Foreground>` and `<TextBlock>`.
 - `src/index.css` imports the styles in order from `src/styles/`: `journey.css` for the stage, `event.css` for the typography every scene shares, one file per scene in `scenes/` (each lists which selectors set its backdrop, sky decorations, text block and decorations over the frieze), `guide.css` for the plan, `chrome.css` for the top bar and the scene dots (they take their colours from the scene on screen, through `--chrome-bg`, `--chrome-fg` and `--chrome-accent` in each scene's stylesheet), and `responsive.css` last.
 - `src/components/Guide.tsx` and `src/components/guide/` are the schedule and directions section after the journey. Each event's card takes its colour and typeface from the list at the top of `src/styles/guide.css`.
 - `node scripts/make-og.mjs` re-renders the link-preview image (`public/og.jpg`) from the first screen, with the dev server running.
-- `src/art/*.svg` is the artwork, all hand-drawn SVG. Each frieze is 2400 x 600 with a `back` and a `front` group; `scripts/build-art.mjs` splits and optimises them into `src/art/build/` so the two layers can drift apart as you move.
+- `src/art/*.svg` is the artwork, all hand-drawn SVG. Each frieze is 2400 x 600 with a `back` and a `front` group; `scripts/build-art.mjs` splits and optimises them into `src/art/build/` so the two layers can drift apart as you move. `node scripts/build-art.mjs <name>` rebuilds one drawing.
+- `src/art/join-<left>-<right>.svg` is the join drawn over the seam between two friezes (600 x 600, or 480 x 600 beside the Baraat, at the same scale as a frieze and centred on the seam), so one landscape turns into the next by design: a pond runs into a channel, a road ends at a pool. Under a join the two friezes change over across a narrow band that its artwork hides. The geometry is in `src/journey/timeline.ts` (`JOIN_WIDTH`, `seamCentre`).
+- For the published site, `npm run build` also paints every frieze layer, join and the bus into WebP bitmaps at three sizes (`scripts/raster-art.mjs`, using headless Chrome), and the page picks the size that suits the screen (`src/art/index.ts`). A phone puts a bitmap on screen at once, where a detailed SVG can hold up a scroll while it is drawn, most of all in Safari. The dev server always shows the SVGs. If the build machine has no Chrome (set `CHROME_PATH` if it is somewhere unusual), the step is skipped with a warning and the published site uses the SVGs too.
 - Guests who ask their device for reduced motion get a gentle dissolve in place between scenes instead of the camera travelling, and no bobbing bus or falling petals.
-- `node scripts/shot.mjs <name> <width> <height> <dpr> <stops> [calm]` takes screenshots of the dev server at chosen points of the journey, for checking the motion.
+- `node scripts/shot.mjs <name> <width> <height> <dpr> <stops> [calm]` takes screenshots of the dev server at chosen points of the journey, for checking the motion, and `node scripts/seam.mjs <seam 1-7> <out.png> [wide|phone]` takes one of a join in mid-crossing. Set `URL` to point either at another server, such as `npm run preview`.
+- If anything in the page ever fails to draw, `src/components/Fallback.tsx` shows the invitation as plain text with map links instead of an empty screen.
 
 ## Stack
 
 Vite, React, TypeScript, Tailwind CSS and Motion, with Fontsource typefaces and Lucide icons. No backend and no secrets.
+
+Built for current browsers: Safari and iOS 16.4 or newer, Chrome, Edge and Android browsers from 2023 on, Firefox 128 or newer.
