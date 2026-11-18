@@ -25,6 +25,9 @@ import './index.css'
 
 import App from './App.tsx'
 
+// The invitation always opens at the gateway, behind the curtain in index.html, even on a reload.
+history.scrollRestoration = 'manual'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

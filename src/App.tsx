@@ -1,3 +1,4 @@
+import { Curtain } from '@/components/Curtain'
 import { Fallback } from '@/components/Fallback'
 import { Guide } from '@/components/Guide'
 import { Hud } from '@/components/Hud'
@@ -9,6 +10,7 @@ export default function App() {
   return (
     <Fallback>
       <JourneyProvider>
+        <Curtain />
         <Hud />
         <SceneNav />
         <main>

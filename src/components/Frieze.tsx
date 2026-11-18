@@ -78,16 +78,23 @@ export function Frieze({ index }: { index: number }) {
 
   return (
     <motion.div className={`frieze-box frieze${lead} scene-${scene.id}`} style={{ x, opacity, display, ...fades }}>
-      <Art name={`${scene.frieze}.back`} className="frieze-layer frieze-back" fetchPriority={priority} style={{ x: backX }} />
-      <Art name={`${scene.frieze}.front`} className="frieze-layer" fetchPriority={priority} />
+      <Art
+        name={`${scene.frieze}.back`}
+        scene={index}
+        className="frieze-layer frieze-back"
+        fetchPriority={priority}
+        style={{ x: backX }}
+      />
+      <Art name={`${scene.frieze}.front`} scene={index} className="frieze-layer" fetchPriority={priority} />
     </motion.div>
   )
 }
 
 /**
  * The artwork over seam `seam`, where frieze `seam - 1` meets frieze `seam`. It rides on the
- * ground above both, centred on the middle of their overlap. With reduced motion the friezes
- * dissolve in place and never meet, so there is nothing to join.
+ * ground above both, centred on the middle of their overlap, and is fetched with the scene before
+ * it, ready for the glide out. With reduced motion the friezes dissolve in place and never meet, so
+ * there is nothing to join.
  */
 export function Join({ seam }: { seam: number }) {
   const { camera, pointer, size, measured, calm } = useJourney()
@@ -101,7 +108,13 @@ export function Join({ seam }: { seam: number }) {
 
   return (
     <motion.div className="frieze-box join-box" data-seam={seam} style={{ x, display }}>
-      <Art name={joinName(seam)} className="join" fetchPriority="low" style={{ width: percent(joinWidth(seam)) }} />
+      <Art
+        name={joinName(seam)}
+        scene={seam - 1}
+        className="join"
+        fetchPriority={seam === 1 ? 'high' : 'low'}
+        style={{ width: percent(joinWidth(seam)) }}
+      />
     </motion.div>
   )
 }
@@ -119,7 +132,7 @@ export function BaraatBus({ index }: { index: number }) {
   return (
     <motion.div className="frieze-box bus-box" style={{ x, opacity, display }}>
       <motion.div className="bus" style={{ x: busX }}>
-        <Bus />
+        <Bus scene={index} />
       </motion.div>
     </motion.div>
   )

@@ -8,6 +8,20 @@
    Only transform and opacity ever change, so the browser moves pictures it has already painted.
    The names and their defaults are listed in MOVES in scripts/moves.mjs. */
 
+/* A drawing waits, hidden, until all of its pieces are in, then fades in whole; behind the curtain
+   (index.html) there is nobody to see the fade, so the opening scene is simply there when it opens. */
+.art {
+  transition: opacity 0.6s ease;
+}
+
+.art-waiting {
+  opacity: 0;
+}
+
+.curtained .art {
+  transition: none;
+}
+
 .art-fill {
   position: absolute;
   inset: 0;

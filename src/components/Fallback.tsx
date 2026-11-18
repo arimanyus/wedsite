@@ -1,6 +1,7 @@
 import { Component, type ReactNode } from 'react'
 
 import { couple, events, formatDay, mapsUrl } from '@/data/wedding'
+import { openCurtain } from '@/lib/curtain'
 
 /**
  * If anything in the page fails to draw, the guest still gets the invitation: who, when and where,
@@ -11,6 +12,10 @@ export class Fallback extends Component<{ children: ReactNode }, { failed: boole
 
   static getDerivedStateFromError() {
     return { failed: true }
+  }
+
+  componentDidCatch() {
+    openCurtain()
   }
 
   render() {

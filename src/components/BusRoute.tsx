@@ -4,9 +4,24 @@ import { useEffect, useRef } from 'react'
 import { Art } from '@/components/Art'
 import { BUS_WIDTH, busPosition } from '@/journey/bus'
 
-/** The baraat bus, bobbing along. `back` turns it round for the drive home. */
-export function Bus({ direction = 'out' }: { direction?: 'out' | 'back' }) {
-  return <Art name="bus" fetchPriority="low" className={direction === 'back' ? 'bus-img bus-img-back' : 'bus-img'} />
+interface BusProps {
+  /** `back` turns it round for the drive home. */
+  direction?: 'out' | 'back'
+  /** On the journey, the Baraat scene, whose artwork it is fetched with. */
+  scene?: number
+}
+
+/** The baraat bus, bobbing along. Off the journey it is fetched once it nears the screen. */
+export function Bus({ direction = 'out', scene }: BusProps) {
+  return (
+    <Art
+      name="bus"
+      scene={scene}
+      fetchPriority="low"
+      loading={scene === undefined ? 'lazy' : undefined}
+      className={direction === 'back' ? 'bus-img bus-img-back' : 'bus-img'}
+    />
+  )
 }
 
 interface BusRouteProps {

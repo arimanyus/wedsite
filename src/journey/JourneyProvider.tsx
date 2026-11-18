@@ -11,6 +11,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, typ
 import { rasterWidthFor } from '@/art'
 import { useMediaQuery } from '@/lib/hooks'
 import { ActiveSceneContext, JourneyContext, type GroundSize, type JourneyState } from './context'
+import { fetchEarly } from './loading'
 import { scenes } from './scenes'
 import { activeScene, cameraAt, focusPoint, restingPoints, skyBand, TOTAL } from './timeline'
 
@@ -89,6 +90,14 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   useMotionValueEvent(t, 'change', (value) => {
     setActive(value > TOTAL + 0.45 ? scenes.length : activeScene(value))
   })
+
+  // From the opening scene the artwork arrives in turn anyway; a guest who is further along (back
+  // on a reload, or sent there by the dots) needs that scene's and the next one's straight away.
+  useEffect(() => {
+    if (active === 0) return
+    fetchEarly(active)
+    fetchEarly(active + 1)
+  }, [active])
 
   const rawPointer = useMotionValue(0)
   const pointer = useSpring(rawPointer, { stiffness: 60, damping: 18, mass: 0.6 })

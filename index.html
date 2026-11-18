@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="curtained">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -23,8 +23,192 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- The curtain: two pink gateway doors with a marigold medallion, drawn here so it is on screen
+         with the first bytes, before any script or stylesheet. Its petals light up as the opening
+         scene's artwork arrives (--p, 0 to 1), and the doors swing open once the scene is whole
+         (src/components/Curtain.tsx). -->
+    <style>
+      html.curtained {
+        overflow: hidden;
+      }
+      #curtain {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        touch-action: none;
+        animation: curtain-give-up 0.6s 30s forwards;
+      }
+      .curtain-door {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        background:
+          radial-gradient(circle, rgb(255 184 28 / 0.3) 1.5px, transparent 2.2px) 0 0 / 24px 24px,
+          linear-gradient(#f5288d, #ce0e71);
+        transition: transform 1.1s cubic-bezier(0.7, 0, 0.25, 1) 0.15s;
+      }
+      .curtain-door::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 24px;
+        background:
+          radial-gradient(circle at 0 0, #0f9a91 0 5px, #2a0718 5.5px 7px, transparent 7.5px) 0 0 / 28px 24px repeat-x,
+          radial-gradient(circle at 50% 0, #ffb81c 0 9px, #2a0718 9.5px 11.5px, transparent 12px) 0 0 / 28px 24px repeat-x;
+      }
+      .curtain-door::before {
+        content: '';
+        position: absolute;
+        inset: 36px 0 18px 18px;
+        border: 2px solid rgb(255 184 28 / 0.6);
+        border-right: 0;
+        border-radius: 100% 0 0 0 / 22% 0 0 0;
+      }
+      .curtain-door-l {
+        left: 0;
+        box-shadow:
+          inset -6px 0 0 #ffb81c,
+          inset -9px 0 0 #2a0718;
+      }
+      .curtain-door-r {
+        right: 0;
+        box-shadow:
+          inset 6px 0 0 #ffb81c,
+          inset 9px 0 0 #2a0718;
+      }
+      .curtain-door-r::before {
+        inset: 36px 18px 18px 0;
+        transform: scaleX(-1);
+      }
+      .curtain-centre {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.1rem;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.6s ease,
+          opacity 0.45s ease;
+      }
+      .curtain-bloom {
+        width: min(54vw, 30vh, 240px);
+        height: auto;
+        filter: drop-shadow(0 6px 0 rgb(42 7 24 / 0.35));
+        animation: curtain-breathe 2.4s ease-in-out infinite alternate;
+      }
+      .curtain-scallops {
+        animation: curtain-turn 24s linear infinite;
+      }
+      .curtain-petals use {
+        opacity: calc(0.2 + 0.8 * clamp(0, var(--p, 0) * 12 - var(--i), 1));
+        transition: opacity 0.35s ease;
+      }
+      .curtain-names {
+        margin: 0;
+        padding: 0.5rem 1.1rem 0.45rem;
+        border-radius: 999px;
+        background: #2a0718;
+        color: #fff1d6;
+        font: 600 0.82rem/1 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+        letter-spacing: 0.32em;
+        text-indent: 0.32em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .curtain-names span {
+        color: #ffb81c;
+      }
+      #curtain.open {
+        pointer-events: none;
+      }
+      #curtain.open .curtain-centre {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0;
+      }
+      #curtain.open .curtain-door-l {
+        transform: translateX(-101%);
+      }
+      #curtain.open .curtain-door-r {
+        transform: translateX(101%);
+      }
+      @keyframes curtain-turn {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes curtain-breathe {
+        to {
+          transform: scale(1.035);
+        }
+      }
+      @keyframes curtain-give-up {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #curtain {
+          transition: opacity 0.4s ease;
+        }
+        #curtain.open {
+          opacity: 0;
+        }
+        #curtain.open .curtain-door-l,
+        #curtain.open .curtain-door-r {
+          transform: none;
+        }
+        .curtain-bloom,
+        .curtain-scallops {
+          animation: none;
+        }
+      }
+    </style>
+    <noscript>
+      <style>
+        html.curtained {
+          overflow: auto;
+        }
+        #curtain {
+          display: none;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
+    <div id="curtain" role="status" aria-label="Opening the invitation">
+      <div class="curtain-door curtain-door-l"></div>
+      <div class="curtain-door curtain-door-r"></div>
+      <div class="curtain-centre">
+        <svg class="curtain-bloom" viewBox="-100 -100 200 200" aria-hidden="true">
+          <defs>
+            <circle id="cs" cy="-86" r="9" />
+            <path id="cp" d="M0-32C11-44 12-62 0-79C-12-62-11-44 0-32Z" />
+            <path id="ci" d="M0-7C7-13 8-22 0-30C-8-22-7-13 0-7Z" />
+          </defs>
+          <g class="curtain-scallops" fill="#ffb81c" stroke="#2a0718" stroke-width="2.5">
+            <use href="#cs" /><use href="#cs" transform="rotate(15)" /><use href="#cs" transform="rotate(30)" /><use href="#cs" transform="rotate(45)" /><use href="#cs" transform="rotate(60)" /><use href="#cs" transform="rotate(75)" /><use href="#cs" transform="rotate(90)" /><use href="#cs" transform="rotate(105)" /><use href="#cs" transform="rotate(120)" /><use href="#cs" transform="rotate(135)" /><use href="#cs" transform="rotate(150)" /><use href="#cs" transform="rotate(165)" /><use href="#cs" transform="rotate(180)" /><use href="#cs" transform="rotate(195)" /><use href="#cs" transform="rotate(210)" /><use href="#cs" transform="rotate(225)" /><use href="#cs" transform="rotate(240)" /><use href="#cs" transform="rotate(255)" /><use href="#cs" transform="rotate(270)" /><use href="#cs" transform="rotate(285)" /><use href="#cs" transform="rotate(300)" /><use href="#cs" transform="rotate(315)" /><use href="#cs" transform="rotate(330)" /><use href="#cs" transform="rotate(345)" />
+          </g>
+          <circle r="77" fill="#ae0661" stroke="#2a0718" stroke-width="3" />
+          <circle r="70" fill="none" stroke="#ffb81c" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round" />
+          <g class="curtain-petals" fill="#fff1d6" stroke="#2a0718" stroke-width="2.5">
+            <use href="#cp" style="--i: 0" /><use href="#cp" transform="rotate(30)" style="--i: 1" /><use href="#cp" transform="rotate(60)" style="--i: 2" /><use href="#cp" transform="rotate(90)" style="--i: 3" /><use href="#cp" transform="rotate(120)" style="--i: 4" /><use href="#cp" transform="rotate(150)" style="--i: 5" /><use href="#cp" transform="rotate(180)" style="--i: 6" /><use href="#cp" transform="rotate(210)" style="--i: 7" /><use href="#cp" transform="rotate(240)" style="--i: 8" /><use href="#cp" transform="rotate(270)" style="--i: 9" /><use href="#cp" transform="rotate(300)" style="--i: 10" /><use href="#cp" transform="rotate(330)" style="--i: 11" />
+          </g>
+          <circle r="31" fill="#0f9a91" stroke="#2a0718" stroke-width="2.5" />
+          <g fill="#ffb81c" stroke="#2a0718" stroke-width="2">
+            <use href="#ci" /><use href="#ci" transform="rotate(45)" /><use href="#ci" transform="rotate(90)" /><use href="#ci" transform="rotate(135)" /><use href="#ci" transform="rotate(180)" /><use href="#ci" transform="rotate(225)" /><use href="#ci" transform="rotate(270)" /><use href="#ci" transform="rotate(315)" />
+          </g>
+          <circle r="6.5" fill="#f5288d" stroke="#2a0718" stroke-width="2" />
+        </svg>
+        <p class="curtain-names">Mansi <span>&amp;</span> Vivek</p>
+      </div>
+    </div>
     <div id="root"></div>
     <noscript>
       <div style="max-width: 32rem; margin: 0 auto; padding: 3rem 1.5rem; font: 1.1rem/1.6 Georgia, serif; text-align: center">
