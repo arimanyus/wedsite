@@ -69,3 +69,16 @@
     padding-inline: 0.9rem;
   }
 }
+
+/* The shortest sideways phones (with the browser's own bars on screen): the same layout, a size down. */
+@media (max-height: 360px) and (orientation: landscape) {
+  .scene-text {
+    zoom: 0.86;
+  }
+}
+
+@media (max-height: 330px) and (orientation: landscape) {
+  .scene-text {
+    zoom: 0.78;
+  }
+}
