@@ -43,3 +43,43 @@ a,
 button {
   touch-action: manipulation;
 }
+
+/* The invitation as plain text, shown only if the page itself fails to draw (see Fallback.tsx). */
+.plain-invitation {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.plain-invitation h1 {
+  margin: 0;
+  font-size: 2.6rem;
+  line-height: 1.1;
+}
+
+.plain-invitation .plain-dates {
+  margin: 0.5rem 0 2rem;
+  font-style: italic;
+}
+
+.plain-invitation ul {
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.plain-invitation li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid rgb(59 42 20 / 0.25);
+}
+
+.plain-invitation a {
+  color: #a3123f;
+  text-decoration: underline;
+}
