@@ -22,14 +22,28 @@ export function art(name: string): string | undefined {
   return files[`./build/${name}.svg`]
 }
 
+interface Connection {
+  saveData?: boolean
+  effectiveType?: string
+}
+
+/** The guest has asked their browser to save data, or is on a slow connection. */
+function frugal(): boolean {
+  const connection = (navigator as Navigator & { connection?: Connection }).connection
+  return connection?.saveData === true || ['slow-2g', '2g', '3g'].includes(connection?.effectiveType ?? '')
+}
+
 /**
  * Which bitmap size suits a frieze shown `friezeWidth` CSS pixels wide. On dense screens a bitmap
  * a little short of one image pixel per screen pixel still looks sharp, and is a good deal
  * lighter to download and to hold in memory; on ordinary screens it has to cover every pixel.
+ * A guest who is saving data gets the next size down.
  */
 export function rasterWidthFor(friezeWidth: number, density: number): number {
   const needed = friezeWidth * density * (density > 1.5 ? 0.72 : 1)
-  return RASTER_WIDTHS.find((width) => width >= needed) ?? RASTER_WIDTHS[RASTER_WIDTHS.length - 1]
+  const fitting = RASTER_WIDTHS.findIndex((width) => width >= needed)
+  const index = fitting < 0 ? RASTER_WIDTHS.length - 1 : fitting
+  return RASTER_WIDTHS[Math.max(0, index - (frugal() ? 1 : 0))]
 }
 
 /**
