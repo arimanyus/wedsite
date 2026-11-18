@@ -14,6 +14,38 @@ const bitmaps = import.meta.glob<string>('./build/*.webp', {
   import: 'default',
 })
 
+/** A group cut out of a drawing to be animated (see scripts/moves.mjs). Coordinates are drawing units. */
+export interface MovingPart {
+  /** Its own artwork, as for art() and groundArt(). */
+  name: string
+  /** One of the moves in src/styles/moves.css. */
+  move: string
+  box: [x: number, y: number, width: number, height: number]
+  origin: [x: number, y: number]
+  /** Seconds per cycle. */
+  dur: number
+  /** Degrees for turns, drawing units for travel, a fraction for scaling. */
+  amp: number
+  /** Seconds. */
+  delay: number
+  path?: [dx: number, dy: number]
+  children?: MovingPart[]
+}
+
+export interface Moves {
+  /** The drawing's viewBox. */
+  size: [x: number, y: number, width: number, height: number]
+  parts: MovingPart[]
+}
+
+const moveLists = import.meta.glob<Record<string, Moves>>('./build/*.moves.json', { eager: true, import: 'default' })
+const moves: Record<string, Moves> = Object.assign({}, ...Object.values(moveLists))
+
+/** The moving parts of a prepared drawing such as `pichwai.front` or `bus`, if it has any. */
+export function movesOf(name: string): Moves | undefined {
+  return moves[name]
+}
+
 /** Keep in step with WIDTHS in scripts/raster-art.mjs. */
 const RASTER_WIDTHS = [1600, 2400, 3600]
 

@@ -5,7 +5,8 @@
 //
 // For every drawing in src/art/build/ that the ground uses, this writes
 // src/art/build/<name>.<width>.webp once per width in WIDTHS, where <width> is the width in pixels
-// of a whole frieze at that size (drawings narrower than a frieze are scaled to match). The page
+// of a whole frieze at that size (drawings narrower than a frieze, and the moving parts cut out
+// of them, are scaled to match). The page
 // picks the size that suits the screen (src/art/index.ts) and falls back to the SVG when a bitmap
 // is missing, so this step is optional: without Chrome it warns and leaves the SVGs to do the job.
 //
@@ -74,7 +75,7 @@ export async function rasterArt(names = [], { force = false } = {}) {
 
   const all = (await readdir(outDir)).filter(onGround).sort()
   const files = names.length
-    ? all.filter((file) => names.includes(file.replace(/(\.(back|front))?\.svg$/, '')))
+    ? all.filter((file) => names.includes(file.replace(/(\.(back|front))?(\.m\d+)?\.svg$/, '')))
     : all
 
   const jobs = []

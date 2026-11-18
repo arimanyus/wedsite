@@ -6,6 +6,9 @@
 // which keeps parallax on the compositor instead of re-rasterising a large inline SVG every frame.
 // Everything else (ornaments, the bus, the joins) is optimised and copied as a single file.
 //
+// Groups marked `data-move` are cut out into drawings of their own and animated by the page; see
+// scripts/moves.mjs.
+//
 // With --raster (as `npm run build` runs it) the ground artwork is then also painted into bitmaps
 // for the published site: see scripts/raster-art.mjs.
 import { mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
@@ -14,6 +17,7 @@ import { fileURLToPath } from 'node:url'
 import * as cheerio from 'cheerio'
 import { optimize } from 'svgo'
 
+import { closeBrowser, coverage, hasMoves, measureMoves, numberMoves, splitMoves } from './moves.mjs'
 import { rasterArt } from './raster-art.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -92,35 +96,66 @@ for (const name of only) {
   if (!sources.includes(`${name}.svg`)) console.warn(`no such drawing: src/art/${name}.svg`)
 }
 
+/** Writes a file unless it already holds exactly this, so an unchanged drawing keeps its date and its bitmaps. */
+async function put(outName, data, log = true) {
+  written.add(outName)
+  const current = await readFile(join(outDir, outName), 'utf8').catch(() => null)
+  if (current === data) return
+  // Written beside the target and renamed into place, so the dev server never reads half a file.
+  const temp = join(outDir, `.${outName}.${process.pid}.tmp`)
+  await writeFile(temp, data)
+  await rename(temp, join(outDir, outName))
+  if (log) console.log(`${outName.padEnd(34)} ${(data.length / 1024).toFixed(1)} KB`)
+}
+
 const written = new Set()
 for (const file of files) {
   const name = file.replace(/\.svg$/, '')
-  const source = await readFile(join(sourceDir, file), 'utf8')
+  let source = await readFile(join(sourceDir, file), 'utf8')
   const $ = cheerio.load(source, { xml: true })
   const layered = LAYERS.every((id) => $('svg').first().children(`g#${id}`).length === 1)
 
-  const outputs = layered
-    ? LAYERS.map((id) => [`${name}.${id}.svg`, extractLayer(source, id)])
-    : [[`${name}.svg`, source]]
+  // Moving parts are measured on the whole drawing, then cut out of whichever layer holds them.
+  let boxes = null
+  if (hasMoves(source)) {
+    source = numberMoves(source)
+    boxes = await measureMoves(source)
+    if (!boxes) console.warn(`  ${name}: no Chrome to measure its moving parts (set CHROME_PATH); drawn still`)
+  }
 
-  for (const [outName, markup] of outputs) {
-    const data = optimise(markup, outName)
-    written.add(outName)
-    // An unchanged drawing keeps its file and its date, so its bitmaps are not painted again.
-    const current = await readFile(join(outDir, outName), 'utf8').catch(() => null)
-    if (current === data) continue
-    // Written beside the target and renamed into place, so the dev server never reads half a file.
-    const temp = join(outDir, `.${outName}.${process.pid}.tmp`)
-    await writeFile(temp, data)
-    await rename(temp, join(outDir, outName))
-    console.log(`${outName.padEnd(34)} ${(data.length / 1024).toFixed(1)} KB`)
+  const outputs = layered
+    ? LAYERS.map((id) => [`${name}.${id}`, extractLayer(source, id)])
+    : [[name, source]]
+
+  const moves = {}
+  for (const [outBase, markup] of outputs) {
+    let layer = markup
+    if (boxes) {
+      const split = splitMoves(markup, outBase, boxes)
+      layer = split.layer
+      for (const [partName, part] of split.files) await put(partName, optimise(part, partName), false)
+      if (split.entry) {
+        moves[outBase] = split.entry
+        const { count, share } = coverage(split.entry)
+        console.log(`${`${outBase} moving`.padEnd(34)} ${count} parts, ${Math.round(share * 100)}% of its area`)
+      }
+    }
+    await put(`${outBase}.svg`, optimise(layer, `${outBase}.svg`))
+  }
+  if (Object.keys(moves).length) await put(`${name}.moves.json`, `${JSON.stringify(moves)}\n`, false)
+
+  // Parts and lists left over from an earlier version of this drawing.
+  const own = new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\.(back|front))?(\\.m\\d+\\.svg|\\.moves\\.json)$`)
+  for (const leftover of await readdir(outDir)) {
+    if (own.test(leftover) && !written.has(leftover)) await rm(join(outDir, leftover))
   }
 }
+await closeBrowser()
 
 // A full rebuild also clears out files whose drawing has been deleted or renamed.
 if (only.length === 0) {
   for (const file of await readdir(outDir)) {
-    if (file.endsWith('.svg') && !written.has(file)) await rm(join(outDir, file))
+    if ((file.endsWith('.svg') || file.endsWith('.json')) && !written.has(file)) await rm(join(outDir, file))
   }
 }
 

@@ -1,0 +1,332 @@
+/* ── The moving parts of the ground artwork ──
+   Groups marked `data-move` in a drawing are cut out by scripts/moves.mjs and laid back over it by
+   <Art> (src/components/Art.tsx), one small image each. Every part carries its own settings:
+     --dur, --delay      the cycle
+     --amp               degrees for turns, a fraction for scaling (as drawn in data-amp)
+     --ax, --ay          the same amp, as distance: a share of the part's own width and height
+     --dx, --dy          data-path, as a share of the part's own width and height
+   Only transform and opacity ever change, so the browser moves pictures it has already painted.
+   The names and their defaults are listed in MOVES in scripts/moves.mjs. */
+
+.art-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.move {
+  position: absolute;
+  animation-duration: var(--dur);
+  animation-delay: var(--delay);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  will-change: transform;
+}
+
+/* To and fro: these run forwards, then backwards. */
+.move-sway,
+.move-swing,
+.move-flap,
+.move-flutter,
+.move-bob,
+.move-rock,
+.move-float,
+.move-drift,
+.move-pulse,
+.move-breathe,
+.move-twinkle,
+.move-sparkle,
+.move-shimmer,
+.move-splash {
+  animation-direction: alternate;
+}
+
+.move-sway,
+.move-swing {
+  animation-name: move-sway;
+}
+@keyframes move-sway {
+  from { transform: rotate(calc(var(--amp) * -1deg)); }
+  to { transform: rotate(calc(var(--amp) * 1deg)); }
+}
+
+.move-swish {
+  animation-name: move-swish;
+}
+@keyframes move-swish {
+  0%, 52%, 100% { transform: rotate(0deg); }
+  12% { transform: rotate(calc(var(--amp) * 1deg)); }
+  24% { transform: rotate(calc(var(--amp) * -0.7deg)); }
+  36% { transform: rotate(calc(var(--amp) * 0.5deg)); }
+}
+
+.move-nod {
+  animation-name: move-nod;
+}
+@keyframes move-nod {
+  0%, 72%, 100% { transform: rotate(0deg); }
+  18%, 42% { transform: rotate(calc(var(--amp) * 1deg)); }
+  30%, 54% { transform: rotate(calc(var(--amp) * 0.82deg)); }
+}
+
+.move-flap {
+  animation-name: move-flap;
+}
+@keyframes move-flap {
+  from { transform: rotate(calc(var(--amp) * -0.5deg)); }
+  to { transform: rotate(calc(var(--amp) * 0.5deg)); }
+}
+
+.move-flutter {
+  animation-name: move-flutter;
+}
+@keyframes move-flutter {
+  from { transform: skewY(calc(var(--amp) * -1deg)) scaleX(1); }
+  to { transform: skewY(calc(var(--amp) * 1deg)) scaleX(0.94); }
+}
+
+.move-bob {
+  animation-name: move-bob;
+}
+@keyframes move-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(var(--ay) * -1)); }
+}
+
+.move-rock {
+  animation-name: move-rock;
+}
+@keyframes move-rock {
+  from { transform: rotate(calc(var(--amp) * -1deg)) translateY(0); }
+  to { transform: rotate(calc(var(--amp) * 1deg)) translateY(-2%); }
+}
+
+.move-float {
+  animation-name: move-float;
+}
+@keyframes move-float {
+  from { transform: translateY(0) rotate(-1.5deg); }
+  to { transform: translateY(calc(var(--ay) * -1)) rotate(1.5deg); }
+}
+
+.move-drift {
+  animation-name: move-drift;
+}
+@keyframes move-drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(var(--dx), var(--dy)); }
+}
+
+.move-pace {
+  animation-name: move-pace;
+}
+@keyframes move-pace {
+  0%, 100% { transform: translate(0, 0) scaleX(1); }
+  46% { transform: translate(var(--dx), var(--dy)) scaleX(1); }
+  50% { transform: translate(var(--dx), var(--dy)) scaleX(-1); }
+  96% { transform: translate(0, 0) scaleX(-1); }
+}
+
+.move-fly {
+  animation-name: move-fly;
+  animation-timing-function: linear;
+}
+@keyframes move-fly {
+  0% { transform: translate(0, 0); opacity: 0; }
+  6%, 94% { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
+
+/* Drawn at the top of its leap. Out of the water, over, and back in; then a long wait. */
+.move-jump {
+  animation-name: move-jump;
+}
+@keyframes move-jump {
+  0%, 64% {
+    transform: translate(calc(var(--dx) * -0.5), var(--ay)) rotate(-40deg);
+    opacity: 0;
+    animation-timing-function: ease-out;
+  }
+  66% {
+    transform: translate(calc(var(--dx) * -0.5), var(--ay)) rotate(-40deg);
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  76% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+    animation-timing-function: ease-in;
+  }
+  86% {
+    transform: translate(calc(var(--dx) * 0.5), var(--ay)) rotate(40deg);
+    opacity: 1;
+  }
+  88%, 100% {
+    transform: translate(calc(var(--dx) * 0.5), var(--ay)) rotate(40deg);
+    opacity: 0;
+  }
+}
+
+.move-spin {
+  animation-name: move-spin;
+  animation-timing-function: linear;
+}
+@keyframes move-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(calc(var(--amp) * 360deg)); }
+}
+
+.move-pulse,
+.move-breathe {
+  animation-name: move-pulse;
+}
+@keyframes move-pulse {
+  from { transform: scale(1); }
+  to { transform: scale(calc(1 + var(--amp))); }
+}
+
+.move-flicker {
+  animation-name: move-flicker;
+  animation-timing-function: linear;
+}
+@keyframes move-flicker {
+  0%, 100% { transform: scale(1, 1); opacity: 1; }
+  23% { transform: scale(0.93, 1.09); opacity: 0.86; }
+  47% { transform: scale(1.05, 0.93); opacity: 1; }
+  71% { transform: scale(0.96, 1.05); opacity: 0.9; }
+}
+
+.move-twinkle {
+  animation-name: move-twinkle;
+}
+@keyframes move-twinkle {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.7); opacity: 0.25; }
+}
+
+.move-sparkle {
+  animation-name: move-sparkle;
+}
+@keyframes move-sparkle {
+  from { transform: rotate(0deg) scale(0.6); opacity: 0.4; }
+  to { transform: rotate(45deg) scale(1.1); opacity: 1; }
+}
+
+.move-blink {
+  animation-name: move-blink;
+  animation-timing-function: steps(1, end);
+}
+@keyframes move-blink {
+  0%, 5%, 9%, 62%, 100% { opacity: 1; }
+  3% { opacity: 0.15; }
+  7% { opacity: 0.35; }
+  60% { opacity: 0.2; }
+}
+
+.move-ripple {
+  animation-name: move-ripple;
+  animation-timing-function: ease-out;
+}
+@keyframes move-ripple {
+  0% { transform: scale(0.4); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+.move-shimmer {
+  animation-name: move-shimmer;
+}
+@keyframes move-shimmer {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(var(--ax)); opacity: 0.55; }
+}
+
+.move-wave {
+  animation-name: move-wave;
+}
+@keyframes move-wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(calc(var(--amp) * 1deg)); }
+  20%, 40% { transform: rotate(calc(var(--amp) * 0.3deg)); }
+  50% { transform: rotate(calc(var(--amp) * 0.8deg)); }
+}
+
+.move-dance {
+  animation-name: move-dance;
+}
+@keyframes move-dance {
+  0%, 100% { transform: translateY(0) rotate(calc(var(--amp) * -1deg)); }
+  25%, 75% { transform: translateY(-3%) rotate(0deg); }
+  50% { transform: translateY(0) rotate(calc(var(--amp) * 1deg)); }
+}
+
+.move-bounce {
+  animation-name: move-bounce;
+}
+@keyframes move-bounce {
+  0%, 100% { transform: translateY(0) scale(1.06, 0.94); animation-timing-function: ease-out; }
+  50% { transform: translateY(calc(var(--ay) * -1)) scale(0.97, 1.03); animation-timing-function: ease-in; }
+}
+
+.move-kite {
+  animation-name: move-kite;
+}
+@keyframes move-kite {
+  0%, 100% { transform: translate(0, 0) rotate(calc(var(--amp) * -1deg)); }
+  25% { transform: translate(var(--dx), var(--dy)) rotate(calc(var(--amp) * 0.3deg)); }
+  50% { transform: translate(0, 0) rotate(calc(var(--amp) * 1deg)); }
+  75% { transform: translate(calc(var(--dx) * -1), var(--dy)) rotate(calc(var(--amp) * -0.3deg)); }
+}
+
+.move-splash {
+  animation-name: move-splash;
+}
+@keyframes move-splash {
+  from { transform: scaleY(0.82); }
+  to { transform: scaleY(1.12); }
+}
+
+.move-rise {
+  animation-name: move-rise;
+  animation-timing-function: ease-out;
+}
+@keyframes move-rise {
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  20% { opacity: 0.9; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(1.4); opacity: 0; }
+}
+
+.move-spray {
+  animation-name: move-spray;
+  animation-timing-function: ease-out;
+}
+@keyframes move-spray {
+  0% { transform: scale(0.3, 0.2); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: scale(1, 1); opacity: 1; }
+  100% { transform: scale(1.1, 1.05); opacity: 0; }
+}
+
+.move-pop {
+  animation-name: move-pop;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@keyframes move-pop {
+  0% { transform: scale(0.1); opacity: 0; }
+  8% { opacity: 1; }
+  40% { transform: scale(1); opacity: 1; }
+  70%, 100% { transform: scale(1.08) translateY(3%); opacity: 0; }
+}
+
+/* Still, as drawn, for guests who have asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .move {
+    animation: none;
+    will-change: auto;
+  }
+}

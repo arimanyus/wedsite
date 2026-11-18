@@ -1,25 +1,12 @@
 import { motion, useMotionValue, useTransform, type MotionValue } from 'motion/react'
 import { useEffect, useRef } from 'react'
 
-import { groundArt } from '@/art'
+import { Art } from '@/components/Art'
 import { BUS_WIDTH, busPosition } from '@/journey/bus'
-import { useJourney } from '@/journey/context'
 
 /** The baraat bus, bobbing along. `back` turns it round for the drive home. */
 export function Bus({ direction = 'out' }: { direction?: 'out' | 'back' }) {
-  const { rasterWidth } = useJourney()
-  const bus = rasterWidth ? groundArt('bus', rasterWidth) : undefined
-  if (!bus) return null
-  return (
-    <img
-      src={bus}
-      alt=""
-      draggable={false}
-      decoding="async"
-      fetchPriority="low"
-      className={direction === 'back' ? 'bus-img bus-img-back' : 'bus-img'}
-    />
-  )
+  return <Art name="bus" fetchPriority="low" className={direction === 'back' ? 'bus-img bus-img-back' : 'bus-img'} />
 }
 
 interface BusRouteProps {
@@ -61,27 +48,11 @@ export function BusRoute({ progress, direction = 'out' }: BusRouteProps) {
   const backX = useTransform(worldX, (x) => (size.current.world <= size.current.view ? 0 : -x * 0.12))
   const busX = useTransform(trip, (p) => `${((busPosition(p) - 0.5) / BUS_WIDTH) * 100}%`)
 
-  const { rasterWidth } = useJourney()
-  const back = rasterWidth ? groundArt('baraat.back', rasterWidth) : undefined
-  const front = rasterWidth ? groundArt('baraat.front', rasterWidth) : undefined
-
   return (
     <div ref={ref} className="bus-route" aria-hidden="true">
       <motion.div className="bus-route-world" style={{ x: worldX }}>
-        {back && (
-          <motion.img
-            src={back}
-            alt=""
-            className="frieze-layer"
-            draggable={false}
-            loading="lazy"
-            decoding="async"
-            style={{ x: backX }}
-          />
-        )}
-        {front && (
-          <img src={front} alt="" className="frieze-layer" draggable={false} loading="lazy" decoding="async" />
-        )}
+        <Art name="baraat.back" className="frieze-layer" loading="lazy" style={{ x: backX }} />
+        <Art name="baraat.front" className="frieze-layer" loading="lazy" />
         <motion.div className="bus" style={{ x: busX }}>
           <Bus direction={direction} />
         </motion.div>
