@@ -45,8 +45,8 @@
 <path id="PM" d="M1727,272C1739.5,269.9 1776.9,250.2 1801.8,259.2C1826.8,268.2 1861.7,307.8 1876.7,325.8C1891.7,343.7 1889.2,360 1891.7,366.8"/>
 <path id="PN" d="M1726.5,273.4C1729.3,276.1 1739,279.9 1744.5,286.7C1750,293.4 1753.2,299 1759.4,313.8C1765.5,328.6 1774.8,360.2 1781.2,375.7C1787.7,391.2 1793.2,399.8 1798.1,406.9C1802.9,414 1807.8,416.4 1810.4,418.2C1812.9,420 1811.5,420.3 1813.3,417.6C1815.2,414.9 1821.2,411 1821.6,402C1821.9,392.9 1821.1,380.4 1815.6,363.4C1810,346.4 1798.8,315.8 1788.2,300.1C1777.6,284.3 1762.2,273.7 1752.1,268.8C1742,263.9 1731.8,269.8 1727.5,270.6C1723.3,271.4 1723.7,270.7 1726.5,273.4Z"/>
 <path id="PO" d="M1727,272C1733.4,275.3 1752.7,273 1765.6,292C1778.4,310.9 1796.4,364.5 1804.1,385.5C1811.8,406.5 1810.6,412.5 1811.8,417.9"/>
-<path id="PP" d="M330,190C345,197 388.3,234 420,232C451.7,230 483.3,179 520,178C556.7,177 600,227.3 640,226C680,224.7 733.3,172 760,170C786.7,168 793.3,206.7 800,214"/>
-<path id="PQ" d="M1610,214C1621.7,206.3 1650,166 1680,168C1710,170 1755,224.7 1790,226C1825,227.3 1856.7,175.3 1890,176C1923.3,176.7 1961.7,229.3 1990,230C2018.3,230.7 2048.3,188.3 2060,180"/>
+<path id="PP" d="M330,190C345.0,197.0 388.3,234.0 420.0,232.0C451.7,230.0 483.3,179.0 520.0,178.0C556.7,177.0 600.0,227.3 640.0,226.0C662.2,225.3 688.4,208.8 711.9,193.9"/>
+<path id="PQ" d="M1610,214C1621.7,206.3 1650.0,166.0 1680.0,168.0C1710.0,170.0 1755.0,224.7 1790.0,226.0C1825.0,227.3 1856.7,175.3 1890.0,176.0C1916.9,176.6 1947.1,211.0 1972.6,224.6"/>
 <path id="PR" d="M151.4,424.6C147.6,424.7 147.8,431.7 145.5,435.9C143.3,440 140.1,445.7 137.6,449.4C135,453.1 133.3,455.4 130.3,458.1C127.2,460.8 122.8,463.4 119.5,465.6C116.3,467.7 112,469.4 110.9,471.3C109.9,473.1 111.4,476.1 113.5,476.7C115.5,477.3 119.3,475.9 123.4,474.8C127.4,473.7 133.1,472.5 137.7,470C142.2,467.5 146.9,463.8 150.9,459.7C154.8,455.6 158.4,449.4 161.3,445.3C164.2,441.3 169.9,438.8 168.2,435.4C166.6,431.9 155.1,424.5 151.4,424.6Z"/>
 <path id="PS" d="M171.8,435.4C170.1,438.8 175.8,441.3 178.7,445.3C181.6,449.4 185.2,455.6 189.1,459.7C193.1,463.8 197.8,467.5 202.3,470C206.9,472.5 212.6,473.7 216.6,474.8C220.7,475.9 224.5,477.3 226.5,476.7C228.6,476.1 230.1,473.1 229.1,471.3C228,469.4 223.7,467.7 220.5,465.6C217.2,463.4 212.8,460.8 209.7,458.1C206.7,455.4 205,453.1 202.4,449.4C199.9,445.7 196.7,440 194.5,435.9C192.2,431.7 192.4,424.7 188.6,424.6C184.9,424.5 173.4,431.9 171.8,435.4Z"/>
 <path id="PT" d="M156.6,427.8C153.1,428.9 155.8,434.6 155.2,438.7C154.5,442.8 153.5,448.7 152.8,452.3C152.1,456 151.8,458.2 151.2,460.6C150.6,463 149.7,465 149.1,466.9C148.4,468.9 146.7,470.7 147.2,472.2C147.7,473.7 150.4,475.6 152,475.8C153.6,476 154.8,474.8 156.7,473.4C158.6,472 161.3,470.3 163.4,467.5C165.4,464.7 167.4,460.9 169,456.8C170.6,452.6 172,446.6 173.2,442.5C174.3,438.4 178.9,434.6 176.2,432.2C173.4,429.7 160.1,426.7 156.6,427.8Z"/>
@@ -791,6 +791,16 @@
 <path id="mzHu" d="M-74,-16L70,-16C67,-3 50,4 0,4C-50,4 -71,-3 -74,-16Z"/>
 <path id="mzKd" d="M0,-31L23,-2L0,34L-23,-2Z"/>
 <clipPath id="mzCsun"><path clip-rule="evenodd" d="M-90,0A90,90 0 1 0 90,0A90,90 0 1 0 -90,0ZM-44.6,0A44.6,44.6 0 1 0 44.6,0A44.6,44.6 0 1 0 -44.6,0Z"/></clipPath>
+<clipPath id="mzCeL"><path d="M1000,90H1105.5V290H1000Z"/></clipPath>
+<clipPath id="mzCeLi"><path d="M1104,90H1160V290H1104Z"/></clipPath>
+<clipPath id="mzCeR"><path d="M1296.5,90H1400V290H1296.5Z"/></clipPath>
+<clipPath id="mzCeRi"><path d="M1240,90H1298V290H1240Z"/></clipPath>
+<clipPath id="mzCtl"><path clip-rule="evenodd" d="M-200,-260H200V0H-200ZM-121.6,-123.2L-118.7,-131.6L-115.7,-138.7L-112.4,-144.9L-109.0,-149.9L-104.9,-154.4L-101.0,-157.5L-96.5,-160.0L-91.3,-161.9L-86.9,-163.1L-80.5,-164.5L-68.0,-166.5L-51.1,-168.2L-27.1,-170.0L-11.3,-170.8L5.9,-171.1L20.9,-171.0L34.5,-170.3L43.2,-169.4L53.2,-167.9L63.1,-165.8L71.4,-163.6L79.1,-161.1L86.1,-158.3L92.0,-155.2L96.3,-152.2L101.1,-147.7L106.0,-141.9L110.1,-135.8L113.7,-128.7L115.5,-123.7L116.6,-118.0L117.0,-111.5L116.6,-104.8L115.4,-99.1L113.2,-93.6L111.8,-91.1L110.0,-88.7L106.4,-85.3L100.0,-81.2L92.2,-77.4L83.3,-74.0L72.2,-70.7L62.1,-68.5L52.5,-67.1L38.9,-65.8L23.8,-64.8L5.9,-64.2L-12.8,-64.1L-25.4,-64.4L-40.6,-65.3L-54.5,-66.6L-66.1,-67.9L-78.4,-69.7L-87.3,-71.4L-93.2,-73.0L-99.3,-75.2L-103.8,-77.4L-108.4,-80.3L-112.9,-84.1L-116.9,-88.6L-120.0,-93.3L-122.0,-98.2L-123.3,-104.4L-123.6,-111.0L-123.0,-117.6Z"/></clipPath>
+<clipPath id="mzCbA"><path clip-rule="evenodd" d="M690,160H800V300H690ZM752.8,251H768.2L768.6,300H753.2Z"/></clipPath>
+<clipPath id="mzCpr"><path clip-rule="evenodd" d="M1940,120H2090V260H1940ZM2076.0,208.8L2075.0,206.1L2073.9,204.5L2072.5,203.1L2070.9,202.0L2068.2,201.0L2066.3,200.9L2064.4,201.0L2062.5,201.6L2060.1,203.1L2058.1,205.2L2056.9,207.8L2056.5,209.8L2052.0,211.0L2050.0,211.9L2048.1,213.1L2046.5,214.4L2045.5,215.8L2044.5,217.4L2043.5,219.7L2040.4,221.5L2038.3,223.3L2036.6,225.5L2035.4,228.0L2034.7,230.7L2034.4,234.5L2034.7,237.9L2035.1,240.1L2035.6,240.4L2036.0,240.5L2038.4,239.6L2037.2,241.6L2031.9,248.5L2025.7,257.2L2018.9,267.0L2018.2,268.4L2018.0,269.3L2018.2,270.4L2018.7,271.2L2019.4,271.6L2020.2,271.8L2021.0,271.6L2021.9,271.2L2023.7,269.8L2030.8,263.8L2038.0,256.8L2045.5,247.9L2047.3,246.2L2049.4,247.5L2052.0,248.3L2055.3,248.6L2058.6,248.4L2061.4,247.8L2063.6,246.9L2065.6,245.5L2067.8,243.5L2069.8,241.1L2071.8,238.0L2073.1,235.3L2074.0,232.6L2074.4,229.5L2074.3,225.8L2073.5,222.0L2072.3,218.5L2073.9,216.9L2075.4,214.5L2076.1,211.7Z"/></clipPath>
+<clipPath id="mzCpk"><path clip-rule="evenodd" d="M-200,-240H60V40H-200ZM-44.8,-60.8L-44.0,-59.6L-42.5,-57.9L-40.8,-56.4L-38.7,-55.0L-34.1,-52.5L-28.8,-50.3L-22.3,-48.4L-15.1,-46.9L-9.6,-46.2L-2.7,-46.0L4.6,-46.4L10.8,-47.1L17.6,-48.5L22.9,-50.2L26.8,-51.9L31.1,-54.5L35.0,-57.5L39.0,-61.5L43.0,-66.6L46.4,-72.0L48.5,-76.3L50.3,-81.6L51.5,-87.3L52.4,-94.0L53.3,-106.8L53.7,-116.1L53.7,-123.9L53.4,-130.7L52.6,-136.9L51.5,-141.7L49.8,-145.9L47.4,-150.0L44.2,-154.2L40.8,-157.6L37.4,-160.1L35.7,-160.9L34.5,-161.3L33.2,-161.2L32.2,-160.8L31.4,-160.0L30.7,-158.9L29.4,-155.3L27.6,-146.0L26.1,-139.7L23.8,-125.9L22.6,-120.3L21.6,-117.4L20.4,-114.9L19.0,-112.8L17.3,-111.2L15.9,-110.1L13.7,-109.0L9.4,-107.4L-2.8,-104.4L-10.0,-102.2L-23.2,-99.4L-28.2,-98.0L-31.2,-96.8L-33.3,-95.7L-35.8,-94.0L-37.4,-92.4L-39.8,-89.1L-42.0,-85.3L-44.1,-80.2L-45.5,-75.8L-46.3,-71.4L-46.5,-67.2L-45.9,-63.5Z"/></clipPath>
+<clipPath id="mzCfst"><path clip-rule="evenodd" d="M930,150H1090V320H930ZM991.6,265.9L994.9,281.0L996.1,282.5L998.0,283.4L1001.3,283.9L1005.2,283.9L1009.4,283.3L1014.7,282.2L1018.5,280.9L1021.8,279.3L1024.1,277.5L1025.1,275.7L1025.1,274.4L1020.3,251.8L1019.1,250.3L1017.1,249.4L1013.7,248.9L1009.6,248.9L1006.6,248.7L1003.4,248.8L997.8,249.8L995.9,250.5L993.7,251.6L991.9,253.1L990.5,254.8L989.5,256.7L989.1,258.3L989.1,260.5L989.5,262.8L990.9,265.6Z"/></clipPath>
+<clipPath id="mzCeye"><path d="M1272.0,200.0L1272.0,155.0L1128.0,155.0L1128.0,200.0L1184.3,200.0L1183.5,193.0L1180.6,175.4L1179.2,173.1L1178.5,171.1L1178.5,169.3L1179.0,167.5L1180.2,165.8L1181.9,164.5L1185.6,162.5L1190.3,160.3L1194.5,158.8L1198.6,157.6L1202.0,156.9L1205.4,156.8L1209.0,156.9L1212.6,157.3L1216.5,158.0L1220.0,158.9L1222.4,159.7L1224.1,160.5L1225.3,161.4L1226.3,162.7L1226.8,164.2L1227.0,165.9L1226.7,167.4L1226.0,169.4L1227.1,181.5L1228.2,200.0Z"/></clipPath>
 </defs>
 <g id="back" stroke-linejoin="round" stroke-linecap="round">
 <use href="#Pa" fill="#fff6e0"/>
@@ -900,7 +910,6 @@
 <use href="#cl0r0" transform="translate(1670 344) rotate(320) scale(1.12)"/>
 <use href="#cl0r0" transform="translate(2100 344) rotate(127) scale(1.12)"/>
 <use href="#cl0r0" transform="translate(1886 337) rotate(197) scale(1.18)"/>
-<g data-move="sway" data-origin="749 462" data-amp="1.3" data-dur="6.5">
 <path d="M740.9,462L737.4,242.7" fill="none" stroke="#1a1a1a" stroke-width="15"/>
 <path d="M740.9,462L737.4,242.7" fill="none" stroke="#5fb043" stroke-width="10"/>
 <path d="M733.3,425.5L747.3,425.5" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
@@ -910,9 +919,8 @@
 <path d="M731.6,315.8L745.6,315.8" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(738.6 315.8) rotate(-158)"/>
 <path d="M731,279.3L745,279.3" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
-<use href="#tuft5" x="737.4" y="242.7"/>
-<path d="M757.5,462L761,215.9" fill="none" stroke="#1a1a1a" stroke-width="15"/>
-<path d="M757.5,462L761,215.9" fill="none" stroke="#1e8f4e" stroke-width="10"/>
+<path d="M757.5,462L760.5,251" fill="none" stroke="#1a1a1a" stroke-width="15"/>
+<path d="M757.5,462L760.5,251" fill="none" stroke="#1e8f4e" stroke-width="10"/>
 <path d="M751,426.8L765,426.8" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <path d="M751.5,391.7L765.5,391.7" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(758.5 391.7) rotate(-145)"/>
@@ -920,11 +928,6 @@
 <path d="M752.5,321.3L766.5,321.3" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(759.5 321.3) rotate(-23)"/>
 <path d="M753,286.2L767,286.2" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
-<path d="M753.5,251L767.5,251" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
-<use href="#tuft3" transform="translate(760.5 251) rotate(-148)"/>
-<use href="#tuft5" x="761" y="215.9"/>
-<use href="#parrygo" transform="translate(754.7 206) scale(0.8)"/>
-</g>
 <path d="M1642,462L1638.5,194.5" fill="none" stroke="#1a1a1a" stroke-width="15"/>
 <path d="M1642,462L1638.5,194.5" fill="none" stroke="#5fb043" stroke-width="10"/>
 <path d="M1634.5,428.6L1648.5,428.6" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
@@ -948,8 +951,8 @@
 <use href="#tuft3" transform="translate(1664.7 325) rotate(-21)"/>
 <path d="M1658.3,290.7L1672.3,290.7" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft5" x="1665.9" y="256.5"/>
-<path d="M1994.3,462L1987.3,178" fill="none" stroke="#1a1a1a" stroke-width="15"/>
-<path d="M1994.3,462L1987.3,178" fill="none" stroke="#5fb043" stroke-width="10"/>
+<path d="M1994.3,462L1988.2,213.5" fill="none" stroke="#1a1a1a" stroke-width="15"/>
+<path d="M1994.3,462L1988.2,213.5" fill="none" stroke="#5fb043" stroke-width="10"/>
 <path d="M1986.5,426.5L2000.5,426.5" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <path d="M1985.6,391L1999.6,391" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(1992.6 391) rotate(-28)"/>
@@ -959,8 +962,6 @@
 <path d="M1983,284.5L1997,284.5" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <path d="M1982.1,249L1996.1,249" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(1989.1 249) rotate(-36)"/>
-<path d="M1981.2,213.5L1995.2,213.5" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
-<use href="#tuft5" x="1987.3" y="178"/>
 <path d="M2011.3,462L2011.3,209.7" fill="none" stroke="#1a1a1a" stroke-width="15"/>
 <path d="M2011.3,462L2011.3,209.7" fill="none" stroke="#1e8f4e" stroke-width="10"/>
 <path d="M2004.3,426L2018.3,426" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
@@ -972,9 +973,8 @@
 <path d="M2004.3,281.8L2018.3,281.8" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <path d="M2004.3,245.7L2018.3,245.7" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(2011.3 245.7) rotate(-148)"/>
-<use href="#tuft5" x="2011.3" y="209.7"/>
-<path d="M2026.2,462L2033.2,179.8" fill="none" stroke="#1a1a1a" stroke-width="15"/>
-<path d="M2026.2,462L2033.2,179.8" fill="none" stroke="#5fb043" stroke-width="10"/>
+<path d="M2026.2,462L2032.3,215.1" fill="none" stroke="#1a1a1a" stroke-width="15"/>
+<path d="M2026.2,462L2032.3,215.1" fill="none" stroke="#5fb043" stroke-width="10"/>
 <path d="M2020.1,426.7L2034.1,426.7" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <path d="M2020.9,391.5L2034.9,391.5" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(2027.9 391.5) rotate(-24)"/>
@@ -984,8 +984,6 @@
 <path d="M2023.6,285.6L2037.6,285.6" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <path d="M2024.4,250.4L2038.4,250.4" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
 <use href="#tuft3" transform="translate(2031.4 250.4) rotate(-27)"/>
-<path d="M2025.3,215.1L2039.3,215.1" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
-<use href="#tuft5" x="2033.2" y="179.8"/>
 <use href="#Pl" fill="#5fb043"/>
 <use href="#Pl" fill="url(#q2)"/>
 <use href="#Pl" fill="url(#q7)"/>
@@ -1155,12 +1153,6 @@
 <use href="#fl6" fill="#d7263d" color="#f7b500" transform="translate(648.8 220) scale(0.76)"/>
 <use href="#lfg" transform="translate(667.2 219.1) rotate(-71) scale(0.65)"/>
 <use href="#lfl" transform="translate(686.1 209.6) rotate(31) scale(0.72)"/>
-<use href="#fl6" fill="#d7263d" color="#f7b500" transform="translate(714.2 197.5) scale(0.95)"/>
-<use href="#lfl" transform="translate(731.5 181.7) rotate(32) scale(0.73)"/>
-<use href="#lfg" transform="translate(753.9 171.2) rotate(-83) scale(0.73)"/>
-<use href="#fl6" fill="#d7263d" color="#f7b500" transform="translate(774.6 168.6) scale(0.84)"/>
-<use href="#lfg" transform="translate(789.9 193) rotate(-8) scale(0.66)"/>
-<use href="#lfl" transform="translate(798.6 212) rotate(129) scale(0.87)"/>
 <use href="#PQ" fill="none" stroke="#1a1a1a" stroke-width="5.7"/>
 <use href="#PQ" fill="none" stroke="#1e8f4e" stroke-width="3.2"/>
 <use href="#lfl" transform="translate(1619.6 205.3) rotate(19) scale(0.72)"/>
@@ -1180,11 +1172,43 @@
 <use href="#fl6" fill="#e84a8a" color="#f7b500" transform="translate(1912 177.6) scale(0.72)"/>
 <use href="#lfg" transform="translate(1934.4 197.3) rotate(-24) scale(0.85)"/>
 <use href="#lfl" transform="translate(1956.5 214.1) rotate(107) scale(0.61)"/>
+<g data-move="sway" data-origin="749 255" data-amp="2.8" data-dur="6.5">
+<g clip-path="url(#mzCbA)">
+<use href="#tuft5" x="737.4" y="242.7"/>
+</g>
+<path d="M760.5,251L761,215.9" fill="none" stroke="#1a1a1a" stroke-width="15" stroke-linecap="butt"/>
+<path d="M760.5,251L761,215.9" fill="none" stroke="#1e8f4e" stroke-width="10" stroke-linecap="butt"/>
+<path d="M753.5,251L767.5,251" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
+<use href="#tuft3" transform="translate(760.5 251) rotate(-148)"/>
+<use href="#tuft5" x="761" y="215.9"/>
+<use href="#parrygo" transform="translate(754.7 206) scale(0.8)"/>
+<path d="M711.9,193.9C730.9,181.9 748.1,170.9 760.0,170.0C786.7,168.0 793.3,206.7 800.0,214.0" fill="none" stroke="#1a1a1a" stroke-width="5.7" stroke-linecap="butt"/>
+<path d="M711.9,193.9C730.9,181.9 748.1,170.9 760.0,170.0C786.7,168.0 793.3,206.7 800.0,214.0" fill="none" stroke="#1e8f4e" stroke-width="3.2" stroke-linecap="butt"/>
+<use href="#fl6" fill="#d7263d" color="#f7b500" transform="translate(714.2 197.5) scale(0.95)"/>
+<use href="#lfl" transform="translate(731.5 181.7) rotate(32) scale(0.73)"/>
+<use href="#lfg" transform="translate(753.9 171.2) rotate(-83) scale(0.73)"/>
+<use href="#fl6" fill="#d7263d" color="#f7b500" transform="translate(774.6 168.6) scale(0.84)"/>
+<use href="#lfg" transform="translate(789.9 193) rotate(-8) scale(0.66)"/>
+<use href="#lfl" transform="translate(798.6 212) rotate(129) scale(0.87)"/>
+</g>
+<g data-move="sway" data-origin="2010 222" data-amp="2" data-dur="7.2" data-delay="-2.4" clip-path="url(#mzCpr)">
+<path d="M1988.2,213.5L1987.3,178" fill="none" stroke="#1a1a1a" stroke-width="15" stroke-linecap="butt"/>
+<path d="M1988.2,213.5L1987.3,178" fill="none" stroke="#5fb043" stroke-width="10" stroke-linecap="butt"/>
+<path d="M1981.2,213.5L1995.2,213.5" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
+<use href="#tuft5" x="1987.3" y="178"/>
+<use href="#tuft5" x="2011.3" y="209.7"/>
+<path d="M2032.3,215.1L2033.2,179.8" fill="none" stroke="#1a1a1a" stroke-width="15" stroke-linecap="butt"/>
+<path d="M2032.3,215.1L2033.2,179.8" fill="none" stroke="#5fb043" stroke-width="10" stroke-linecap="butt"/>
+<path d="M2025.3,215.1L2039.3,215.1" fill="none" stroke="#1a1a1a" stroke-width="3.5"/>
+<use href="#tuft5" x="2033.2" y="179.8"/>
+<path d="M1972.6,224.6C1978.7,227.8 1984.6,229.9 1990.0,230.0C2018.3,230.7 2048.3,188.3 2060.0,180.0" fill="none" stroke="#1a1a1a" stroke-width="5.7" stroke-linecap="butt"/>
+<path d="M1972.6,224.6C1978.7,227.8 1984.6,229.9 1990.0,230.0C2018.3,230.7 2048.3,188.3 2060.0,180.0" fill="none" stroke="#1e8f4e" stroke-width="3.2" stroke-linecap="butt"/>
 <use href="#fl6" fill="#e84a8a" color="#f7b500" transform="translate(1970.6 228.4) scale(0.98)"/>
 <use href="#lfl" transform="translate(1996.1 229.5) rotate(54) scale(0.61)"/>
 <use href="#lfg" transform="translate(2020.1 217.8) rotate(-91) scale(0.62)"/>
 <use href="#fl6" fill="#e84a8a" color="#f7b500" transform="translate(2036.5 198.4) scale(0.89)"/>
 <use href="#lfg" transform="translate(2053.9 185.4) rotate(-110) scale(0.63)"/>
+</g>
 <use href="#PR" fill="#a3152a"/>
 <use href="#PR" fill="url(#q2)"/>
 <use href="#PR" fill="none" stroke="#1a1a1a" stroke-width="2.6"/>
@@ -1299,8 +1323,6 @@
 <use href="#padg" transform="translate(480 514.1) scale(1.13)"/>
 <use href="#padl" transform="translate(660 507.9) scale(0.92)"/>
 <use href="#padg" transform="translate(780 511.5) scale(0.84)"/>
-<use href="#padl" transform="translate(1640 501.5) scale(1.14)"/>
-<use href="#padg" transform="translate(1740 497.4) scale(1.1)"/>
 <use href="#padg" transform="translate(1880 513) scale(0.88)"/>
 <use href="#padg" transform="translate(2000 521.6) scale(0.9)"/>
 <use href="#padg" transform="translate(2200 525.4) scale(1.12)"/>
@@ -1501,16 +1523,24 @@
 <circle cx="0" cy="0" r="33.6" fill="#f7b500"/>
 <circle cx="0" cy="0" r="33.6" fill="url(#q34)"/>
 <circle cx="0" cy="0" r="33.6" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<path d="M-22,-7.2Q-12,-19.5 -2,-7.2Q-12,2.9 -22,-7.2Z" fill="#f7b500"/>
+<path d="M-22,-7.2Q-12,-19.5 -2,-7.2Q-12,2.9 -22,-7.2Z" fill="url(#q34)"/>
+<path d="M-22,-7.2Q-12,0.5 -2,-7.2" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+<path d="M-22,-7.2L-25.6,-5.2" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+<path d="M2,-7.2Q12,-19.5 22,-7.2Q12,2.9 2,-7.2Z" fill="#f7b500"/>
+<path d="M2,-7.2Q12,-19.5 22,-7.2Q12,2.9 2,-7.2Z" fill="url(#q34)"/>
+<path d="M2,-7.2Q12,0.5 22,-7.2" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+<path d="M22,-7.2L25.6,-5.2" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+<g data-move="blink" data-dur="6.6" data-delay="-0.9">
 <path d="M-22,-7.2Q-12,-19.5 -2,-7.2Q-12,2.9 -22,-7.2Z" fill="#fff6e0" stroke="#1a1a1a" stroke-width="2"/>
 <circle cx="-10.2" cy="-7.2" r="4.4" fill="#1a1a1a"/>
 <circle cx="-11.5" cy="-8.5" r="1.2" fill="#fff6e0"/>
 <path d="M-22,-7.2Q-12,-19.5 -2,-7.2" fill="none" stroke="#1a1a1a" stroke-width="3"/>
-<path d="M-22,-7.2L-25.6,-5.2" fill="none" stroke="#1a1a1a" stroke-width="2"/>
 <path d="M2,-7.2Q12,-19.5 22,-7.2Q12,2.9 2,-7.2Z" fill="#fff6e0" stroke="#1a1a1a" stroke-width="2"/>
 <circle cx="10.2" cy="-7.2" r="4.4" fill="#1a1a1a"/>
 <circle cx="8.9" cy="-8.5" r="1.2" fill="#fff6e0"/>
 <path d="M2,-7.2Q12,-19.5 22,-7.2" fill="none" stroke="#1a1a1a" stroke-width="3"/>
-<path d="M22,-7.2L25.6,-5.2" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+</g>
 <path d="M-24.8,-15.2Q-12,-20.8 -4,-16" fill="none" stroke="#1a1a1a" stroke-width="2.6"/>
 <path d="M24.8,-15.2Q12,-20.8 4,-16" fill="none" stroke="#1a1a1a" stroke-width="2.6"/>
 <path d="M0,-4L-2.8,7.2L2.8,7.2" fill="none" stroke="#1a1a1a" stroke-width="2.2"/>
@@ -1580,9 +1610,9 @@
 <use href="#mzKd" fill="none" stroke="url(#dblx)" stroke-width="3"/>
 </g>
 </g>
-<g data-move="kite" data-origin="1806 41.5" data-amp="11" data-path="-12 -8" data-dur="8.4">
-<g transform="translate(1806 36) scale(0.92)">
-<path d="M0,6C14,38 40,76 86,118" fill="none" stroke="#1a1a1a" stroke-width="1.4"/>
+<g data-move="kite" data-origin="1676 39.5" data-amp="11" data-path="-12 -8" data-dur="8.4">
+<g transform="translate(1676 34) scale(0.92)">
+<path d="M0,6C14,40 40,82 80,132" fill="none" stroke="#1a1a1a" stroke-width="1.4"/>
 <path d="M0,34C7,44 -6,53 2,62C8,70 -3,78 3,88" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
 <path d="M-4.5,45.5L2.5,50L-4.5,54.5ZM9.5,45.5L2.5,50L9.5,54.5Z" fill="#f7b500" stroke="#1a1a1a" stroke-width="1.5"/>
 <path d="M-5.5,62.5L1.5,67L-5.5,71.5ZM8.5,62.5L1.5,67L8.5,71.5Z" fill="#f7b500" stroke="#1a1a1a" stroke-width="1.5"/>
@@ -1600,6 +1630,7 @@
 </g>
 </g>
 <g id="front" stroke-linejoin="round" stroke-linecap="round">
+<g data-move="flutter" data-origin="1104 190" data-amp="2" data-dur="2.3" data-delay="-0.4" data-box="1020 105 87 169" clip-path="url(#mzCeL)">
 <use href="#Pbu" fill="#f26a1b"/>
 <use href="#Pbu" fill="url(#q18)"/>
 <use href="#Pbu" fill="none" stroke="#1a1a1a" stroke-width="8.2"/>
@@ -1613,6 +1644,23 @@
 <use href="#Pbx" fill="#d7263d"/>
 <use href="#Pbx" fill="url(#q15)"/>
 <use href="#Pbx" fill="none" stroke="#1a1a1a" stroke-width="2.2"/>
+</g>
+<g clip-path="url(#mzCeLi)">
+<use href="#Pbu" fill="#f26a1b"/>
+<use href="#Pbu" fill="url(#q18)"/>
+<use href="#Pbu" fill="none" stroke="#1a1a1a" stroke-width="8.2"/>
+<use href="#Pbu" fill="none" stroke="url(#dblx)" stroke-width="4.8"/>
+<use href="#Pbv" fill="#c2187a"/>
+<use href="#Pbv" fill="url(#q6)"/>
+<use href="#Pbv" fill="none" stroke="#1a1a1a" stroke-width="2.6"/>
+<use href="#Pbw" fill="#f7b500"/>
+<use href="#Pbw" fill="url(#q36)"/>
+<use href="#Pbw" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<use href="#Pbx" fill="#d7263d"/>
+<use href="#Pbx" fill="url(#q15)"/>
+<use href="#Pbx" fill="none" stroke="#1a1a1a" stroke-width="2.2"/>
+</g>
+<g data-move="flutter" data-origin="1298 190" data-amp="-2" data-dur="2.3" data-delay="-0.8" data-box="1295.5 105 84.5 169" clip-path="url(#mzCeR)">
 <use href="#Pby" fill="#f26a1b"/>
 <use href="#Pby" fill="url(#q18)"/>
 <use href="#Pby" fill="none" stroke="#1a1a1a" stroke-width="8.2"/>
@@ -1626,6 +1674,22 @@
 <use href="#PbB" fill="#d7263d"/>
 <use href="#PbB" fill="url(#q15)"/>
 <use href="#PbB" fill="none" stroke="#1a1a1a" stroke-width="2.2"/>
+</g>
+<g clip-path="url(#mzCeRi)">
+<use href="#Pby" fill="#f26a1b"/>
+<use href="#Pby" fill="url(#q18)"/>
+<use href="#Pby" fill="none" stroke="#1a1a1a" stroke-width="8.2"/>
+<use href="#Pby" fill="none" stroke="url(#dblx)" stroke-width="4.8"/>
+<use href="#Pbz" fill="#c2187a"/>
+<use href="#Pbz" fill="url(#q6)"/>
+<use href="#Pbz" fill="none" stroke="#1a1a1a" stroke-width="2.6"/>
+<use href="#PbA" fill="#f7b500"/>
+<use href="#PbA" fill="url(#q36)"/>
+<use href="#PbA" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<use href="#PbB" fill="#d7263d"/>
+<use href="#PbB" fill="url(#q15)"/>
+<use href="#PbB" fill="none" stroke="#1a1a1a" stroke-width="2.2"/>
+</g>
 <g transform="translate(1200 538) rotate(-176)">
 <path d="M0,0C41.2,-32.4 154.5,-29.7 206,0C154.5,29.7 41.2,32.4 0,0Z" fill="#fff6e0" stroke="#1a1a1a" stroke-width="3"/>
 <path d="M0,0C41.2,-32.4 154.5,-29.7 206,0C154.5,29.7 41.2,32.4 0,0Z" fill="url(#q37)"/>
@@ -1704,7 +1768,7 @@
 <use href="#PbC" fill="none" stroke="url(#dblx)" stroke-width="4.8"/>
 <path d="M1076,492Q1140,452 1230,500" fill="none" stroke="#fff6e0" stroke-width="2.4" stroke-dasharray="4 5"/>
 <path d="M1324,492Q1260,452 1170,500" fill="none" stroke="#fff6e0" stroke-width="2.4" stroke-dasharray="4 5"/>
-<g data-move="pulse" data-origin="1200 545" data-amp="0.06" data-dur="3.4" clip-path="url(#mzClo)">
+<g data-move="pulse" data-origin="1200 545" data-amp="0.06" data-dur="3.4" data-box="1121 467 158 80" clip-path="url(#mzClo)">
 <use href="#gLpo" transform="translate(1200 545) rotate(-172)" fill="#c2187a" stroke="#1a1a1a" stroke-width="2.8"/>
 <use href="#gLpi" transform="translate(1200 545) rotate(-172) translate(14 0)" fill="#e84a8a" stroke="#1a1a1a" stroke-width="1.6"/>
 <use href="#gLpo" transform="translate(1200 545) rotate(-8)" fill="#c2187a" stroke="#1a1a1a" stroke-width="2.8"/>
@@ -1845,14 +1909,12 @@
 <use href="#gMgY" x="1272.6" y="315.1"/>
 <use href="#gMgO" x="1278.7" y="303.4"/>
 <use href="#gMgY" x="1284.8" y="290.7"/>
-<g data-move="sway" data-origin="1007 268" data-amp="3" data-dur="6.2">
+<g data-move="sway" data-origin="1007 268" data-amp="3" data-dur="6.2" clip-path="url(#mzCfst)">
 <path d="M1010,290Q1001,256 985,228" fill="none" stroke="#1a1a1a" stroke-width="9"/>
 <path d="M1010,290Q1001,256 985,228" fill="none" stroke="#1e8f4e" stroke-width="5"/>
 <use href="#lotpm" x="985" y="228"/>
 </g>
-<g data-move="sway" data-origin="1007 266" data-amp="0.1" data-dur="6.2">
 <use href="#gFst" transform="translate(1007 266) rotate(-12)"/>
-</g>
 <use href="#modwr" transform="translate(1018 338) scale(1.7)"/>
 <use href="#gFst" transform="translate(1018 347) rotate(-8) scale(0.95)"/>
 <path d="M1392,298L1392,178" fill="none" stroke="#1a1a1a" stroke-width="11"/>
@@ -1888,16 +1950,24 @@
 <circle cx="1250" cy="232" r="6" fill="#f7b500" stroke="#1a1a1a" stroke-width="1.6"/>
 <path d="M1138,162Q1166,146 1190,158" fill="none" stroke="#1a1a1a" stroke-width="4.5"/>
 <path d="M1262,162Q1234,146 1210,158" fill="none" stroke="#1a1a1a" stroke-width="4.5"/>
+<path d="M1142,182Q1164,157.8 1186,182Q1164,201.8 1142,182Z" fill="#e84a8a"/>
+<path d="M1142,182Q1164,157.8 1186,182Q1164,201.8 1142,182Z" fill="url(#q18)"/>
+<path d="M1142,182Q1164,196 1186,182" fill="none" stroke="#1a1a1a" stroke-width="5.7"/>
+<path d="M1142,182L1134.1,186" fill="none" stroke="#1a1a1a" stroke-width="3.1"/>
+<path d="M1214,182Q1236,157.8 1258,182Q1236,201.8 1214,182Z" fill="#e84a8a"/>
+<path d="M1214,182Q1236,157.8 1258,182Q1236,201.8 1214,182Z" fill="url(#q18)"/>
+<path d="M1214,182Q1236,196 1258,182" fill="none" stroke="#1a1a1a" stroke-width="5.7"/>
+<path d="M1258,182L1265.9,186" fill="none" stroke="#1a1a1a" stroke-width="3.1"/>
+<g data-move="blink" data-dur="8.5" data-delay="-3" data-box="1137 166 126 31" clip-path="url(#mzCeye)">
 <path d="M1142,182Q1164,157.8 1186,182Q1164,201.8 1142,182Z" fill="#fff6e0" stroke="#1a1a1a" stroke-width="3.1"/>
 <circle cx="1170.3" cy="182" r="9.7" fill="#1a1a1a"/>
 <circle cx="1167.4" cy="179.1" r="2.7" fill="#fff6e0"/>
 <path d="M1142,182Q1164,157.8 1186,182" fill="none" stroke="#1a1a1a" stroke-width="5.7"/>
-<path d="M1142,182L1134.1,186" fill="none" stroke="#1a1a1a" stroke-width="3.1"/>
 <path d="M1214,182Q1236,157.8 1258,182Q1236,201.8 1214,182Z" fill="#fff6e0" stroke="#1a1a1a" stroke-width="3.1"/>
 <circle cx="1229.7" cy="182" r="9.7" fill="#1a1a1a"/>
 <circle cx="1226.8" cy="179.1" r="2.7" fill="#fff6e0"/>
 <path d="M1214,182Q1236,157.8 1258,182" fill="none" stroke="#1a1a1a" stroke-width="5.7"/>
-<path d="M1258,182L1265.9,186" fill="none" stroke="#1a1a1a" stroke-width="3.1"/>
+</g>
 <path d="M1200,126Q1186,141 1200,156Q1214,141 1200,126Z" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.4"/>
 <path d="M1200,132V150" fill="none" stroke="#f7b500" stroke-width="2.4"/>
 <path d="M1180,140Q1200,150 1220,140" fill="none" stroke="#fff6e0" stroke-width="2.5"/>
@@ -2055,7 +2125,7 @@
 <path d="M-24,-10Q-32,-16 -30,-22" fill="none" stroke="#1a1a1a" stroke-width="3"/>
 </g>
 <g transform="translate(912 476)">
-<g data-move="sway" data-origin="882 406" data-amp="2.4" data-dur="5.6">
+<g data-move="sway" data-origin="882 406" data-amp="2.4" data-dur="5.6" clip-path="url(#mzCpk)">
 <use href="#feag" transform="translate(-30 -70) rotate(-222) scale(0.8)"/>
 <use href="#feag" transform="translate(-30 -70) rotate(-204) scale(0.93)"/>
 <use href="#feag" transform="translate(-30 -70) rotate(-186) scale(1.07)"/>
@@ -2093,7 +2163,7 @@
 <circle cx="30" cy="-112" r="4" fill="#f7b500" stroke="#1a1a1a" stroke-width="1.6"/>
 </g>
 <g transform="translate(1488 476) scale(-1 1)">
-<g data-move="sway" data-origin="1518 406" data-amp="2.4" data-dur="6.3">
+<g data-move="sway" data-origin="1518 406" data-amp="2.4" data-dur="6.3" clip-path="url(#mzCpk)">
 <use href="#feag" transform="translate(-30 -70) rotate(-222) scale(0.8)"/>
 <use href="#feag" transform="translate(-30 -70) rotate(-204) scale(0.93)"/>
 <use href="#feag" transform="translate(-30 -70) rotate(-186) scale(1.07)"/>
@@ -2149,7 +2219,7 @@
 <circle cx="38" cy="-5" r="3.4" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.6"/>
 <circle cx="48" cy="-5" r="3.4" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.6"/>
 <circle cx="58" cy="-5" r="3.4" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.6"/>
-<g data-move="swish" data-origin="434 350" data-amp="13" data-dur="3.7">
+<g data-move="swish" data-origin="426.6 356.8" data-amp="11" data-dur="3.7" clip-path="url(#mzCtl)">
 <path d="M-114,-130Q-140,-110 -132,-70" fill="none" stroke="#1a1a1a" stroke-width="7"/>
 <path d="M-114,-130Q-140,-110 -132,-70" fill="none" stroke="#1b4fbf" stroke-width="3"/>
 <use href="#ros5ki" transform="translate(-132 -66) rotate(80) scale(0.73)"/>
@@ -2265,7 +2335,7 @@
 <circle cx="38" cy="-5" r="3.4" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.6"/>
 <circle cx="48" cy="-5" r="3.4" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.6"/>
 <circle cx="58" cy="-5" r="3.4" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.6"/>
-<g data-move="swish" data-origin="1986 350" data-amp="-13" data-dur="3.1">
+<g data-move="swish" data-origin="1993.4 356.8" data-amp="-8" data-dur="3.1" clip-path="url(#mzCtl)">
 <path d="M-114,-130Q-140,-110 -132,-70" fill="none" stroke="#1a1a1a" stroke-width="7"/>
 <path d="M-114,-130Q-140,-110 -132,-70" fill="none" stroke="#d7263d" stroke-width="3"/>
 <use href="#ros5ki" transform="translate(-132 -66) rotate(80) scale(0.73)"/>
@@ -2430,12 +2500,48 @@
 <circle cx="30" cy="-128" r="4" fill="#f7b500" stroke="#1a1a1a" stroke-width="1.6"/>
 <circle cx="30" cy="-112" r="4" fill="#f7b500" stroke="#1a1a1a" stroke-width="1.6"/>
 </g>
-<use href="#parglbr" transform="translate(1004 100) rotate(-38) scale(0.95)"/>
-<use href="#parrybo" transform="translate(1396 100) rotate(38) scale(-0.95 0.95)"/>
+<g transform="translate(1004 100) rotate(-38) scale(0.95)">
+<use href="#PZ" fill="#1b4fbf"/>
+<use href="#PZ" fill="url(#q6)"/>
+<use href="#PZ" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<path d="M-2,-8L-2,0M6,-8L6,0" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<use href="#Pba" fill="#1e8f4e"/>
+<use href="#Pba" fill="url(#gFth)"/>
+<use href="#Pba" fill="none" stroke="#1a1a1a" stroke-width="2.8"/>
+<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="#5fb043"/>
+<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="url(#q11)"/>
+<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<g data-move="nod" data-origin="988.1 64.2" data-amp="16" data-dur="7.4">
+<circle cx="14" cy="-48" r="11" fill="#1e8f4e" stroke="#1a1a1a" stroke-width="2.6"/>
+<path d="M22,-54Q36,-53 33,-39Q29,-46 22,-44Z" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.2"/>
+<circle cx="16" cy="-50" r="4.6" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.8"/>
+<circle cx="17" cy="-50" r="2.2" fill="#1a1a1a"/>
+<path d="M8,-58Q12,-62 16,-58" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+</g>
+</g>
+<g transform="translate(1396 100) rotate(38) scale(-0.95 0.95)">
+<use href="#PZ" fill="#1b4fbf"/>
+<use href="#PZ" fill="url(#q6)"/>
+<use href="#PZ" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<path d="M-2,-8L-2,0M6,-8L6,0" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<use href="#Pba" fill="#d7263d"/>
+<use href="#Pba" fill="url(#gFth)"/>
+<use href="#Pba" fill="none" stroke="#1a1a1a" stroke-width="2.8"/>
+<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="#f7b500"/>
+<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="url(#q11)"/>
+<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<g data-move="nod" data-origin="1411.9 64.2" data-amp="-16" data-dur="8.6">
+<circle cx="14" cy="-48" r="11" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.6"/>
+<path d="M22,-54Q36,-53 33,-39Q29,-46 22,-44Z" fill="#f26a1b" stroke="#1a1a1a" stroke-width="2.2"/>
+<circle cx="16" cy="-50" r="4.6" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.8"/>
+<circle cx="17" cy="-50" r="2.2" fill="#1a1a1a"/>
+<path d="M8,-58Q12,-62 16,-58" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+</g>
+</g>
 <use href="#parglbr" transform="translate(640 112) scale(0.9)"/>
-<g data-move="fly" data-path="-430 -46" data-dur="17">
-<g transform="translate(742 96) rotate(8) scale(-0.9 0.9)">
-<g data-move="flap" data-origin="752.7 64.8" data-amp="44" data-dur="0.42" data-delay="-0.1">
+<g data-move="fly" data-path="-160 -50" data-dur="10">
+<g transform="translate(470 120) rotate(8) scale(-0.8 0.8)">
+<g data-move="flap" data-origin="479.6 92.3" data-amp="44" data-dur="0.42" data-delay="-0.1">
 <path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="#f7b500"/>
 <path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="url(#q11)"/>
 <path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
@@ -2458,9 +2564,9 @@
 </g>
 </g>
 </g>
-<g data-move="fly" data-path="560 -64" data-dur="19">
-<g transform="translate(1690 116) rotate(-8) scale(0.9)">
-<g data-move="flap" data-origin="1679.3 84.8" data-amp="44" data-dur="0.42" data-delay="-0.3">
+<g data-move="fly" data-path="240 -44" data-dur="12">
+<g transform="translate(1890 116) rotate(-8) scale(0.8)">
+<g data-move="flap" data-origin="1880.5 88.3" data-amp="44" data-dur="0.42" data-delay="-0.3">
 <path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="#5fb043"/>
 <path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="url(#q11)"/>
 <path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
@@ -2488,8 +2594,6 @@
 <g data-move="pace" data-path="-44 0" data-dur="15">
 <use href="#fishoyi" transform="translate(872 528.3) scale(-0.7 0.7)"/>
 </g>
-<use href="#fishoyi" transform="translate(1528 515.7) scale(0.7)"/>
-<use href="#fishmwy" transform="translate(1528 528.3) scale(-0.7 0.7)"/>
 <use href="#fishbwr" transform="translate(70 502.1) scale(0.9)"/>
 <use href="#fishoyi" transform="translate(70 521.9) scale(-0.9 0.9)"/>
 <use href="#fishoyi" transform="translate(300 502.1) scale(0.9)"/>
@@ -2498,20 +2602,12 @@
 <g data-move="pace" data-path="-52 0" data-dur="21">
 <use href="#fishbwo" transform="translate(610 521.9) scale(-0.9 0.9)"/>
 </g>
-<g data-move="pace" data-path="50 0" data-dur="19">
 <use href="#fishmwy" transform="translate(800 502.1) scale(0.9)"/>
-</g>
+<g data-move="pace" data-path="-50 0" data-dur="19">
 <use href="#fishgyr" transform="translate(800 521.9) scale(-0.9 0.9)"/>
-<g data-move="pace" data-path="56 0" data-dur="17">
-<use href="#fishmwy" transform="translate(1600 502.1) scale(0.9)"/>
-</g>
-<g data-move="pace" data-path="-50 0" data-dur="23">
-<use href="#fishgyr" transform="translate(1600 521.9) scale(-0.9 0.9)"/>
 </g>
 <use href="#fishbwr" transform="translate(1960 502.1) scale(0.9)"/>
-<g data-move="pace" data-path="-66 0" data-dur="20">
 <use href="#fishoyi" transform="translate(1960 521.9) scale(-0.9 0.9)"/>
-</g>
 <use href="#fishoyi" transform="translate(2160 502.1) scale(0.9)"/>
 <use href="#fishmwy" transform="translate(2160 521.9) scale(-0.9 0.9)"/>
 <use href="#fishgyr" transform="translate(2360 502.1) scale(0.9)"/>
@@ -2521,35 +2617,29 @@
 <g data-move="pace" data-path="40 0" data-dur="38">
 <use href="#turgy" transform="translate(715 516) scale(0.9)"/>
 </g>
-<g data-move="pace" data-path="-46 0" data-dur="42">
-<use href="#turgy" transform="translate(1790 516) scale(-0.9 0.9)"/>
-</g>
+<use href="#turgy" transform="translate(1840 516) scale(-0.9 0.9)"/>
 <use href="#turgy" transform="translate(2080 520) scale(0.9)"/>
 <path d="M236,532Q240,508 238,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
 <use href="#budp" transform="translate(238 492) rotate(6)"/>
 <path d="M530,532Q534,508 532,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
 <use href="#budm" transform="translate(532 492) rotate(6)"/>
-<path d="M1700,532Q1704,508 1702,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
-<use href="#budm" transform="translate(1702 492) rotate(6)"/>
-<path d="M1872,532Q1876,508 1874,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
-<use href="#budp" transform="translate(1874 492) rotate(6)"/>
+<path d="M1905,532Q1909,508 1907,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
+<use href="#budp" transform="translate(1907 492) rotate(6)"/>
 <path d="M2112,532Q2116,508 2114,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
 <use href="#budm" transform="translate(2114 492) rotate(6)"/>
 <path d="M2290,532Q2294,508 2292,490" fill="none" stroke="#1e8f4e" stroke-width="3.5"/>
 <use href="#budp" transform="translate(2292 492) rotate(6)"/>
-<g data-move="jump" data-amp="46" data-path="46 0" data-dur="7.6" data-delay="-1">
+<g data-move="jump" data-amp="44" data-path="44 0" data-dur="7.6" data-delay="-1">
 <use href="#fishoyr" transform="translate(672 440) scale(0.6)"/>
-</g>
-<g data-move="jump" data-amp="40" data-path="40 0" data-dur="7.6" data-delay="-0.62">
-<use href="#fishbwr" transform="translate(686 456) scale(0.5)"/>
+<use href="#fishbwr" transform="translate(690 458) scale(0.5)"/>
 </g>
 <g data-move="ripple" data-dur="3.8">
 <ellipse cx="652" cy="489" rx="16" ry="4.2" fill="none" stroke="#fff6e0" stroke-width="2.2"/>
 <ellipse cx="652" cy="489" rx="8" ry="2" fill="none" stroke="#fff6e0" stroke-width="1.8"/>
 </g>
-<g data-move="drift" data-path="-100 0" data-dur="26">
+<path d="M1560,539Q1568,535 1576,539M1566,545Q1574,541 1582,545M1772,539Q1780,535 1788,539M1766,545Q1774,541 1782,545" fill="none" stroke="#fff6e0" stroke-width="2.4"/>
+<g data-move="drift" data-path="-80 0" data-dur="24">
 <g transform="translate(1676 538)">
-<path d="M-116,1Q-108,-3 -100,1M-110,7Q-102,3 -94,7M96,1Q104,-3 112,1M90,7Q98,3 106,7" fill="none" stroke="#fff6e0" stroke-width="2.4"/>
 <g data-move="rock" data-origin="1676 542" data-amp="1.8" data-dur="4.6">
 <g transform="translate(-28 -16)">
 <path d="M-6,-15L-5,-2M5,-15L6,-2" fill="none" stroke="#1a1a1a" stroke-width="6.4"/>
@@ -2627,51 +2717,23 @@
 </g>
 </g>
 </g>
-<g data-move="fly" data-path="540 -40" data-dur="21">
-<g transform="translate(430 100) scale(0.62)">
-<g data-move="flap" data-origin="425.7 77.7" data-amp="48" data-dur="0.38" data-delay="-0.05">
-<path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="#5fb043"/>
-<path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="url(#q11)"/>
-<path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
+<g data-move="pace" data-origin="846 230" data-path="-34 -12" data-dur="16" data-delay="-5">
+<g data-move="bob" data-amp="3.5" data-dur="1.3">
+<g transform="translate(846 236) scale(-0.9 0.9)">
+<path d="M14,-4Q17,-12 23,-15M12.5,-4.5Q12.5,-13 16.5,-18.5" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+<circle cx="23" cy="-15" r="1.7" fill="#1a1a1a"/>
+<circle cx="16.5" cy="-18.5" r="1.7" fill="#1a1a1a"/>
+<path d="M-13,1C-13,-3 9,-4 12,-1C14,1.5 -9,4.5 -13,1Z" fill="#1a1a1a"/>
+<circle cx="13" cy="-1.5" r="3.6" fill="#1a1a1a"/>
+<g data-move="flap" data-origin="846 234.7" data-amp="50" data-dur="0.26">
+<path d="M-2,-1C-13,-5 -23,-17 -17,-25C-8,-25 -1,-13 -2,-1Z" fill="#f7b500" stroke="#1a1a1a" stroke-width="2"/>
+<circle cx="-12" cy="-16" r="2.2" fill="#d7263d" stroke="#1a1a1a" stroke-width="1"/>
+<path d="M1,-2C-4,-15 2,-31 19,-32C26,-24 17,-8 1,-2Z" fill="#e84a8a"/>
+<path d="M1,-2C-4,-15 2,-31 19,-32C26,-24 17,-8 1,-2Z" fill="url(#q6)"/>
+<path d="M1,-2C-4,-15 2,-31 19,-32C26,-24 17,-8 1,-2Z" fill="none" stroke="#1a1a1a" stroke-width="2.2"/>
+<circle cx="13" cy="-23" r="3.2" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.4"/>
+<circle cx="13" cy="-23" r="1.3" fill="#1b4fbf"/>
 </g>
-<g data-move="bob" data-amp="2.4" data-dur="0.38" data-delay="-0.05">
-<use href="#PZ" fill="#1b4fbf"/>
-<use href="#PZ" fill="url(#q6)"/>
-<use href="#PZ" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
-<use href="#Pba" fill="#1e8f4e"/>
-<use href="#Pba" fill="url(#gFth)"/>
-<use href="#Pba" fill="none" stroke="#1a1a1a" stroke-width="2.8"/>
-<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="#5fb043"/>
-<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="url(#q11)"/>
-<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
-<circle cx="14" cy="-48" r="11" fill="#1e8f4e" stroke="#1a1a1a" stroke-width="2.6"/>
-<path d="M22,-54Q36,-53 33,-39Q29,-46 22,-44Z" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.2"/>
-<circle cx="16" cy="-50" r="4.6" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.8"/>
-<circle cx="17" cy="-50" r="2.2" fill="#1a1a1a"/>
-<path d="M8,-58Q12,-62 16,-58" fill="none" stroke="#1a1a1a" stroke-width="2"/>
-</g>
-</g>
-<g transform="translate(472 76) scale(0.55)">
-<g data-move="flap" data-origin="468.2 56.2" data-amp="48" data-dur="0.36" data-delay="-0.27">
-<path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="#f7b500"/>
-<path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="url(#q11)"/>
-<path d="M-2,-40C-8,-60 -26,-76 -46,-80C-42,-62 -30,-44 -12,-32Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
-</g>
-<g data-move="bob" data-amp="2.4" data-dur="0.36" data-delay="-0.27">
-<use href="#PZ" fill="#1e8f4e"/>
-<use href="#PZ" fill="url(#q6)"/>
-<use href="#PZ" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
-<use href="#Pba" fill="#f26a1b"/>
-<use href="#Pba" fill="url(#gFth)"/>
-<use href="#Pba" fill="none" stroke="#1a1a1a" stroke-width="2.8"/>
-<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="#f7b500"/>
-<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="url(#q11)"/>
-<path d="M-6,-38Q-28.2,-34.1 -24,-12Q-5.1,-18.2 -6,-38Z" fill="none" stroke="#1a1a1a" stroke-width="2.4"/>
-<circle cx="14" cy="-48" r="11" fill="#f26a1b" stroke="#1a1a1a" stroke-width="2.6"/>
-<path d="M22,-54Q36,-53 33,-39Q29,-46 22,-44Z" fill="#d7263d" stroke="#1a1a1a" stroke-width="2.2"/>
-<circle cx="16" cy="-50" r="4.6" fill="#fff6e0" stroke="#1a1a1a" stroke-width="1.8"/>
-<circle cx="17" cy="-50" r="2.2" fill="#1a1a1a"/>
-<path d="M8,-58Q12,-62 16,-58" fill="none" stroke="#1a1a1a" stroke-width="2"/>
 </g>
 </g>
 </g>
