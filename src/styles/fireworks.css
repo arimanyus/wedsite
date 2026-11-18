@@ -93,9 +93,9 @@
 }
 
 .fw-flash {
-  inset: -60% !important;
+  inset: -18% !important;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--flash), transparent 62%);
+  background: radial-gradient(circle, var(--flash), transparent 70%);
   animation-name: fw-flash;
   animation-timing-function: ease-out;
 }
