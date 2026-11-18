@@ -2,6 +2,7 @@ import { motion, useTransform } from 'motion/react'
 
 import { EventDetails } from '@/components/EventDetails'
 import { Sky, TextBlock } from '@/components/SceneLayers'
+import { Fireworks } from '@/components/Fireworks'
 import { venues } from '@/data/wedding'
 import { useJourney, useScene } from '@/journey/context'
 import { dwellProgress } from '@/journey/timeline'
@@ -16,6 +17,7 @@ export function BaraatScene() {
     <>
       <Sky>
         <div className="sunburst" />
+        <Fireworks palette="festive" />
       </Sky>
 
       <TextBlock>

@@ -1,0 +1,106 @@
+/* ── Fireworks in a scene's sky (src/components/Fireworks.tsx) ──
+   Each launch site runs one cycle over and over: the rocket climbs (0 to 22%), the burst blooms
+   and droops (22 to 80%), the inner burst and the glitter follow, then a pause. Between cycles,
+   while nothing shows, the site moves and changes colour. Only transform and opacity animate. */
+
+.fireworks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fw {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: calc(clamp(130px, 30vmin, 380px) * var(--scale));
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+
+.fw > span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation-duration: var(--cycle);
+  animation-delay: var(--delay);
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.fw svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.fw-rocket {
+  inset: auto !important;
+  left: calc(50% - 1.5px) !important;
+  top: 50% !important;
+  width: 3px;
+  height: 16%;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #fff, var(--colour) 30%, transparent);
+  box-shadow: 0 0 6px 1px var(--colour);
+  animation-name: fw-rocket;
+  animation-timing-function: cubic-bezier(0.3, 0.6, 0.4, 1);
+}
+@keyframes fw-rocket {
+  0% { transform: translateY(46vh); opacity: 0; }
+  3% { opacity: 1; }
+  20% { transform: translateY(0); opacity: 1; }
+  22%, 100% { transform: translateY(0); opacity: 0; }
+}
+
+.fw-burst {
+  animation-name: fw-burst;
+}
+@keyframes fw-burst {
+  0%, 21.9% { transform: scale(0.12); opacity: 0; }
+  22% { transform: scale(0.14); opacity: 1; animation-timing-function: cubic-bezier(0.15, 0.75, 0.3, 1); }
+  46% { transform: scale(1); opacity: 1; animation-timing-function: ease-in; }
+  62% { transform: scale(1.03) translateY(2%); opacity: 0.9; }
+  80%, 100% { transform: scale(1.06) translateY(7%); opacity: 0; }
+}
+
+.fw-inner {
+  animation-name: fw-inner;
+}
+@keyframes fw-inner {
+  0%, 24% { transform: scale(0.1); opacity: 0; }
+  25% { opacity: 1; animation-timing-function: cubic-bezier(0.15, 0.75, 0.3, 1); }
+  42% { transform: scale(0.9); opacity: 1; }
+  64%, 100% { transform: scale(0.96) translateY(4%); opacity: 0; }
+}
+
+.fw-glitter {
+  animation-name: fw-glitter;
+  animation-timing-function: linear;
+}
+@keyframes fw-glitter {
+  0%, 44% { transform: scale(0.9); opacity: 0; }
+  48% { opacity: 1; }
+  52% { opacity: 0.3; }
+  56% { opacity: 1; }
+  60% { opacity: 0.25; }
+  64% { opacity: 0.9; }
+  68% { opacity: 0.2; }
+  72% { opacity: 0.7; }
+  84%, 100% { transform: scale(1.02) translateY(12%); opacity: 0; }
+}
+
+.fw-flash {
+  inset: -60% !important;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--flash), transparent 62%);
+  animation-name: fw-flash;
+  animation-timing-function: ease-out;
+}
+@keyframes fw-flash {
+  0%, 21.9% { transform: scale(0.5); opacity: 0; }
+  24% { transform: scale(0.8); opacity: 1; }
+  44%, 100% { transform: scale(1.1); opacity: 0; }
+}

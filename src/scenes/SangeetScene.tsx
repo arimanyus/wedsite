@@ -5,6 +5,7 @@ import { MapPin } from 'lucide-react'
 import { DayLabel } from '@/components/EventDetails'
 import { CalendarButton, MapButton } from '@/components/MapButton'
 import { Sky, TextBlock } from '@/components/SceneLayers'
+import { Fireworks } from '@/components/Fireworks'
 import { eventsInScene, formatDay } from '@/data/wedding'
 
 import { NeonNote, NeonSky } from './NeonNight'
@@ -43,6 +44,7 @@ export function SangeetScene() {
     <>
       <Sky>
         <NeonSky />
+        <Fireworks palette="neon" launches={5} />
       </Sky>
 
       <TextBlock>

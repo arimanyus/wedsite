@@ -5,6 +5,7 @@
 /* The pinned stage and its planes: sky, ground (friezes and bus), foreground, text. */
 @import './styles/journey.css';
 @import './styles/moves.css';
+@import './styles/fireworks.css';
 /* Event typography, buttons and ornaments shared by every scene. */
 @import './styles/event.css';
 /* One file per scene, in journey order. */

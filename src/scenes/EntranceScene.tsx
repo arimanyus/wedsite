@@ -7,6 +7,7 @@ import type { CSSProperties } from 'react'
 
 import { Countdown } from '@/components/Countdown'
 import { Sky, TextBlock } from '@/components/SceneLayers'
+import { Fireworks } from '@/components/Fireworks'
 import { couple } from '@/data/wedding'
 import { useJourney } from '@/journey/context'
 import { EntranceGateway } from '@/scenes/EntranceGateway'
@@ -33,6 +34,7 @@ export function EntranceScene() {
     <>
       <Sky>
         <EntranceGateway />
+        <Fireworks palette="gold" launches={3} />
         <div className="sparkles">
           {SPARKLES.map((sparkle, index) => (
             <span
