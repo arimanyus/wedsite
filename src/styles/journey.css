@@ -11,6 +11,32 @@
   overflow-anchor: none;
 }
 
+/* On a touch screen a swipe comes to rest at the next scene, the way a feed of videos does, instead
+   of flinging past several and stopping halfway through a change of scene. The schedule after the
+   journey is one stop taller than the screen, which the guest scrolls through freely. */
+.journey-rest {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+@media (pointer: coarse) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
+  .journey-rest {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .guide {
+    scroll-snap-align: start;
+  }
+}
+
 .journey-stage {
   position: sticky;
   top: 0;

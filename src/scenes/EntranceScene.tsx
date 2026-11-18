@@ -2,7 +2,7 @@ import '@fontsource/shrikhand/latin-400.css'
 import '@fontsource/playfair-display/latin-600-italic.css'
 import '@fontsource/playfair-display/latin-800-italic.css'
 
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import type { CSSProperties } from 'react'
 
 import { Countdown } from '@/components/Countdown'
@@ -10,6 +10,7 @@ import { Sky, TextBlock } from '@/components/SceneLayers'
 import { Fireworks } from '@/components/Fireworks'
 import { couple } from '@/data/wedding'
 import { useJourney } from '@/journey/context'
+import { useMediaQuery } from '@/lib/hooks'
 import { EntranceGateway } from '@/scenes/EntranceGateway'
 
 /** Where the sparkles sit in the sky (percent of the screen), clear of the palace at the bottom centre. */
@@ -29,6 +30,7 @@ const SPARKLES = [
  */
 export function EntranceScene() {
   const { goTo } = useJourney()
+  const touch = useMediaQuery('(pointer: coarse)')
 
   return (
     <>
@@ -77,9 +79,13 @@ export function EntranceScene() {
           <span>With regards,</span>
           {couple.families}
         </p>
-        <button type="button" className="scroll-hint" onClick={() => goTo(1)}>
-          Begin
-          <ChevronDown aria-hidden="true" />
+        <button
+          type="button"
+          className={touch ? 'scroll-hint scroll-hint-swipe' : 'scroll-hint'}
+          onClick={() => goTo(1)}
+        >
+          {touch ? 'Swipe up' : 'Begin'}
+          {touch ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
         </button>
       </TextBlock>
     </>

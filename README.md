@@ -3,7 +3,7 @@
 The wedding website for Mansi and Vivek, 28 November to 3 December 2026.
 Home: [mansiwedsvivek.xyz](https://mansiwedsvivek.xyz)
 
-The site is one continuous illustrated journey. As you scroll, the view travels along a single painted landscape, and each celebration has its own stretch of it, drawn in a different art style:
+The site is one continuous illustrated journey. As you scroll, the view travels along a single painted landscape, and each celebration has its own stretch of it, drawn in a different art style. On a phone it works like a feed of videos: each swipe up (or sideways) glides on to the next celebration and stops there, and the baraat bus drives a stretch further with every swipe.
 
 | Celebration | Date | Drawn as |
 | --- | --- | --- |
@@ -59,7 +59,7 @@ Everything a guest reads comes from one file, [`src/data/wedding.ts`](src/data/w
 ## How it is built
 
 - The journey is a pinned stage with shared planes: the sky (one backdrop per scene; each new sky sweeps in from the right with its landscape, through a colour that sits between the two skies), the ground (every scene's frieze on one strip, with a join drawn over each place where two meet), decorations in front of the ground, and the text. `src/components/Journey.tsx` and `src/components/Planes.tsx` build it.
-- `src/journey/scenes.ts` lists the scenes in order with their frieze and how long their text stays on screen. `src/journey/timeline.ts` turns the scroll position into everything that moves: where the camera is along the ground, which sky and text are showing, and where the baraat bus is. Its timing constants are at the top of the file.
+- `src/journey/scenes.ts` lists the scenes in order with their frieze and how long their text stays on screen. `src/journey/timeline.ts` turns the scroll position into everything that moves: where the camera is along the ground, which sky and text are showing, and where the baraat bus is. Its timing constants are at the top of the file. Its `restingPoints` are where a swipe on a touch screen comes to rest: `Journey.tsx` puts a scroll-snap marker at each one (styled in `journey.css` for coarse pointers only), and `JourneyProvider.tsx` turns a sideways swipe into a glide to the next or previous one.
 - `src/scenes/` has one small component per scene. Each puts its pieces on the planes with `<Sky>`, `<Foreground>` and `<TextBlock>`.
 - `src/index.css` imports the styles in order from `src/styles/`: `journey.css` for the stage, `event.css` for the typography every scene shares, one file per scene in `scenes/` (each lists which selectors set its backdrop, sky decorations, text block and decorations over the frieze), `guide.css` for the plan, `chrome.css` for the top bar and the scene dots (they take their colours from the scene on screen, through `--chrome-bg`, `--chrome-fg` and `--chrome-accent` in each scene's stylesheet), and `responsive.css` last.
 - `src/components/Guide.tsx` and `src/components/guide/` are the schedule and directions section after the journey. Each event's card takes its colour and typeface from the list at the top of `src/styles/guide.css`.

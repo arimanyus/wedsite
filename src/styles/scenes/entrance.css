@@ -359,6 +359,25 @@
   }
 }
 
+/* On a touch screen it says "Swipe up" and nudges upwards, the way the finger goes. */
+.scroll-hint-swipe {
+  animation-name: hint-swipe;
+}
+
+@keyframes hint-swipe {
+  0%,
+  45%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-7px);
+  }
+  30% {
+    transform: translateY(-2px);
+  }
+}
+
 /* ── Phone held sideways: the text has the left half. The names go on one line, which leaves room
    for the families' sign-off that the shared short-screen rules would otherwise hide. ── */
 

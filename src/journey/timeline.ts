@@ -136,6 +136,14 @@ export function focusPoint(index: number): number {
   return starts[index] + scene.dwell * (scene.follow ? 0.1 : 0.5)
 }
 
+/**
+ * Where a swipe on a touch screen comes to rest: each scene's focus point, and along a followed
+ * subject's way a few more, so the baraat bus drives a stretch further with every swipe.
+ */
+export const restingPoints: number[] = scenes.flatMap((scene, index) =>
+  scene.follow ? [0.1, 0.55, 1].map((share) => starts[index] + scene.dwell * share) : [focusPoint(index)],
+)
+
 // ─── The camera ───
 
 const leads = (index: number) => scenes[index - 1].follow !== undefined || scenes[index].follow !== undefined

@@ -12,7 +12,7 @@ import { rasterWidthFor } from '@/art'
 import { useMediaQuery } from '@/lib/hooks'
 import { ActiveSceneContext, JourneyContext, type GroundSize, type JourneyState } from './context'
 import { scenes } from './scenes'
-import { activeScene, cameraAt, focusPoint, skyBand, TOTAL } from './timeline'
+import { activeScene, cameraAt, focusPoint, restingPoints, skyBand, TOTAL } from './timeline'
 
 export function JourneyProvider({ children }: { children: ReactNode }) {
   const trackRef = useRef<HTMLDivElement>(null)
@@ -116,6 +116,42 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     },
     [calm],
   )
+
+  // The ground travels sideways, so a quick sideways swipe across the stage moves on to the next
+  // resting point (or back to the one before), just as swiping up and down does.
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    let start: { x: number; y: number; time: number } | null = null
+    const onStart = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      start = event.touches.length === 1 ? { x: touch.clientX, y: touch.clientY, time: event.timeStamp } : null
+    }
+    const onEnd = (event: TouchEvent) => {
+      const touch = event.changedTouches[0]
+      if (!start || !touch) return
+      const dx = touch.clientX - start.x
+      const dy = touch.clientY - start.y
+      const quick = event.timeStamp - start.time < 800
+      start = null
+      if (!quick || Math.abs(dx) < 50 || Math.abs(dx) < 1.5 * Math.abs(dy)) return
+      const here = t.get()
+      const forward = dx < 0
+      const target = forward
+        ? restingPoints.find((point) => point > here + 0.02)
+        : restingPoints.findLast((point) => point < here - 0.02)
+      const behavior: ScrollBehavior = calm ? 'auto' : 'smooth'
+      const { top, length } = metrics.current
+      if (target !== undefined) window.scrollTo({ top: top + (target / TOTAL) * length, behavior })
+      else if (forward) afterRef.current?.scrollIntoView({ behavior, block: 'start' })
+    }
+    track.addEventListener('touchstart', onStart, { passive: true })
+    track.addEventListener('touchend', onEnd, { passive: true })
+    return () => {
+      track.removeEventListener('touchstart', onStart)
+      track.removeEventListener('touchend', onEnd)
+    }
+  }, [t, calm])
 
   const state = useMemo<JourneyState>(
     () => ({ trackRef, groundRef, afterRef, t, camera, pointer, size, measured, rasterWidth, calm, goTo }),
