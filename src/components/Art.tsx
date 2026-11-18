@@ -98,6 +98,8 @@ interface ArtProps extends ImageProps {
   name: string
   /** The scene (index into `scenes`) whose artwork this is, fetched in that scene's turn (journey/loading.ts). */
   scene?: number
+  /** Called once the drawing is on show. */
+  onShown?: () => void
   className?: string
   style?: MotionStyle
 }
@@ -109,7 +111,7 @@ interface ArtProps extends ImageProps {
  * and the scene's turn has come, and nothing shows until every piece is in: then it fades in whole,
  * never a part floating with nothing behind it.
  */
-export function Art({ name, scene, className, style, ...image }: ArtProps) {
+export function Art({ name, scene, onShown, className, style, ...image }: ArtProps) {
   const { rasterWidth } = useJourney()
   const mayFetch = useMayFetch(scene)
   const images = imageCount(name)
@@ -124,6 +126,10 @@ export function Art({ name, scene, className, style, ...image }: ArtProps) {
     const timer = window.setTimeout(() => setShown(true), 8000)
     return () => window.clearTimeout(timer)
   }, [src, shown])
+
+  useEffect(() => {
+    if (shown) onShown?.()
+  }, [shown, onShown])
 
   if (!src) return null
   const onArrive = () => {

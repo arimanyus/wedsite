@@ -222,6 +222,19 @@
   user-select: none;
 }
 
+/* A frieze still on its way shows a small preview of itself, softened, until both layers are in. */
+.frieze-preview {
+  filter: blur(3px);
+  transition:
+    opacity 0.5s ease 0.5s,
+    visibility 0s 1s;
+}
+
+.frieze-preview.gone {
+  opacity: 0;
+  visibility: hidden;
+}
+
 /* Slightly oversized, so leaning against the pointer never uncovers its ends inside the frieze. */
 .frieze-back {
   scale: 1.02;

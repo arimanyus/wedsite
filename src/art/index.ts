@@ -79,6 +79,14 @@ export function rasterWidthFor(friezeWidth: number, density: number): number {
 }
 
 /**
+ * URL of a small preview of a whole painting such as `pichwai`, both layers and every moving part
+ * in place, if `npm run build` has painted one (scripts/raster-art.mjs).
+ */
+export function previewArt(painting: string): string | undefined {
+  return bitmaps[`./build/${painting}.preview.webp`]
+}
+
+/**
  * URL of a piece of ground artwork (a frieze layer, a join, the bus): its bitmap at `rasterWidth`
  * (from rasterWidthFor) when there is one, otherwise the drawing itself. Bitmaps cost a phone next
  * to nothing to put on screen, where a detailed SVG can hold up a scroll while it is drawn.

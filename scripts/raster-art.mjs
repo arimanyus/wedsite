@@ -10,6 +10,10 @@
 // picks the size that suits the screen (src/art/index.ts) and falls back to the SVG when a bitmap
 // is missing, so this step is optional: without Chrome it warns and leaves the SVGs to do the job.
 //
+// Each painting (a drawing with back and front layers) also gets src/art/build/<name>.preview.webp:
+// the whole painting, both layers and every moving part in place, a few KB small. The page shows
+// it softened while the full artwork is still on its way on a slow connection.
+//
 // The painting is done by headless Chrome, the same engine most guests see the SVGs in, so the
 // bitmaps match the drawings exactly. Set CHROME_PATH if Chrome is somewhere unusual.
 import { existsSync } from 'node:fs'
@@ -17,13 +21,17 @@ import { readdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src/art/build')
+const sourceDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src/art')
+const outDir = join(sourceDir, 'build')
 
 /** Widths of a whole frieze, in pixels. Keep in step with RASTER_WIDTHS in src/art/index.ts. */
 export const WIDTHS = [1600, 2400, 3600]
 /** A frieze is drawn 2400 units wide; everything on the ground shares that scale. */
 const FRIEZE_UNITS = 2400
 const QUALITY = 82
+/** Width of a painting's preview, in pixels; it is shown softened, so it can be small. */
+const PREVIEW_WIDTH = 320
+const PREVIEW_QUALITY = 45
 
 /** Ground artwork: everything in the build folder except the ornaments, which stay vector. */
 const onGround = (file) => file.endsWith('.svg') && !file.startsWith('orn-')
@@ -95,10 +103,25 @@ export async function rasterArt(names = [], { force = false } = {}) {
     }
   }
 
+  for (const file of files) {
+    const painting = file.match(/^(.+)\.front\.svg$/)?.[1]
+    const source = painting && join(sourceDir, `${painting}.svg`)
+    if (!source || !existsSync(source)) continue
+    const outName = `${painting}.preview.webp`
+    wanted.add(outName)
+    const svg = await readFile(source, 'utf8')
+    const box = viewBox(svg)
+    if (!box || (!force && (await newer(join(outDir, outName), (await stat(source)).mtimeMs)))) continue
+    const width = PREVIEW_WIDTH
+    jobs.push({ svg, outName, width, height: Math.round((box.height * width) / box.width), quality: PREVIEW_QUALITY })
+  }
+
   // Bitmaps of drawings that are gone, or are empty again.
   for (const file of await readdir(outDir)) {
     if (!file.endsWith('.webp') || wanted.has(file)) continue
-    const source = file.replace(/\.\d+\.webp$/, '.svg')
+    const source = file.endsWith('.preview.webp')
+      ? file.replace(/\.preview\.webp$/, '.front.svg')
+      : file.replace(/\.\d+\.webp$/, '.svg')
     if (names.length === 0 || files.includes(source)) await rm(join(outDir, file))
   }
 
@@ -115,7 +138,7 @@ export async function rasterArt(names = [], { force = false } = {}) {
       await page.setViewport({ width: job.width, height: job.height, deviceScaleFactor: 1 })
       const sized = job.svg.replace(/<svg\b/, `<svg width="${job.width}" height="${job.height}" style="display:block"`)
       await page.setContent(`<!doctype html><body style="margin:0;background:transparent">${sized}</body>`)
-      const data = await page.screenshot({ type: 'webp', quality: QUALITY, omitBackground: true })
+      const data = await page.screenshot({ type: 'webp', quality: job.quality ?? QUALITY, omitBackground: true })
       const temp = join(outDir, `.${job.outName}.${process.pid}.tmp`)
       await writeFile(temp, data)
       await rename(temp, join(outDir, job.outName))

@@ -1,10 +1,12 @@
 import { motion, useTransform } from 'motion/react'
+import { useCallback, useState } from 'react'
 
-import { art } from '@/art'
+import { art, previewArt } from '@/art'
 import { Art } from '@/components/Art'
 import { Bus } from '@/components/BusRoute'
 import { BUS_WIDTH } from '@/journey/bus'
 import { useJourney } from '@/journey/context'
+import { useMayFetch } from '@/journey/loading'
 import { joinName, scenes } from '@/journey/scenes'
 import {
   BACK_LAG,
@@ -65,10 +67,25 @@ function useFriezePose(index: number) {
   return { x, backX, opacity, display }
 }
 
+/**
+ * A small preview of the whole painting, softened, which holds the frieze's place while its two
+ * layers are on their way and fades away once both are in. It is fetched in the scene's turn, ahead
+ * of the full artwork, and is only ever seen on a slow connection by a guest travelling ahead of it.
+ * The opening scene has none: the curtain stays down until it is whole.
+ */
+function Preview({ index, gone }: { index: number; gone: boolean }) {
+  const mayFetch = useMayFetch(index)
+  const src = previewArt(scenes[index].frieze)
+  if (index === 0 || !mayFetch || !src) return null
+  return <img src={src} alt="" className={`frieze-layer frieze-preview${gone ? ' gone' : ''}`} draggable={false} />
+}
+
 /** One frieze on the ground. Its far layer lags behind its near layer as the camera passes, for depth. */
 export function Frieze({ index }: { index: number }) {
   const scene = scenes[index]
   const { x, backX, opacity, display } = useFriezePose(index)
+  const [layersIn, setLayersIn] = useState(0)
+  const layerIn = useCallback(() => setLayersIn((count) => count + 1), [])
   // The opening frieze is what the guest sees first; the rest queue up behind it in travelling order.
   const priority = index === 0 ? 'high' : 'low'
   const lead = scene.follow ? ' frieze-lead' : ''
@@ -78,14 +95,16 @@ export function Frieze({ index }: { index: number }) {
 
   return (
     <motion.div className={`frieze-box frieze${lead} scene-${scene.id}`} style={{ x, opacity, display, ...fades }}>
+      <Preview index={index} gone={layersIn >= 2} />
       <Art
         name={`${scene.frieze}.back`}
         scene={index}
+        onShown={layerIn}
         className="frieze-layer frieze-back"
         fetchPriority={priority}
         style={{ x: backX }}
       />
-      <Art name={`${scene.frieze}.front`} scene={index} className="frieze-layer" fetchPriority={priority} />
+      <Art name={`${scene.frieze}.front`} scene={index} onShown={layerIn} className="frieze-layer" fetchPriority={priority} />
     </motion.div>
   )
 }
