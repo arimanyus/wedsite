@@ -10,6 +10,9 @@
 // src/styles/moves.css), so nothing is ever redrawn while it moves. Marked groups can nest: a
 // cow that wanders can have a head that grazes and a tail that swishes.
 //
+// For the published site the parts of a layer are painted side by side on one sheet (see
+// layOutSheet), so a phone fetches them as one image instead of dozens.
+//
 // Attributes (all coordinates are in the drawing's own units, as seen, whatever transforms the
 // group sits inside):
 //   data-move    one of the names in MOVES below
@@ -311,6 +314,51 @@ export function splitMoves(markup, base, boxes) {
   $('[data-move]').removeAttr('data-move')
 
   return { layer: $.xml(svg), files, entry: parts.length ? { size: viewBox, parts } : null }
+}
+
+/**
+ * Parts sit on their sheet at multiples of this many drawing units, at least this far apart, so
+ * that at every bitmap size (scripts/raster-art.mjs) each starts on a whole pixel and the browser
+ * never blends a neighbour into its edge.
+ */
+const SHEET_GRID = 6
+
+/**
+ * Lays out the parts of `entry` that have something to draw (`drawn(name)`, children included) on
+ * one sheet, a shelf at a time, tallest first, in drawing units. Gives each of them its place as
+ * `at` and the entry the sheet's size as `sheet`; scripts/raster-art.mjs paints the sheet and
+ * src/components/Art.tsx shows each part's patch of it.
+ */
+export function layOutSheet(entry, drawn) {
+  const parts = []
+  const collect = (list) => {
+    for (const part of list) {
+      if (drawn(part.name)) parts.push(part)
+      if (part.children) collect(part.children)
+    }
+  }
+  collect(entry.parts)
+  if (parts.length === 0) return
+
+  const up = (value) => Math.ceil(value / SHEET_GRID) * SHEET_GRID
+  const area = parts.reduce((sum, part) => sum + (part.box[2] + SHEET_GRID) * (part.box[3] + SHEET_GRID), 0)
+  const across = Math.max(up(Math.sqrt(area) * 1.1), ...parts.map((part) => up(part.box[2]) + 2 * SHEET_GRID))
+  let x = SHEET_GRID
+  let y = SHEET_GRID
+  let shelf = 0
+  let width = 0
+  for (const part of [...parts].sort((a, b) => b.box[3] - a.box[3])) {
+    if (x > SHEET_GRID && x + part.box[2] + SHEET_GRID > across) {
+      x = SHEET_GRID
+      y = up(y + shelf + SHEET_GRID)
+      shelf = 0
+    }
+    part.at = [x, y]
+    x = up(x + part.box[2] + SHEET_GRID)
+    shelf = Math.max(shelf, part.box[3])
+    width = Math.max(width, x)
+  }
+  entry.sheet = [width, up(y + shelf + SHEET_GRID)]
 }
 
 /** How much of the drawing moves, for the build log. */

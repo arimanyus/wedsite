@@ -6,8 +6,8 @@
 // which keeps parallax on the compositor instead of re-rasterising a large inline SVG every frame.
 // Everything else (ornaments, the bus, the joins) is optimised and copied as a single file.
 //
-// Groups marked `data-move` are cut out into drawings of their own and animated by the page; see
-// scripts/moves.mjs.
+// Groups marked `data-move` are cut out into drawings of their own and animated by the page, and
+// laid out on a sheet per layer for the published site; see scripts/moves.mjs.
 //
 // With --raster (as `npm run build` runs it) the ground artwork is then also painted into bitmaps
 // for the published site: see scripts/raster-art.mjs.
@@ -17,8 +17,8 @@ import { fileURLToPath } from 'node:url'
 import * as cheerio from 'cheerio'
 import { optimize } from 'svgo'
 
-import { closeBrowser, coverage, hasMoves, measureMoves, numberMoves, splitMoves } from './moves.mjs'
-import { rasterArt } from './raster-art.mjs'
+import { closeBrowser, coverage, hasMoves, layOutSheet, measureMoves, numberMoves, splitMoves } from './moves.mjs'
+import { isEmpty, rasterArt } from './raster-art.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const sourceDir = join(root, 'src/art')
@@ -140,8 +140,14 @@ for (const file of files) {
     if (boxes) {
       const split = splitMoves(markup, outBase, boxes)
       layer = split.layer
-      for (const [partName, part] of split.files) await put(partName, optimise(part, partName), false)
+      const drawn = new Set()
+      for (const [partName, part] of split.files) {
+        const optimised = optimise(part, partName)
+        if (!isEmpty(optimised)) drawn.add(partName.replace(/\.svg$/, ''))
+        await put(partName, optimised, false)
+      }
       if (split.entry) {
+        layOutSheet(split.entry, (name) => drawn.has(name))
         moves[outBase] = split.entry
         const { count, share } = coverage(split.entry)
         console.log(`${`${outBase} moving`.padEnd(34)} ${count} parts, ${Math.round(share * 100)}% of its area`)

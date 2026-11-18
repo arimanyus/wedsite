@@ -5,10 +5,13 @@
 //
 // For every drawing in src/art/build/ that the ground uses, this writes
 // src/art/build/<name>.<width>.webp once per width in WIDTHS, where <width> is the width in pixels
-// of a whole frieze at that size (drawings narrower than a frieze, and the moving parts cut out
-// of them, are scaled to match). The page
+// of a whole frieze at that size (drawings narrower than a frieze are scaled to match). The page
 // picks the size that suits the screen (src/art/index.ts) and falls back to the SVG when a bitmap
 // is missing, so this step is optional: without Chrome it warns and leaves the SVGs to do the job.
+//
+// The moving parts cut out of a drawing are not painted one by one: all of them go on one sheet,
+// src/art/build/<name>.sheet.<width>.webp, laid out as its moves list says (scripts/moves.mjs).
+// A phone on a cold connection fetches a drawing as two images, not seventy.
 //
 // Each painting (a drawing with back and front layers) also gets src/art/build/<name>.preview.webp:
 // the whole painting, both layers and every moving part in place, a few KB small. The page shows
@@ -35,6 +38,7 @@ const PREVIEW_QUALITY = 45
 
 /** Ground artwork: everything in the build folder except the ornaments, which stay vector. */
 const onGround = (file) => file.endsWith('.svg') && !file.startsWith('orn-')
+const isPart = (file) => /\.m\d+\.svg$/.test(file)
 
 function findChrome() {
   const candidates = [
@@ -59,7 +63,10 @@ function viewBox(svg) {
 }
 
 /** A drawing with nothing in it yet (a join waiting for its artwork) gets no bitmap. */
-const isEmpty = (svg) => !/<(path|rect|circle|ellipse|line|poly|use|g|image)\b/.test(svg)
+export const isEmpty = (svg) => !/<(path|rect|circle|ellipse|line|poly|use|g|image)\b/.test(svg)
+
+/** Every part in a moves list, children included. */
+const allParts = (parts = []) => parts.flatMap((part) => [part, ...allParts(part.children)])
 
 async function newer(file, than) {
   try {
@@ -88,7 +95,7 @@ export async function rasterArt(names = [], { force = false } = {}) {
 
   const jobs = []
   const wanted = new Set()
-  for (const file of files) {
+  for (const file of files.filter((file) => !isPart(file))) {
     const path = join(outDir, file)
     const svg = await readFile(path, 'utf8')
     const box = viewBox(svg)
@@ -116,6 +123,39 @@ export async function rasterArt(names = [], { force = false } = {}) {
     jobs.push({ svg, outName, width, height: Math.round((box.height * width) / box.width), quality: PREVIEW_QUALITY })
   }
 
+  // Each layer's moving parts, side by side on one sheet. Each goes in as an image of its own, so
+  // the ids inside one part's drawing cannot clash with another's.
+  for (const list of (await readdir(outDir)).filter((file) => file.endsWith('.moves.json'))) {
+    if (names.length && !names.includes(list.replace(/\.moves\.json$/, ''))) continue
+    const listPath = join(outDir, list)
+    for (const [base, entry] of Object.entries(JSON.parse(await readFile(listPath, 'utf8')))) {
+      if (!entry.sheet) continue
+      let latest = (await stat(listPath)).mtimeMs
+      const drawings = []
+      for (const part of allParts(entry.parts).filter((part) => part.at)) {
+        const path = join(outDir, `${part.name}.svg`)
+        latest = Math.max(latest, (await stat(path)).mtimeMs)
+        drawings.push({ part, data: (await readFile(path)).toString('base64') })
+      }
+      for (const width of WIDTHS) {
+        const outName = `${base}.sheet.${width}.webp`
+        wanted.add(outName)
+        if (!force && (await newer(join(outDir, outName), latest))) continue
+        const scale = width / FRIEZE_UNITS
+        const html = drawings
+          .map(({ part, data }) => {
+            const [left, top] = part.at.map((value) => value * scale)
+            const [, , partWidth, partHeight] = part.box.map((value) => value * scale)
+            const place = `position:absolute;left:${left}px;top:${top}px;width:${partWidth}px;height:${partHeight}px`
+            return `<img src="data:image/svg+xml;base64,${data}" style="${place}">`
+          })
+          .join('')
+        const [sheetWidth, sheetHeight] = entry.sheet.map((value) => Math.round(value * scale))
+        jobs.push({ html, outName, width: sheetWidth, height: sheetHeight })
+      }
+    }
+  }
+
   // Bitmaps of drawings that are gone, or are empty again.
   for (const file of await readdir(outDir)) {
     if (!file.endsWith('.webp') || wanted.has(file)) continue
@@ -136,8 +176,10 @@ export async function rasterArt(names = [], { force = false } = {}) {
     const page = await browser.newPage()
     for (const job of jobs) {
       await page.setViewport({ width: job.width, height: job.height, deviceScaleFactor: 1 })
-      const sized = job.svg.replace(/<svg\b/, `<svg width="${job.width}" height="${job.height}" style="display:block"`)
-      await page.setContent(`<!doctype html><body style="margin:0;background:transparent">${sized}</body>`)
+      const body =
+        job.html ?? job.svg.replace(/<svg\b/, `<svg width="${job.width}" height="${job.height}" style="display:block"`)
+      await page.setContent(`<!doctype html><body style="margin:0;background:transparent">${body}</body>`)
+      await page.evaluate(() => Promise.all([...document.images].map((image) => image.decode())))
       const data = await page.screenshot({ type: 'webp', quality: job.quality ?? QUALITY, omitBackground: true })
       const temp = join(outDir, `.${job.outName}.${process.pid}.tmp`)
       await writeFile(temp, data)

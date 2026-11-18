@@ -30,12 +30,16 @@ export interface MovingPart {
   delay: number
   path?: [dx: number, dy: number]
   children?: MovingPart[]
+  /** Where its artwork sits on the drawing's sheet (see sheetArt); none if it has nothing to draw. */
+  at?: [x: number, y: number]
 }
 
 export interface Moves {
   /** The drawing's viewBox. */
   size: [x: number, y: number, width: number, height: number]
   parts: MovingPart[]
+  /** Width and height of the sheet its parts are painted on, in drawing units. */
+  sheet?: [width: number, height: number]
 }
 
 const moveLists = import.meta.glob<Record<string, Moves>>('./build/*.moves.json', { eager: true, import: 'default' })
@@ -97,4 +101,15 @@ export function previewArt(painting: string): string | undefined {
 export function groundArt(name: string, rasterWidth: number): string | undefined {
   if (import.meta.env.DEV) return art(name)
   return bitmaps[`./build/${name}.${rasterWidth}.webp`] ?? art(name)
+}
+
+/**
+ * URL of the bitmap at `rasterWidth` that all of a drawing's moving parts are painted on, side by
+ * side, each at its `at` (scripts/raster-art.mjs), so that a phone fetches them as one image rather
+ * than dozens. Like the other bitmaps it is only used on the published site; without it each part
+ * is drawn from its own SVG.
+ */
+export function sheetArt(name: string, rasterWidth: number): string | undefined {
+  if (import.meta.env.DEV) return undefined
+  return bitmaps[`./build/${name}.sheet.${rasterWidth}.webp`]
 }

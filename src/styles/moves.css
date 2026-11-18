@@ -1,6 +1,7 @@
 /* ── The moving parts of the ground artwork ──
    Groups marked `data-move` in a drawing are cut out by scripts/moves.mjs and laid back over it by
-   <Art> (src/components/Art.tsx), one small image each. Every part carries its own settings:
+   <Art> (src/components/Art.tsx), each its own patch of the drawing's sheet (its own small drawing
+   on the dev server). Every part carries its own settings:
      --dur, --delay      the cycle
      --amp               degrees for turns, a fraction for scaling (as drawn in data-amp)
      --ax, --ay          the same amp, as distance: a share of the part's own width and height
@@ -33,8 +34,18 @@
   pointer-events: none;
 }
 
+/* Fetches the sheet the parts are painted from (see Art.tsx) and says when it is in; never seen. */
+.art-sheet {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .move {
   position: absolute;
+  background-repeat: no-repeat;
   animation-duration: var(--dur);
   animation-delay: var(--delay);
   animation-iteration-count: infinite;
