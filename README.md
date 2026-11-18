@@ -16,7 +16,7 @@ The site is one continuous illustrated journey. As you scroll, the view travels 
 | Sangeet | Wed 2 Dec | Neon retro-future |
 | Wedding Ceremony | Thu 3 Dec | Pichwai |
 
-Along the way there is a live countdown to the ceremony, the full schedule, and for every event an Open in Google Maps button and an Add to Google Calendar button.
+The landscapes are alive: cows graze, kites tug at their strings, boats and fish cross the rivers, the bus rattles along, and fireworks go up over the Welcome, the Baraat and the Sangeet. Along the way there is a live countdown to the ceremony, the full schedule, and for every event an Open in Google Maps button and an Add to Google Calendar button. **Save the dates**, in the top bar and under the plan's title, puts all eight celebrations into the guest's calendar at once: a calendar file for Apple Calendar and Outlook, a subscription for Google Calendar, or a link to paste into anything else.
 
 At the end of the journey the wedding's lotus pond runs on into the plan: the day-by-day schedule, the two venues with directions, the baraat's road from Indore to Nanded, and the bus heading home.
 
@@ -49,11 +49,12 @@ One-time setup in the GitHub repository: **Settings → Pages → Build and depl
 
 ## Changing the details
 
-Everything a guest reads comes from one file, [`src/data/wedding.ts`](src/data/wedding.ts): names, events, dates, times, venues and notes. The countdown, the schedule, the map links and the calendar links all follow from it.
+Everything a guest reads comes from one file, [`src/data/wedding.ts`](src/data/wedding.ts): names, events, dates, times, venues and notes. The countdown, the schedule, the map links, the calendar links and the calendar file all follow from it.
 
 - **Map pins.** Each venue has a `mapsQuery` (the address, searched in Google Maps). To send guests to an exact pin instead, paste the Google Maps share link into that venue's `mapsLink`.
 - **Calendar entries.** Events listed as "onwards" have no end time on the invitation, so `end` is an estimate that is only used for the length of the calendar entry.
 - **Times** are written in India time and shown as India time wherever the guest is.
+- **The calendar file** (`/mansi-weds-vivek.ics`, built by [`src/data/calendar.ts`](src/data/calendar.ts)) is rebuilt on every deploy. Guests who subscribed rather than downloaded it see changes by themselves, within about half a day.
 
 ## How it is built
 
@@ -66,7 +67,9 @@ Everything a guest reads comes from one file, [`src/data/wedding.ts`](src/data/w
 - `src/art/*.svg` is the artwork, all hand-drawn SVG. Each frieze is 2400 x 600 with a `back` and a `front` group; `scripts/build-art.mjs` splits and optimises them into `src/art/build/` so the two layers can drift apart as you move. `node scripts/build-art.mjs <name>` rebuilds one drawing.
 - `src/art/join-<left>-<right>.svg` is the join drawn over the seam between two friezes (600 x 600, or 480 x 600 beside the Baraat, at the same scale as a frieze and centred on the seam), so one landscape turns into the next by design: a pond runs into a channel, a road ends at a pool. Under a join the two friezes change over across a narrow band that its artwork hides. The geometry is in `src/journey/timeline.ts` (`JOIN_WIDTH`, `seamCentre`).
 - For the published site, `npm run build` also paints every frieze layer, join and the bus into WebP bitmaps at three sizes (`scripts/raster-art.mjs`, using headless Chrome), and the page picks the size that suits the screen (`src/art/index.ts`). A phone puts a bitmap on screen at once, where a detailed SVG can hold up a scroll while it is drawn, most of all in Safari. The dev server always shows the SVGs. If the build machine has no Chrome (set `CHROME_PATH` if it is somewhere unusual), the step is skipped with a warning and the published site uses the SVGs too.
-- Guests who ask their device for reduced motion get a gentle dissolve in place between scenes instead of the camera travelling, and no bobbing bus or falling petals.
+- **Moving parts.** Any group in a drawing marked `data-move="<move>"` comes alive on the page. At build time `scripts/build-art.mjs` (with `scripts/moves.mjs`) measures each one in headless Chrome, cuts it out into its own small drawing (`src/art/build/<layer>.m<n>.svg`) and lists it, with its box and pivot, in `<drawing>.moves.json`; the page lays the parts back exactly over their layer and animates them with CSS (`src/components/Art.tsx`, `src/styles/moves.css`). The moves (`sway`, `swing`, `nod`, `flap`, `bob`, `drift`, `pace`, `fly`, `kite`, `splash`, `twinkle` and more) and their defaults are listed in `MOVES` in `scripts/moves.mjs`; a group can set its own `data-origin`, `data-dur`, `data-amp`, `data-delay` and `data-path`. Without Chrome on the build machine the parts stay drawn in place, still.
+- **Fireworks** in the skies are `src/components/Fireworks.tsx` and `src/styles/fireworks.css`: a few launch sites, each a rocket, a burst, an inner burst and glitter that only scale and fade, and that move and change colour and shape every time round. Each sky picks a palette (`gold`, `festive` or `neon`).
+- Guests who ask their device for reduced motion get a gentle dissolve in place between scenes instead of the camera travelling, and everything else holds still: no moving parts, fireworks, bobbing bus or falling petals.
 - `node scripts/shot.mjs <name> <width> <height> <dpr> <stops> [calm]` takes screenshots of the dev server at chosen points of the journey, for checking the motion, and `node scripts/seam.mjs <seam 1-7> <out.png> [wide|phone]` takes one of a join in mid-crossing. Set `URL` to point either at another server, such as `npm run preview`.
 - If anything in the page ever fails to draw, `src/components/Fallback.tsx` shows the invitation as plain text with map links instead of an empty screen.
 
