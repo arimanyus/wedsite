@@ -138,18 +138,21 @@
 .frieze {
   --fade-l: var(--edge-fade, 0%);
   --fade-r: var(--edge-fade, 0%);
+  /* Under a join (see .join) a fade can start a little way in from the frieze's end. */
+  --inset-l: 0%;
+  --inset-r: 0%;
   --mask: linear-gradient(
     90deg,
-    transparent,
-    rgb(0 0 0 / 0.16) calc(var(--fade-l) * 0.25),
-    rgb(0 0 0 / 0.5) calc(var(--fade-l) * 0.5),
-    rgb(0 0 0 / 0.84) calc(var(--fade-l) * 0.75),
-    #000 var(--fade-l),
-    #000 calc(100% - var(--fade-r)),
-    rgb(0 0 0 / 0.84) calc(100% - var(--fade-r) * 0.75),
-    rgb(0 0 0 / 0.5) calc(100% - var(--fade-r) * 0.5),
-    rgb(0 0 0 / 0.16) calc(100% - var(--fade-r) * 0.25),
-    transparent
+    transparent var(--inset-l),
+    rgb(0 0 0 / 0.16) calc(var(--inset-l) + var(--fade-l) * 0.25),
+    rgb(0 0 0 / 0.5) calc(var(--inset-l) + var(--fade-l) * 0.5),
+    rgb(0 0 0 / 0.84) calc(var(--inset-l) + var(--fade-l) * 0.75),
+    #000 calc(var(--inset-l) + var(--fade-l)),
+    #000 calc(100% - var(--inset-r) - var(--fade-r)),
+    rgb(0 0 0 / 0.84) calc(100% - var(--inset-r) - var(--fade-r) * 0.75),
+    rgb(0 0 0 / 0.5) calc(100% - var(--inset-r) - var(--fade-r) * 0.5),
+    rgb(0 0 0 / 0.16) calc(100% - var(--inset-r) - var(--fade-r) * 0.25),
+    transparent calc(100% - var(--inset-r))
   );
   -webkit-mask-image: var(--mask);
   mask-image: var(--mask);
@@ -159,6 +162,23 @@
    stays solid right to its ends. */
 .frieze-lead {
   z-index: 1;
+}
+
+/* A join: artwork drawn over the seam between two friezes (src/art/join-<left>-<right>.svg, as
+   tall as a frieze), so one landscape turns into the next by design. Above every frieze, below
+   the bus. */
+.join-box {
+  z-index: 1;
+}
+
+.join {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 100%;
+  max-width: none;
+  translate: -50% 0;
+  user-select: none;
 }
 
 @media (min-aspect-ratio: 184/100) {

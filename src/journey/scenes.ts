@@ -29,9 +29,17 @@ export const scenes: SceneDef[] = [
   { id: 'baraat', label: 'Baraat', frieze: 'baraat', dwell: 1.6, follow: { from: INDORE + 0.05, to: NANDED - 0.075 } },
   { id: 'pool', label: 'Pool Party', frieze: 'pool', dwell: 0.55 },
   { id: 'sangeet', label: 'Sangeet', frieze: 'sangeet', dwell: 0.55 },
-  { id: 'wedding', label: 'The Wedding', frieze: 'pichwai', dwell: 0.7 },
+  { id: 'wedding', label: 'The Wedding', frieze: 'wedding', dwell: 0.7 },
 ]
 
 export function sceneIndex(id: SceneId): number {
   return scenes.findIndex((scene) => scene.id === id)
+}
+
+/**
+ * Name of the artwork drawn over seam `seam`, where frieze `seam - 1` meets frieze `seam`:
+ * `src/art/join-<left frieze>-<right frieze>.svg`. A seam without one cross-fades instead.
+ */
+export function joinName(seam: number): string {
+  return `join-${scenes[seam - 1].frieze}-${scenes[seam].frieze}`
 }

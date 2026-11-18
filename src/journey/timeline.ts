@@ -64,6 +64,15 @@ export const LEAD_FEATHER = 0.015
  */
 export const SKY_BAND = 0.5
 export const SKY_BAND_MAX = 560
+/**
+ * A join is artwork drawn over the seam between two friezes, so that one landscape turns into the
+ * next by design instead of by a fade (`src/art/join-<left>-<right>.svg`). Its width as a share of
+ * a frieze's width; narrower beside a frieze with a followed subject, which needs its ends clear.
+ */
+export const JOIN_WIDTH = 0.25
+export const LEAD_JOIN_WIDTH = 0.2
+/** Under a join the two friezes change over across this narrow fade, hidden behind its artwork. */
+export const JOIN_FEATHER = 0.02
 /** How far the camera drifts either side of a frieze's centre while that scene's text is on screen. */
 export const DRIFT = 0.03
 /** The back layer of a frieze lags behind the front by this share of the camera's travel. */
@@ -158,6 +167,33 @@ export function friezeFade(index: number, side: -1 | 1): number | null {
   if (seam <= 0 || seam > last) return null
   if (!leads(seam)) return FEATHER
   return scenes[index].follow ? LEAD_FEATHER : LEAD_OVERLAP - LEAD_FEATHER
+}
+
+/**
+ * The same under a join: `inset` is how far in from the frieze's end its fade starts, and `fade`
+ * its width. The later frieze lies on top and fades in across JOIN_FEATHER around the middle of
+ * the overlap; the earlier one stays solid under that and ends just past it.
+ */
+export function joinedFade(index: number, side: -1 | 1): { inset: number; fade: number } | null {
+  const seam = side < 0 ? index : index + 1
+  if (seam <= 0 || seam > last) return null
+  if (leads(seam)) return { inset: 0, fade: friezeFade(index, side) ?? 0 }
+  const before = OVERLAP / 2 - JOIN_FEATHER / 2
+  return side < 0 ? { inset: before, fade: JOIN_FEATHER } : { inset: 0, fade: before }
+}
+
+/** Where seam `seam` (between friezes `seam - 1` and `seam`) is along the ground: the middle of their overlap. */
+export function seamCentre(seam: number): number {
+  return friezeCentre(seam) - 0.5 + seamOverlap(seam) / 2
+}
+
+export function joinWidth(seam: number): number {
+  return leads(seam) ? LEAD_JOIN_WIDTH : JOIN_WIDTH
+}
+
+/** Whether a join is near enough to the screen to be drawn. */
+export function joinNear(seam: number, camera: number, view: number): boolean {
+  return Math.abs(camera - seamCentre(seam)) < joinWidth(seam) / 2 + view / 2 + DRAW_MARGIN
 }
 
 interface CameraKeys {

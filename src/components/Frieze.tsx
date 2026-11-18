@@ -4,7 +4,7 @@ import { art } from '@/art'
 import { Bus } from '@/components/BusRoute'
 import { BUS_WIDTH } from '@/journey/bus'
 import { useJourney } from '@/journey/context'
-import { scenes } from '@/journey/scenes'
+import { joinName, scenes } from '@/journey/scenes'
 import {
   BACK_LAG,
   calmFriezeOpacity,
@@ -12,13 +12,29 @@ import {
   friezeCentre,
   friezeFade,
   friezeNear,
+  joinedFade,
+  joinNear,
+  joinWidth,
   leanCamera,
   POINTER_BACK,
   POINTER_FRONT,
+  seamCentre,
   subjectAt,
 } from '@/journey/timeline'
 
-const fadeWidth = (fade: number | null) => (fade === null ? undefined : `${fade * 100}%`)
+const percent = (share: number) => `${share * 100}%`
+
+/** The mask settings for one end of a frieze: a cross-fade, or the narrow change-over under a join. */
+function endFade(index: number, side: -1 | 1): { inset?: string; fade?: string } {
+  const seam = side < 0 ? index : index + 1
+  const joined = seam > 0 && seam < scenes.length && art(joinName(seam)) !== undefined
+  if (joined) {
+    const under = joinedFade(index, side)
+    return under ? { inset: percent(under.inset), fade: percent(under.fade) } : {}
+  }
+  const fade = friezeFade(index, side)
+  return fade === null ? {} : { fade: percent(fade) }
+}
 
 /**
  * Where frieze `index` sits on screen. Offsets are percentages of the frieze's own width, so the
@@ -55,7 +71,9 @@ export function Frieze({ index }: { index: number }) {
   const back = art(`${scene.frieze}.back`)
   const front = art(`${scene.frieze}.front`)
   const lead = scene.follow ? ' frieze-lead' : ''
-  const fades = { '--fade-l': fadeWidth(friezeFade(index, -1)), '--fade-r': fadeWidth(friezeFade(index, 1)) }
+  const left = endFade(index, -1)
+  const right = endFade(index, 1)
+  const fades = { '--fade-l': left.fade, '--inset-l': left.inset, '--fade-r': right.fade, '--inset-r': right.inset }
 
   return (
     <motion.div className={`frieze-box frieze${lead} scene-${scene.id}`} style={{ x, opacity, display, ...fades }}>
@@ -63,6 +81,31 @@ export function Frieze({ index }: { index: number }) {
         <motion.img src={back} alt="" className="frieze-layer frieze-back" draggable={false} style={{ x: backX }} />
       )}
       {front && <img src={front} alt="" className="frieze-layer" draggable={false} />}
+    </motion.div>
+  )
+}
+
+/**
+ * The artwork over seam `seam`, where frieze `seam - 1` meets frieze `seam`. It rides on the
+ * ground above both, centred on the middle of their overlap. With reduced motion the friezes
+ * dissolve in place and never meet, so there is nothing to join.
+ */
+export function Join({ seam }: { seam: number }) {
+  const { camera, pointer, size, measured, calm } = useJourney()
+  const src = art(joinName(seam))
+  const centre = seamCentre(seam)
+  const x = useTransform([camera, pointer, measured], ([c, m]: number[]) =>
+    percent(centre - leanCamera(c, m, size.current.view)),
+  )
+  const display = useTransform([camera, measured], ([c]: number[]) =>
+    !calm && joinNear(seam, c, size.current.view) ? 'block' : 'none',
+  )
+
+  return (
+    <motion.div className="frieze-box join-box" data-seam={seam} style={{ x, display }}>
+      {src && (
+        <img src={src} alt="" className="join" draggable={false} style={{ width: percent(joinWidth(seam)) }} />
+      )}
     </motion.div>
   )
 }

@@ -1,7 +1,7 @@
 import { motion, useTransform } from 'motion/react'
 import type { ComponentType, CSSProperties, ReactNode } from 'react'
 
-import { BaraatBus, Frieze } from '@/components/Frieze'
+import { BaraatBus, Frieze, Join } from '@/components/Frieze'
 import { couple, eventsInScene, type SceneId } from '@/data/wedding'
 import { PlaneContext, SceneContext, useJourney, useScene, type Plane, type SceneInfo } from '@/journey/context'
 import { sceneIndex, scenes } from '@/journey/scenes'
@@ -153,6 +153,9 @@ export function GroundPlane() {
     <div ref={groundRef} className="ground" aria-hidden="true">
       {scenes.map((scene, index) => (
         <Frieze key={scene.id} index={index} />
+      ))}
+      {scenes.slice(1).map((scene, index) => (
+        <Join key={scene.id} seam={index + 1} />
       ))}
       <BaraatBus index={sceneIndex('baraat')} />
     </div>

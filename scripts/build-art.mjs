@@ -5,7 +5,7 @@
 // out as its own optimised file so the page can move the layers independently as <img> elements,
 // which keeps parallax on the compositor instead of re-rasterising a large inline SVG every frame.
 // Everything else (ornaments, the bus) is optimised and copied as a single file.
-import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import * as cheerio from 'cheerio'
@@ -71,10 +71,19 @@ function optimise(markup, name) {
   }
 }
 
-await rm(outDir, { recursive: true, force: true })
+// `node scripts/build-art.mjs` rebuilds everything; `node scripts/build-art.mjs pichwai bus` only
+// those drawings, leaving the rest of ./build alone (safe while someone else rebuilds another one).
+const only = process.argv.slice(2).map((name) => name.replace(/\.svg$/, ''))
+
 await mkdir(outDir, { recursive: true })
 
-const files = (await readdir(sourceDir)).filter((file) => file.endsWith('.svg')).sort()
+const sources = (await readdir(sourceDir)).filter((file) => file.endsWith('.svg')).sort()
+const files = only.length ? sources.filter((file) => only.includes(file.replace(/\.svg$/, ''))) : sources
+for (const name of only) {
+  if (!sources.includes(`${name}.svg`)) console.warn(`no such drawing: src/art/${name}.svg`)
+}
+
+const written = new Set()
 for (const file of files) {
   const name = file.replace(/\.svg$/, '')
   const source = await readFile(join(sourceDir, file), 'utf8')
@@ -87,7 +96,18 @@ for (const file of files) {
 
   for (const [outName, markup] of outputs) {
     const data = optimise(markup, outName)
-    await writeFile(join(outDir, outName), data)
-    console.log(`${outName.padEnd(28)} ${(data.length / 1024).toFixed(1)} KB`)
+    // Written beside the target and renamed into place, so the dev server never reads half a file.
+    const temp = join(outDir, `.${outName}.${process.pid}.tmp`)
+    await writeFile(temp, data)
+    await rename(temp, join(outDir, outName))
+    written.add(outName)
+    console.log(`${outName.padEnd(34)} ${(data.length / 1024).toFixed(1)} KB`)
+  }
+}
+
+// A full rebuild also clears out files whose drawing has been deleted or renamed.
+if (only.length === 0) {
+  for (const file of await readdir(outDir)) {
+    if (file.endsWith('.svg') && !written.has(file)) await rm(join(outDir, file))
   }
 }
