@@ -1,5 +1,5 @@
 import { motion, type MotionStyle } from 'motion/react'
-import type { CSSProperties } from 'react'
+import { useState, type ComponentProps, type CSSProperties } from 'react'
 
 import { groundArt, movesOf, type MovingPart } from '@/art'
 import { useJourney } from '@/journey/context'
@@ -9,6 +9,24 @@ const percent = (share: number) => `${share * 100}%`
 interface ImageProps {
   fetchPriority?: 'high' | 'low' | 'auto'
   loading?: 'lazy' | 'eager'
+}
+
+/**
+ * An image that asks again, a little later, if it fails to arrive. A drawing is cut into hundreds
+ * of small images, and the host can turn one away now and then (just after a deploy, say); without
+ * this the piece it shows would be missing from the picture until the page was reloaded.
+ */
+function Picture({ src, ...props }: Omit<ComponentProps<'img'>, 'src'> & { src: string }) {
+  const [attempt, setAttempt] = useState(0)
+  return (
+    <img
+      {...props}
+      src={attempt ? `${src}?retry=${attempt}` : src}
+      onError={() => {
+        if (attempt < 3) window.setTimeout(() => setAttempt(attempt + 1), 1500 * (attempt + 1))
+      }}
+    />
+  )
 }
 
 /**
@@ -38,7 +56,7 @@ function Part({ part, within, rasterWidth, image }: { part: MovingPart; within: 
 
   return (
     <div className={`move move-${part.move}`} style={style}>
-      {src && <img src={src} alt="" className="art-fill" draggable={false} decoding="async" {...image} />}
+      {src && <Picture src={src} alt="" className="art-fill" draggable={false} decoding="async" {...image} />}
       {part.children?.map((child) => (
         <Part key={child.name} part={child} within={part.box} rasterWidth={rasterWidth} image={image} />
       ))}
@@ -68,7 +86,7 @@ export function Art({ name, className, style, ...image }: ArtProps) {
   if (!moves) return <motion.img {...picture} className={className} style={style} />
   return (
     <motion.div className={`${className ?? ''} has-moves`} style={style}>
-      <img {...picture} className="art-fill" />
+      <Picture {...picture} className="art-fill" />
       {moves.parts.map((part) => (
         <Part key={part.name} part={part} within={moves.size} rasterWidth={rasterWidth} image={image} />
       ))}
