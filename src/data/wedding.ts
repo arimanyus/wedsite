@@ -174,34 +174,47 @@ export function eventsInScene(scene: SceneId): WeddingEvent[] {
   return events.filter((event) => event.scene === scene)
 }
 
-const dayFormat = new Intl.DateTimeFormat('en-IN', {
-  timeZone: 'Asia/Kolkata',
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-})
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
 
-const shortDayFormat = new Intl.DateTimeFormat('en-IN', {
-  timeZone: 'Asia/Kolkata',
-  weekday: 'short',
-  day: 'numeric',
-  month: 'short',
-})
+/**
+ * The calendar day an India-time value falls on. Worked out from the value itself, never through
+ * the browser's own date formatting: browsers disagree on how they write a date ("Saturday, 28
+ * November" in one, "Saturday 28 November" in another), and the scenes take these strings apart.
+ */
+function istDay(value: IstDateTime): { weekday: string; day: number; month: string } {
+  const [year, month, day] = value.slice(0, 10).split('-').map(Number)
+  return { weekday: WEEKDAYS[new Date(Date.UTC(year, month - 1, day)).getUTCDay()], day, month: MONTHS[month - 1] }
+}
 
 /** "Saturday, 28 November" */
 export function formatDay(event: WeddingEvent): string {
-  return dayFormat.format(toDate(event.start))
+  const { weekday, day, month } = istDay(event.start)
+  return `${weekday}, ${day} ${month}`
 }
 
 /** "Sat, 28 Nov" */
 export function formatShortDay(event: WeddingEvent): string {
-  return shortDayFormat.format(toDate(event.start))
+  const { weekday, day, month } = istDay(event.start)
+  return `${weekday.slice(0, 3)}, ${day} ${month.slice(0, 3)}`
 }
 
 export function dayParts(event: WeddingEvent): { day: string; month: string; weekday: string } {
-  const parts = dayFormat.formatToParts(toDate(event.start))
-  const pick = (type: string) => parts.find((part) => part.type === type)?.value ?? ''
-  return { day: pick('day').padStart(2, '0'), month: pick('month').slice(0, 3), weekday: pick('weekday') }
+  const { weekday, day, month } = istDay(event.start)
+  return { day: String(day).padStart(2, '0'), month: month.slice(0, 3), weekday }
 }
 
 /** Opens Google Maps with directions to the venue from wherever the guest is. */
