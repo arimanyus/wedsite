@@ -1,10 +1,28 @@
 import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
+
+import { CALENDAR_FILE, calendarFile } from './src/data/calendar.ts'
+
+/** Publishes the week's calendar file (src/data/calendar.ts) next to the page. */
+function calendar(): Plugin {
+  return {
+    name: 'wedding-calendar',
+    configureServer(server) {
+      server.middlewares.use(`/${CALENDAR_FILE}`, (_request, response) => {
+        response.setHeader('Content-Type', 'text/calendar; charset=utf-8')
+        response.end(calendarFile())
+      })
+    },
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: CALENDAR_FILE, source: calendarFile() })
+    },
+  }
+}
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), calendar()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },

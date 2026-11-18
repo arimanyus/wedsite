@@ -1,12 +1,16 @@
+import { CalendarPlus } from 'lucide-react'
+
 import { CountdownChip } from '@/components/Countdown'
+import { SaveTheDates } from '@/components/SaveTheDates'
 import { couple, formatShortDay, nextEvent, eventStatus } from '@/data/wedding'
 import { useNow } from '@/lib/hooks'
 import { useActiveSceneClass, useJourney } from '@/journey/context'
 import { sceneIndex } from '@/journey/scenes'
 
 /**
- * Top bar: monogram (back to the top), countdown to the ceremony, and on wide screens the next
- * event. It carries the class of the scene on screen and takes its colours from that scene.
+ * Top bar: monogram (back to the top), countdown to the ceremony, "save the dates" (every event
+ * into the guest's calendar), and on wide screens the next event. It carries the class of the
+ * scene on screen and takes its colours from that scene.
  */
 export function Hud() {
   const { goTo } = useJourney()
@@ -25,6 +29,15 @@ export function Hud() {
       <div className="hud-countdown" role="timer" aria-label="Time until the wedding ceremony">
         <CountdownChip />
       </div>
+
+      <SaveTheDates
+        trigger={
+          <button type="button" className="hud-save" aria-label="Add all the celebrations to your calendar">
+            <CalendarPlus aria-hidden="true" />
+            <span className="hud-save-label">Save the dates</span>
+          </button>
+        }
+      />
 
       {upNext && (
         <button type="button" className="hud-next" onClick={() => goTo(sceneIndex(upNext.scene))}>

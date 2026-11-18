@@ -5,6 +5,7 @@ import { DriveHome } from '@/components/guide/DriveHome'
 import { NextUp } from '@/components/guide/NextUp'
 import { PlanTitle } from '@/components/guide/PlanTitle'
 import { Pond, PondSides } from '@/components/guide/Pond'
+import { SaveTheDatesButton } from '@/components/SaveTheDates'
 import { Schedule } from '@/components/Schedule'
 import { couple, events, nextEvent, venues } from '@/data/wedding'
 import { useJourney } from '@/journey/context'
@@ -35,6 +36,7 @@ export function Guide() {
           </p>
           <PlanTitle />
           <p className="guide-dates">{couple.dateRange}</p>
+          <SaveTheDatesButton />
           {/* Until the first celebration is over, the next one is the first ticket anyway. */}
           {upNext && upNext !== events[0] && <NextUp event={upNext} now={now} />}
         </header>

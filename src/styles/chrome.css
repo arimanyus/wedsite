@@ -79,12 +79,42 @@
 }
 
 .hud-monogram:active,
+.hud-save:active,
 .hud-next:active {
   translate: 1px 1px;
 }
 
 .hud-countdown {
   letter-spacing: 0.01em;
+}
+
+.hud-save {
+  gap: 0.35rem;
+  padding: 0 0.6rem;
+  border-left: 2px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 0 999px 999px 0;
+  font-weight: 700;
+}
+
+.hud-save:hover {
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.hud-save svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--c-accent);
+  transition: color var(--c-swap);
+}
+
+.hud-save-label {
+  display: none;
+}
+
+@media (min-width: 560px) {
+  .hud-save-label {
+    display: inline;
+  }
 }
 
 .hud-next {
@@ -105,6 +135,10 @@
 @media (min-width: 880px) {
   .hud-next {
     display: inline-flex;
+  }
+
+  .hud-save:has(+ .hud-next) {
+    border-radius: 0;
   }
 }
 

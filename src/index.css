@@ -19,6 +19,8 @@
 @import './styles/scenes/wedding.css';
 /* The schedule, venues and drive home after the journey. */
 @import './styles/guide.css';
+/* "Save the dates": the add-everything-to-your-calendar dialog. */
+@import './styles/save-dates.css';
 /* Top bar and scene navigation. */
 @import './styles/chrome.css';
 /* Short screens and phones held sideways; last, so it overrides everything above. */

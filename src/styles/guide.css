@@ -5,8 +5,9 @@
    the schedule floats on its water, one sticker per celebration in its scene's colour and
    typeface, and at the bottom the sun comes up over the baraat's road home. */
 
-/* Each celebration's colour (with the ink that reads on it) and its scene's typeface. */
-.guide {
+/* Each celebration's colour (with the ink that reads on it) and its scene's typeface. On the root,
+   since the save-the-dates dialog uses them too. */
+:root {
   --ev-tilak: #ffb21e;
   --ev-tilak-ink: #4d0d18;
   --ev-food-blessings: #f47b20;

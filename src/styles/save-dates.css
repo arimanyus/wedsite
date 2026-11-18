@@ -1,0 +1,316 @@
+/* ── Save the dates: every celebration into the guest's calendar (src/components/SaveTheDates.tsx) ──
+   A cream invitation card with a hard ink shadow, like the stickers in the plan, with a strip of
+   the eight celebrations' colours under the title. */
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgb(36 8 30 / 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.dialog-content {
+  position: fixed;
+  z-index: 91;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: min(30rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+.dialog-overlay[data-state='open'] {
+  animation: dialog-fade 0.25s ease-out;
+}
+.dialog-overlay[data-state='closed'] {
+  animation: dialog-fade 0.18s ease-in reverse;
+}
+.dialog-content[data-state='open'] {
+  animation: dialog-pop 0.38s cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+.dialog-content[data-state='closed'] {
+  animation: dialog-fade 0.16s ease-in reverse;
+}
+
+@keyframes dialog-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes dialog-pop {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94) rotate(-1.2deg);
+  }
+}
+
+.dialog-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+}
+.dialog-close:hover {
+  background: #ffe9a8;
+}
+.dialog-close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.save-dates {
+  --ink: #1a0a14;
+  --rani: #e0157a;
+  --leaf: #0c8a4c;
+  --marigold: #ffb21e;
+  padding: 1.6rem clamp(1.1rem, 5vw, 1.8rem) 1.4rem;
+  border: 3px solid var(--ink);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at 100% 0, rgb(255 178 30 / 0.28), transparent 11rem),
+    radial-gradient(circle at 0 100%, rgb(224 21 122 / 0.14), transparent 13rem),
+    #fff6e2;
+  color: var(--ink);
+  box-shadow: 7px 7px 0 var(--ink);
+  font-family: var(--font-sans);
+}
+
+.save-dates :focus-visible {
+  outline: 3px solid var(--marigold);
+  outline-offset: 2px;
+}
+
+.dialog-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding-right: 2.2rem;
+}
+
+.save-kicker {
+  margin: 0;
+  color: var(--rani);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.save-title {
+  margin: 0;
+  font-family: 'Shrikhand', var(--font-serif);
+  font-size: clamp(1.55rem, 6.4vw, 2rem);
+  font-weight: 400;
+  line-height: 1.08;
+}
+.save-title em {
+  display: block;
+  color: var(--rani);
+  font-style: normal;
+}
+
+.save-strip {
+  display: flex;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.save-strip li {
+  flex: 1;
+  height: 0.55rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
+.save-description {
+  margin: 0;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.save-options {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1.2rem;
+}
+
+.save-option {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 2.5px solid var(--ink);
+  border-radius: 1rem;
+  background: var(--tone);
+  color: var(--tone-ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    translate 0.15s,
+    box-shadow 0.15s;
+}
+.save-option:hover {
+  translate: -1px -2px;
+  box-shadow: 5px 6px 0 var(--ink);
+}
+.save-option:active {
+  translate: 2px 2px;
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.save-option-rani {
+  --tone: var(--rani);
+  --tone-ink: #fff;
+}
+.save-option-leaf {
+  --tone: var(--leaf);
+  --tone-ink: #fff;
+}
+.save-option-paper {
+  --tone: #fff;
+  --tone-ink: var(--ink);
+}
+
+.save-option-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--marigold);
+  color: var(--ink);
+}
+.save-option-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.save-option-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.save-option-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.save-option-detail {
+  font-size: 0.84rem;
+  opacity: 0.88;
+}
+
+.save-each {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 2px dashed color-mix(in srgb, var(--ink) 30%, transparent);
+}
+.save-each-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.save-each ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.save-event {
+  display: grid;
+  grid-template-columns: auto 5.6rem 1fr auto;
+  align-items: center;
+  gap: 0.2rem 0.6rem;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.7rem;
+  color: inherit;
+  text-decoration: none;
+}
+.save-event:hover {
+  background: rgb(255 178 30 / 0.25);
+}
+
+.save-event-dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+.save-event-day {
+  font-size: 0.8rem;
+  font-weight: 700;
+  opacity: 0.7;
+}
+.save-event-title {
+  font-weight: 700;
+  line-height: 1.2;
+}
+.save-event-time {
+  display: none;
+}
+.save-event-add {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--rani);
+}
+
+@media (min-width: 480px) {
+  .save-event {
+    grid-template-columns: auto 5.6rem 1fr auto auto;
+  }
+  .save-event-time {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.65;
+  }
+}
+
+/* The big button under the plan's title. */
+.save-dates-button {
+  --btn-bg: #ffd21f;
+  --btn-fg: #111;
+  height: 3.1rem;
+  margin-top: 0.5rem;
+  padding: 0 1.4rem;
+  border: 3px solid #111;
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 #111;
+  font-size: 1rem;
+  font-weight: 800;
+}
+.save-dates-button svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-overlay,
+  .dialog-content {
+    animation: none !important;
+  }
+}
