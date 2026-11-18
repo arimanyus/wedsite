@@ -31,9 +31,16 @@ const svgoConfig = {
   plugins: [
     {
       name: 'preset-default',
-      // removeUselessStrokeAndFill drops `stroke="none"` from shapes inside a <symbol> or <defs>,
-      // which then take on the stroke of whatever uses them.
-      params: { overrides: { mergePaths: false, convertShapeToPath: false, removeUselessStrokeAndFill: false } },
+      // removeUselessStrokeAndFill and removeUnknownsAndDefaults both drop `stroke="none"` from
+      // shapes inside a <symbol> or <defs>, which then take on the stroke of whatever uses them.
+      params: {
+        overrides: {
+          mergePaths: false,
+          convertShapeToPath: false,
+          removeUselessStrokeAndFill: false,
+          removeUnknownsAndDefaults: { defaultAttrs: false },
+        },
+      },
     },
   ],
 }
