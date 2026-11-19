@@ -162,6 +162,26 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     }
   }, [t, calm])
 
+  // On phones each swipe through the journey stops at the next resting point (scroll snapping, in
+  // styles/journey.css), the schedule's start included. The schedule itself is read like any page:
+  // once the guest is into it, snapping is off, or a phone may snap back to its start whenever the
+  // page shifts under the guest (the toolbar sliding in or out, say) and drag them back up.
+  const coarse = useMediaQuery('(pointer: coarse)')
+  useEffect(() => {
+    if (!coarse) return
+    const root = document.documentElement
+    const update = () => {
+      const guide = afterRef.current
+      root.classList.toggle('snap-free', guide !== null && guide.getBoundingClientRect().top < -1)
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', update)
+      root.classList.remove('snap-free')
+    }
+  }, [coarse])
+
   const state = useMemo<JourneyState>(
     () => ({ trackRef, groundRef, afterRef, t, camera, pointer, size, measured, rasterWidth, calm, goTo }),
     [t, camera, pointer, measured, rasterWidth, calm, goTo],

@@ -13,7 +13,8 @@
 
 /* On a touch screen a swipe comes to rest at the next scene, the way a feed of videos does, instead
    of flinging past several and stopping halfway through a change of scene. The schedule after the
-   journey is one stop taller than the screen, which the guest scrolls through freely. */
+   journey is a stop at its start; once the guest is into it, snapping is off (`snap-free`, set by
+   JourneyProvider.tsx) and it scrolls like any page. */
 .journey-rest {
   position: absolute;
   left: 0;
@@ -25,6 +26,10 @@
 @media (pointer: coarse) {
   html {
     scroll-snap-type: y mandatory;
+  }
+
+  html.snap-free {
+    scroll-snap-type: none;
   }
 
   .journey-rest {
