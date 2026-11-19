@@ -22,6 +22,8 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const metrics = useRef({ top: 0, length: 1, height: 0 })
   /** How far through the journey the guest is (0 to 1), as of the last scroll the guest made. */
   const place = useRef(0)
+  /** How far, in pixels, the guest had scrolled past the end of the journey's track, as of then. */
+  const past = useRef(0)
   const size = useRef<GroundSize>({ view: 0.4, frieze: 1000, stage: 400, centre: 200, band: skyBand(400) })
   const measured = useMotionValue(0)
   const [rasterWidth, setRasterWidth] = useState(0)
@@ -32,7 +34,9 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     const remember = () => {
       const track = trackRef.current
       if (!track || track.offsetHeight !== metrics.current.height) return
-      place.current = (window.scrollY - metrics.current.top) / metrics.current.length
+      const { top, length, height } = metrics.current
+      place.current = (window.scrollY - top) / length
+      past.current = window.scrollY - (top + height)
     }
     const measure = () => {
       const track = trackRef.current
@@ -40,14 +44,16 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       if (track) {
         const top = track.getBoundingClientRect().top + window.scrollY
         const height = track.offsetHeight
-        // The track is TOTAL + 1 screen heights tall in `vh`, which ignores a phone's toolbar sliding
-        // in and out, so the journey does not shift when it does.
+        // The track is TOTAL + 1 screen heights tall in `vh`, which in most browsers ignores a phone's
+        // toolbar sliding in and out, so the journey does not shift when it does.
         const length = Math.max(1, (height * TOTAL) / (TOTAL + 1))
         const previous = metrics.current
         metrics.current = { top, length, height }
-        // When the screen changes shape (a phone turned on its side), stay at the same point of the journey.
-        if (previous.height && height !== previous.height && place.current > 0 && place.current < 1) {
-          window.scrollTo(0, top + place.current * length)
+        // When the screen changes shape (a phone turned on its side, or an app's own browser whose
+        // toolbar does resize `vh`), stay at the same point of the journey, or of the schedule after it.
+        if (previous.height && height !== previous.height) {
+          if (place.current > 0 && place.current < 1) window.scrollTo(0, top + place.current * length)
+          else if (place.current >= 1) window.scrollTo(0, top + height + past.current)
         }
         remember()
       }
